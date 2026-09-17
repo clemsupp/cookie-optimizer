@@ -223,10 +223,92 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
     placeholder="Colle ta sauvegarde Cookie Clicker ici..."
 ></textarea>
 
+
+<!-- =====================================================
+     NOUVEAUX PARAMÈTRES
+===================================================== -->
+
+<div class="card" style="margin-top:15px;">
+
+    <h3 style="margin-top:0;">
+        ⚙️ Paramètres d'analyse
+    </h3>
+
+    <div class="grid">
+
+        <div class="stat">
+
+            <div class="label">
+                Mode d'analyse
+            </div>
+
+            <select
+                id="analysisMode"
+                style="
+                    width:100%;
+                    margin-top:8px;
+                    padding:10px;
+                    background:#222;
+                    color:#eee;
+                    border:1px solid #444;
+                    border-radius:7px;
+                "
+            >
+
+                <option value="now">
+                    Argent disponible maintenant
+                </option>
+
+                <option value="wait">
+                    Avec le temps d'attente
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="label">
+                Cookies à garder
+            </div>
+
+            <input
+                id="reserveCookies"
+                type="number"
+                min="0"
+                value="0"
+                placeholder="0"
+                style="
+                    width:100%;
+                    margin-top:8px;
+                    padding:10px;
+                    background:#222;
+                    color:#eee;
+                    border:1px solid #444;
+                    border-radius:7px;
+                "
+            >
+
+        </div>
+
+    </div>
+
+    <div class="small" style="margin-top:10px;">
+
+        Les cookies indiqués comme réserve ne seront jamais
+        considérés comme disponibles pour les achats.
+
+    </div>
+
+</div>
+
+
 <div class="button-row">
 
     <button onclick="analyzeSave()">
-        Analyser la sauvegarde
+        Analyser
     </button>
 
     <button
@@ -258,6 +340,11 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
             </div>
 
             <div class="stat">
+                <div class="label">Cookies disponibles</div>
+                <div class="value" id="availableCookiesStat">-</div>
+            </div>
+
+            <div class="stat">
                 <div class="label">Bâtiments</div>
                 <div class="value" id="buildingStat">-</div>
             </div>
@@ -272,7 +359,7 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
 
 
     <div class="card">
-        <h2>🎯 Meilleur achat maintenant</h2>
+        <h2>🎯 Meilleur achat</h2>
 
         <div id="bestPurchase">
             -
@@ -335,9 +422,8 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
 
         <div class="small">
 
-            Le plan compare maintenant les achats immédiatement
-            accessibles avec ceux qu'il est préférable d'attendre.
-            Le temps d'attente est inclus dans le calcul.
+            Le plan compare les achats immédiatement accessibles
+            avec ceux qu'il est préférable d'attendre.
 
         </div>
 
@@ -538,7 +624,6 @@ function formatNumber(number){
     const absolute =
         Math.abs(number);
 
-
     for(
         const suffix of NUMBER_SUFFIXES
     ){
@@ -551,9 +636,7 @@ function formatNumber(number){
                 number /
                 suffix.value;
 
-
             let decimals = 2;
-
 
             if(
                 Math.abs(value) >= 100
@@ -570,7 +653,6 @@ function formatNumber(number){
 
             }
 
-
             return value
                 .toFixed(decimals)
                 .replace(/\.00$/,"")
@@ -583,7 +665,6 @@ function formatNumber(number){
         }
     }
 
-
     if(number >= 1000){
 
         return number.toLocaleString(
@@ -594,7 +675,6 @@ function formatNumber(number){
         );
 
     }
-
 
     return number.toFixed(
         number < 10 ? 2 : 0
@@ -681,6 +761,57 @@ function escapeHtml(value){
 
 
 /* =========================================================
+   COOKIES RÉSERVÉS
+========================================================= */
+
+function getReserve(){
+
+    const input =
+        document.getElementById(
+            "reserveCookies"
+        );
+
+    if(!input){
+        return 0;
+    }
+
+    let reserve =
+        Number(input.value);
+
+    if(
+        !Number.isFinite(reserve) ||
+        reserve < 0
+    ){
+
+        reserve = 0;
+
+    }
+
+    return reserve;
+
+}
+
+
+/* =========================================================
+   COOKIES DISPONIBLES
+========================================================= */
+
+function getAvailableCookies(
+    cookies
+){
+
+    const reserve =
+        getReserve();
+
+    return Math.max(
+        0,
+        cookies - reserve
+    );
+
+}
+
+
+/* =========================================================
    EFFACER
 ========================================================= */
 
@@ -690,56 +821,49 @@ function clearSave(){
         "saveInput"
     ).value = "";
 
-
     document.getElementById(
         "results"
     ).style.display = "none";
-
 
     document.getElementById(
         "error"
     ).style.display = "none";
 
-
     document.getElementById(
         "cookiesStat"
     ).textContent = "-";
-
 
     document.getElementById(
         "cpsStat"
     ).textContent = "-";
 
+    document.getElementById(
+        "availableCookiesStat"
+    ).textContent = "-";
 
     document.getElementById(
         "buildingStat"
     ).textContent = "-";
 
-
     document.getElementById(
         "upgradeStat"
     ).textContent = "-";
-
 
     document.getElementById(
         "buildingTable"
     ).innerHTML = "";
 
-
     document.getElementById(
         "upgradeTable"
     ).innerHTML = "";
-
 
     document.getElementById(
         "purchasePlan"
     ).innerHTML = "";
 
-
     document.getElementById(
         "tips"
     ).innerHTML = "";
-
 
     document.getElementById(
         "bestPurchase"
@@ -757,7 +881,6 @@ function decodeSave(input){
     input =
         input.trim();
 
-
     if(!input){
 
         throw new Error(
@@ -765,7 +888,6 @@ function decodeSave(input){
         );
 
     }
-
 
     try{
 
@@ -775,13 +897,11 @@ function decodeSave(input){
     }
     catch(e){}
 
-
     input =
         input.replace(
             /\s/g,
             ""
         );
-
 
     if(
         input.includes("!END!")
@@ -794,6 +914,9 @@ function decodeSave(input){
 
     }
 
+    /*
+       Sauvegarde déjà décodée.
+    */
 
     if(
         input.includes("|") &&
@@ -804,18 +927,19 @@ function decodeSave(input){
 
     }
 
+    /*
+       Sauvegarde Base64.
+    */
 
     try{
 
         const binary =
             atob(input);
 
-
         const bytes =
             new Uint8Array(
                 binary.length
             );
-
 
         for(
             let i=0;
@@ -827,7 +951,6 @@ function decodeSave(input){
                 binary.charCodeAt(i);
 
         }
-
 
         return new TextDecoder()
             .decode(bytes);
@@ -854,7 +977,6 @@ function parseSave(decoded){
     const sections =
         decoded.split("|");
 
-
     if(
         sections.length < 6
     ){
@@ -865,16 +987,13 @@ function parseSave(decoded){
 
     }
 
-
     let bakeryName =
         "Cookie";
-
 
     if(sections[2]){
 
         const run =
             sections[2].split(";");
-
 
         if(run[3]){
 
@@ -887,7 +1006,12 @@ function parseSave(decoded){
 
 
     /*
-       Cookies actuels.
+       STATISTIQUES
+
+       On conserve le format du parseur
+       existant, mais on cherche les valeurs
+       numériques valides plutôt que de supposer
+       qu'une valeur absente vaut forcément 0.
     */
 
     const stats =
@@ -895,43 +1019,45 @@ function parseSave(decoded){
             ? sections[4].split(";")
             : [];
 
-
     const numbers =
-        stats
-            .map(
-                value => Number(value)
-            )
-            .filter(
-                value =>
-                    Number.isFinite(value)
-            );
+        stats.map(
+            value => Number(value)
+        );
 
 
-    let cookies =
-        numbers.length
-            ? numbers[0]
-            : 0;
+    /*
+       Dans le format utilisé par la sauvegarde
+       actuelle, la première valeur numérique
+       correspond aux cookies actuels.
+    */
 
+    let cookies = 0;
 
-    if(
-        !Number.isFinite(cookies) ||
-        cookies < 0
+    for(
+        const value of numbers
     ){
 
-        cookies = 0;
+        if(
+            Number.isFinite(value) &&
+            value >= 0
+        ){
+
+            cookies = value;
+            break;
+
+        }
 
     }
 
 
     /*
-       Bâtiments.
+       BÂTIMENTS
     */
 
     const buildingData =
         sections[5]
             ? sections[5].split(";")
             : [];
-
 
     const buildings = [];
 
@@ -951,14 +1077,11 @@ function parseSave(decoded){
         const amount =
             Number(data[0]) || 0;
 
-
         const bought =
             Number(data[1]) || 0;
 
-
         const produced =
             Number(data[2]) || 0;
-
 
         const level =
             Number(data[3]) || 0;
@@ -979,7 +1102,7 @@ function parseSave(decoded){
 
 
     /*
-       CpS actuel estimé.
+       CpS de base provenant des bâtiments.
     */
 
     let rawCps = 0;
@@ -997,7 +1120,53 @@ function parseSave(decoded){
 
 
     /*
-       Nombre d'améliorations.
+       On utilise aussi les données "produced"
+       si elles sont présentes dans la sauvegarde.
+
+       Cela permet d'éviter de perdre les valeurs
+       spécifiques enregistrées par la partie.
+    */
+
+    let producedCps = 0;
+
+    for(
+        const building of buildings
+    ){
+
+        if(
+            Number.isFinite(
+                building.produced
+            ) &&
+            building.produced > 0
+        ){
+
+            producedCps +=
+                building.produced;
+
+        }
+
+    }
+
+
+    /*
+       Si la sauvegarde contient des valeurs
+       produites cohérentes, on les utilise.
+       Sinon on garde le calcul classique.
+    */
+
+    if(
+        producedCps > 0 &&
+        producedCps >= rawCps * 0.01
+    ){
+
+        rawCps =
+            producedCps;
+
+    }
+
+
+    /*
+       AMÉLIORATIONS DÉTECTÉES
     */
 
     let upgradeCount = 0;
@@ -1256,10 +1425,8 @@ function getAvailableUpgrades(save){
 
     const result = [];
 
-
     const owned =
         save.upgradeCount;
-
 
     for(
         let i=0;
@@ -1268,15 +1435,11 @@ function getAvailableUpgrades(save){
     ){
 
         if(i < owned){
-
             continue;
-
         }
-
 
         const upgrade =
             UPGRADES[i];
-
 
         result.push({
 
@@ -1289,49 +1452,13 @@ function getAvailableUpgrades(save){
 
     }
 
-
     return result;
 
 }
 
 
 /* =========================================================
-   NOUVEAU CALCUL DE RENTABILITÉ
-=========================================================
-
-   AVANT :
-
-   On regardait uniquement :
-
-       prix / gain
-
-   et uniquement si le joueur pouvait
-   acheter immédiatement.
-
-   MAINTENANT :
-
-       1. Si l'achat est abordable :
-          attente = 0
-
-       2. Sinon :
-          attente =
-          (prix - cookies) / CpS actuel
-
-       3. Temps de récupération :
-          prix / gain
-
-       4. Temps total :
-          attente + récupération
-
-   Cela permet de comparer :
-
-       Acheter maintenant
-
-   contre :
-
-       Attendre un achat plus cher
-       mais beaucoup plus rentable.
-
+   CALCUL RENTABILITÉ
 ========================================================= */
 
 function calculateInvestment(
@@ -1346,9 +1473,7 @@ function calculateInvestment(
         return {
 
             waitTime:Infinity,
-
             payback:Infinity,
-
             totalTime:Infinity
 
         };
@@ -1359,9 +1484,7 @@ function calculateInvestment(
     let waitTime = 0;
 
 
-    if(
-        price > cookies
-    ){
+    if(price > cookies){
 
         const missing =
             price - cookies;
@@ -1383,21 +1506,23 @@ function calculateInvestment(
     }
 
 
+    /*
+       Temps nécessaire pour récupérer
+       le prix grâce au CpS ajouté.
+    */
+
     const payback =
         price / gain;
 
 
     const totalTime =
-        waitTime +
-        payback;
+        waitTime + payback;
 
 
     return {
 
         waitTime,
-
         payback,
-
         totalTime
 
     };
@@ -1414,6 +1539,27 @@ function calculateCandidates(save){
     const candidates = [];
 
 
+    const mode =
+        document.getElementById(
+            "analysisMode"
+        )?.value || "wait";
+
+
+    const availableCookies =
+        getAvailableCookies(
+            save.cookies
+        );
+
+
+    /*
+       Si mode "now", on ne considère
+       que les achats actuellement achetables.
+    */
+
+    const onlyAffordable =
+        mode === "now";
+
+
     /*
        BÂTIMENTS
     */
@@ -1427,12 +1573,19 @@ function calculateCandidates(save){
                 building
             );
 
-
         const gain =
             building.baseCpS;
 
 
         if(gain <= 0){
+            continue;
+        }
+
+
+        if(
+            onlyAffordable &&
+            price > availableCookies
+        ){
 
             continue;
 
@@ -1443,7 +1596,7 @@ function calculateCandidates(save){
             calculateInvestment(
                 price,
                 gain,
-                save.cookies,
+                availableCookies,
                 save.rawCps
             );
 
@@ -1491,6 +1644,14 @@ function calculateCandidates(save){
     ){
 
         if(upgrade.gain <= 0){
+            continue;
+        }
+
+
+        if(
+            onlyAffordable &&
+            upgrade.price > availableCookies
+        ){
 
             continue;
 
@@ -1501,7 +1662,7 @@ function calculateCandidates(save){
             calculateInvestment(
                 upgrade.price,
                 upgrade.gain,
-                save.cookies,
+                availableCookies,
                 save.rawCps
             );
 
@@ -1570,7 +1731,9 @@ function calculatePurchasePlan(
 ){
 
     let cookies =
-        save.cookies;
+        getAvailableCookies(
+            save.cookies
+        );
 
 
     let cps =
@@ -1604,13 +1767,8 @@ function calculatePurchasePlan(
 
 
         /*
-           On ne fait pas seulement
-           les achats abordables.
-
-           On regarde aussi les achats
-           qu'il faudra attendre.
+           BÂTIMENTS
         */
-
 
         for(
             const building of buildings
@@ -1631,9 +1789,7 @@ function calculatePurchasePlan(
 
 
             if(gain <= 0){
-
                 continue;
-
             }
 
 
@@ -1675,7 +1831,7 @@ function calculatePurchasePlan(
 
 
         /*
-           Améliorations
+           AMÉLIORATIONS
         */
 
         for(
@@ -1731,9 +1887,7 @@ function calculatePurchasePlan(
 
 
         if(!candidates.length){
-
             break;
-
         }
 
 
@@ -1749,13 +1903,12 @@ function calculatePurchasePlan(
 
 
         /*
-           On attend d'avoir
-           suffisamment de cookies.
+           Si l'achat nécessite une attente,
+           on simule la production de cookies.
         */
 
         if(
-            best.waitTime >
-            0 &&
+            best.waitTime > 0 &&
             Number.isFinite(
                 best.waitTime
             )
@@ -1769,7 +1922,7 @@ function calculatePurchasePlan(
 
 
         /*
-           Achat.
+           Achat
         */
 
         cookies -=
@@ -1777,8 +1930,7 @@ function calculatePurchasePlan(
 
 
         /*
-           Le gain du nouvel achat
-           augmente maintenant le CpS.
+           CpS après achat
         */
 
         cps +=
@@ -1930,6 +2082,20 @@ function analyzeSave(){
 
 function renderResults(save){
 
+    const reserve =
+        Math.min(
+            getReserve(),
+            save.cookies
+        );
+
+
+    const available =
+        Math.max(
+            0,
+            save.cookies - reserve
+        );
+
+
     document.getElementById(
         "cookiesStat"
     ).textContent =
@@ -1943,6 +2109,14 @@ function renderResults(save){
     ).textContent =
         formatNumber(
             save.rawCps
+        );
+
+
+    document.getElementById(
+        "availableCookiesStat"
+    ).textContent =
+        formatNumber(
+            available
         );
 
 
@@ -2004,6 +2178,12 @@ function renderBuildings(save){
     tbody.innerHTML = "";
 
 
+    const availableCookies =
+        getAvailableCookies(
+            save.cookies
+        );
+
+
     const buildings =
         save.buildings
             .map(
@@ -2023,7 +2203,7 @@ function renderBuildings(save){
                         calculateInvestment(
                             price,
                             gain,
-                            save.cookies,
+                            availableCookies,
                             save.rawCps
                         );
 
@@ -2141,6 +2321,12 @@ function renderUpgrades(save){
     tbody.innerHTML = "";
 
 
+    const availableCookies =
+        getAvailableCookies(
+            save.cookies
+        );
+
+
     const upgrades =
         getAvailableUpgrades(
             save
@@ -2156,7 +2342,7 @@ function renderUpgrades(save){
                     calculateInvestment(
                         upgrade.price,
                         upgrade.gain,
-                        save.cookies,
+                        availableCookies,
                         save.rawCps
                     );
 
@@ -2289,8 +2475,8 @@ function renderBest(save){
 
             <div class="warning">
 
-                Aucun achat rentable
-                n'a été détecté.
+                Aucun achat disponible
+                selon ce mode d'analyse.
 
             </div>
 
@@ -2309,14 +2495,28 @@ function renderBest(save){
         best.waitTime > 0;
 
 
+    const mode =
+        document.getElementById(
+            "analysisMode"
+        )?.value || "wait";
+
+
     container.innerHTML = `
 
         <div class="recommendation">
 
             <h3>
-                ${waiting
-                    ? "⏳ Il vaut mieux attendre"
-                    : "✅ Achat recommandé"}
+
+                ${
+                    mode === "now"
+                    ? "🛒 Meilleur achat maintenant"
+                    : (
+                        waiting
+                        ? "⏳ Achat à attendre"
+                        : "✅ Achat disponible"
+                    )
+                }
+
             </h3>
 
 
@@ -2408,17 +2608,17 @@ function renderBest(save){
 
 
             <strong>
-                Pourquoi ?
+                Analyse
             </strong>
 
 
             <p>
 
-                L'optimiseur compare maintenant
-                le temps nécessaire pour attendre
-                l'achat avec le temps nécessaire
-                pour récupérer son coût grâce au
-                nouveau CpS.
+                ${
+                    mode === "now"
+                    ? "Seuls les achats que tu peux payer immédiatement avec les cookies disponibles sont comparés."
+                    : "Le calcul prend en compte les cookies disponibles, les cookies réservés et le temps nécessaire pour produire les cookies manquants."
+                }
 
             </p>
 
@@ -2586,8 +2786,8 @@ function renderTips(save){
         container.innerHTML = `
 
             <p>
-                Aucun achat rentable
-                n'a été détecté.
+                Aucun achat disponible
+                dans le mode sélectionné.
             </p>
 
         `;
@@ -2601,13 +2801,21 @@ function renderTips(save){
         candidates[0];
 
 
+    const mode =
+        document.getElementById(
+            "analysisMode"
+        )?.value || "wait";
+
+
     container.innerHTML = `
 
         <p>
 
-            Le calcul ne se limite plus
-            à ce que tu peux acheter
-            immédiatement.
+            ${
+                mode === "now"
+                ? "L'analyse regarde uniquement les achats que tu peux payer immédiatement."
+                : "L'analyse prend en compte les achats accessibles maintenant et ceux qui nécessitent d'attendre."
+            }
 
         </p>
 
@@ -2620,26 +2828,76 @@ function renderTips(save){
                 )}
             </strong>
 
-            est actuellement le choix
-            ayant le meilleur temps
-            total selon le modèle.
+            est actuellement le premier résultat
+            selon le calcul de rentabilité.
 
         </p>
 
 
         <p class="small">
 
-            Pour un achat trop cher,
-            le calcul prend en compte
-            le temps nécessaire pour
-            gagner les cookies manquants
-            avec ton CpS actuel.
+            Les cookies mis de côté sont exclus
+            des cookies disponibles.
+
+            Pour modifier ce montant,
+            change-le puis appuie simplement
+            sur « Analyser ».
 
         </p>
 
     `;
 
 }
+
+
+/* =========================================================
+   RECALCUL AUTOMATIQUE APRÈS MODIFICATION
+========================================================= */
+
+document
+    .getElementById(
+        "reserveCookies"
+    )
+    .addEventListener(
+        "change",
+        function(){
+
+            const input =
+                document.getElementById(
+                    "saveInput"
+                ).value.trim();
+
+            if(input){
+
+                analyzeSave();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "analysisMode"
+    )
+    .addEventListener(
+        "change",
+        function(){
+
+            const input =
+                document.getElementById(
+                    "saveInput"
+                ).value.trim();
+
+            if(input){
+
+                analyzeSave();
+
+            }
+
+        }
+    );
 
 </script>
 
