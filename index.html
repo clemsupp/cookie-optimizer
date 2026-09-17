@@ -39,6 +39,12 @@ textarea{
     font-family:monospace;
 }
 
+.button-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
 button{
     margin-top:12px;
     padding:10px 18px;
@@ -52,6 +58,15 @@ button{
 
 button:hover{
     background:#ffc107;
+}
+
+button.clear{
+    background:#444;
+    color:#eee;
+}
+
+button.clear:hover{
+    background:#555;
 }
 
 .error{
@@ -168,6 +183,26 @@ hr{
     border-top:1px solid #333;
     margin:20px 0;
 }
+
+.wait{
+    color:#ffd35a;
+}
+
+.recommendation{
+    background:#26351f;
+    border:1px solid #3c6330;
+    border-radius:8px;
+    padding:15px;
+}
+
+.recommendation h3{
+    margin-top:0;
+}
+
+.big{
+    font-size:24px;
+    font-weight:bold;
+}
 </style>
 </head>
 
@@ -179,7 +214,8 @@ hr{
 
 <p>
 Colle ta sauvegarde Cookie Clicker ci-dessous.
-L'optimiseur compare les bâtiments et les améliorations disponibles.
+L'optimiseur compare les bâtiments et les améliorations disponibles,
+y compris les achats qu'il faut attendre pour pouvoir acheter.
 </p>
 
 <textarea
@@ -187,11 +223,20 @@ L'optimiseur compare les bâtiments et les améliorations disponibles.
     placeholder="Colle ta sauvegarde Cookie Clicker ici..."
 ></textarea>
 
-<br>
+<div class="button-row">
 
-<button onclick="analyzeSave()">
-    Analyser la sauvegarde
-</button>
+    <button onclick="analyzeSave()">
+        Analyser la sauvegarde
+    </button>
+
+    <button
+        class="clear"
+        onclick="clearSave()"
+    >
+        Effacer la sauvegarde
+    </button>
+
+</div>
 
 <div id="error" class="error"></div>
 
@@ -239,60 +284,80 @@ L'optimiseur compare les bâtiments et les améliorations disponibles.
         <h2>🏭 Bâtiments</h2>
 
         <table>
+
             <thead>
+
                 <tr>
                     <th>Bâtiment</th>
                     <th>Possédés</th>
                     <th>Prix</th>
                     <th>CpS ajouté</th>
-                    <th>Retour</th>
+                    <th>Attente</th>
+                    <th>Temps total</th>
                 </tr>
+
             </thead>
 
             <tbody id="buildingTable"></tbody>
+
         </table>
     </div>
 
 
     <div class="card">
+
         <h2>⬆️ Améliorations disponibles</h2>
 
         <table>
+
             <thead>
+
                 <tr>
                     <th>Amélioration</th>
                     <th>Prix</th>
                     <th>Gain estimé</th>
-                    <th>Retour</th>
+                    <th>Attente</th>
+                    <th>Temps total</th>
                 </tr>
+
             </thead>
 
             <tbody id="upgradeTable"></tbody>
+
         </table>
+
     </div>
 
 
     <div class="card">
+
         <h2>📈 Plan d'achat</h2>
 
         <div class="small">
-            Le plan choisit à chaque étape l'achat ayant le meilleur
-            temps de récupération parmi les achats actuellement possibles.
+
+            Le plan compare maintenant les achats immédiatement
+            accessibles avec ceux qu'il est préférable d'attendre.
+            Le temps d'attente est inclus dans le calcul.
+
         </div>
 
         <hr>
 
         <div id="purchasePlan"></div>
+
     </div>
 
 
     <div class="card">
+
         <h2>💡 Conseils</h2>
 
         <div id="tips"></div>
+
     </div>
 
 </div>
+
 
 <script>
 
@@ -426,36 +491,38 @@ const BUILDINGS = [
 
 
 /* =========================================================
-   SUFFIXES COOKIE CLICKER
+   SUFFIXES
 ========================================================= */
 
 const NUMBER_SUFFIXES = [
-    { value:1e63, name:"Vg" },
-    { value:1e60, name:"Nod" },
-    { value:1e57, name:"Ocd" },
-    { value:1e54, name:"Spd" },
-    { value:1e51, name:"Sxd" },
-    { value:1e48, name:"Qid" },
-    { value:1e45, name:"Qad" },
-    { value:1e42, name:"Td" },
-    { value:1e39, name:"Dd" },
-    { value:1e36, name:"Ud" },
-    { value:1e33, name:"Dc" },
-    { value:1e30, name:"No" },
-    { value:1e27, name:"Oc" },
-    { value:1e24, name:"Sp" },
-    { value:1e21, name:"Sx" },
-    { value:1e18, name:"Qi" },
-    { value:1e15, name:"Qa" },
-    { value:1e12, name:"T" },
-    { value:1e9, name:"B" },
-    { value:1e6, name:"M" },
-    { value:1e3, name:"K" }
+
+    {value:1e63,name:"Vg"},
+    {value:1e60,name:"Nod"},
+    {value:1e57,name:"Ocd"},
+    {value:1e54,name:"Spd"},
+    {value:1e51,name:"Sxd"},
+    {value:1e48,name:"Qid"},
+    {value:1e45,name:"Qad"},
+    {value:1e42,name:"Td"},
+    {value:1e39,name:"Dd"},
+    {value:1e36,name:"Ud"},
+    {value:1e33,name:"Dc"},
+    {value:1e30,name:"No"},
+    {value:1e27,name:"Oc"},
+    {value:1e24,name:"Sp"},
+    {value:1e21,name:"Sx"},
+    {value:1e18,name:"Qi"},
+    {value:1e15,name:"Qa"},
+    {value:1e12,name:"T"},
+    {value:1e9,name:"B"},
+    {value:1e6,name:"M"},
+    {value:1e3,name:"K"}
+
 ];
 
 
 /* =========================================================
-   AFFICHAGE DES GRANDS NOMBRES
+   FORMAT NOMBRE
 ========================================================= */
 
 function formatNumber(number){
@@ -468,64 +535,69 @@ function formatNumber(number){
         return "0";
     }
 
-    const absolute = Math.abs(number);
+    const absolute =
+        Math.abs(number);
 
-    for(const suffix of NUMBER_SUFFIXES){
 
-        if(absolute >= suffix.value){
+    for(
+        const suffix of NUMBER_SUFFIXES
+    ){
+
+        if(
+            absolute >= suffix.value
+        ){
 
             const value =
-                number / suffix.value;
+                number /
+                suffix.value;
+
 
             let decimals = 2;
 
-            if(Math.abs(value) >= 100){
+
+            if(
+                Math.abs(value) >= 100
+            ){
+
                 decimals = 0;
+
             }
-            else if(Math.abs(value) >= 10){
+            else if(
+                Math.abs(value) >= 10
+            ){
+
                 decimals = 1;
+
             }
 
-            return value.toFixed(decimals)
+
+            return value
+                .toFixed(decimals)
                 .replace(/\.00$/,"")
-                .replace(/(\.\d)0$/,".$1")
+                .replace(
+                    /(\.\d)0$/,
+                    "$1"
+                )
                 + " " +
                 suffix.name;
         }
     }
 
+
     if(number >= 1000){
 
-        return number
-            .toLocaleString(
-                "fr-FR",
-                {
-                    maximumFractionDigits:2
-                }
-            );
+        return number.toLocaleString(
+            "fr-FR",
+            {
+                maximumFractionDigits:2
+            }
+        );
+
     }
+
 
     return number.toFixed(
         number < 10 ? 2 : 0
-    );
-}
-
-
-/* =========================================================
-   AFFICHAGE LONG
-========================================================= */
-
-function formatFullNumber(number){
-
-    if(!Number.isFinite(number)){
-        return "∞";
-    }
-
-    return number.toLocaleString(
-        "fr-FR",
-        {
-            maximumFractionDigits:2
-        }
     );
 }
 
@@ -540,32 +612,55 @@ function formatTime(seconds){
         return "∞";
     }
 
+    if(seconds <= 0){
+        return "Maintenant";
+    }
+
     if(seconds < 1){
         return "< 1 s";
     }
 
     if(seconds < 60){
-        return Math.round(seconds) + " s";
+
+        return Math.round(seconds) +
+            " s";
+
     }
 
     if(seconds < 3600){
-        return Math.floor(seconds / 60) +
-            " min " +
-            Math.floor(seconds % 60) +
-            " s";
+
+        return Math.floor(
+            seconds / 60
+        ) +
+        " min " +
+        Math.floor(
+            seconds % 60
+        ) +
+        " s";
+
     }
 
     if(seconds < 86400){
-        return Math.floor(seconds / 3600) +
-            " h " +
-            Math.floor((seconds % 3600) / 60) +
-            " min";
+
+        return Math.floor(
+            seconds / 3600
+        ) +
+        " h " +
+        Math.floor(
+            (seconds % 3600) / 60
+        ) +
+        " min";
+
     }
 
-    return Math.floor(seconds / 86400) +
-        " j " +
-        Math.floor((seconds % 86400) / 3600) +
-        " h";
+    return Math.floor(
+        seconds / 86400
+    ) +
+    " j " +
+    Math.floor(
+        (seconds % 86400) / 3600
+    ) +
+    " h";
 }
 
 
@@ -581,69 +676,158 @@ function escapeHtml(value){
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
+
 }
 
 
 /* =========================================================
-   DÉCODAGE SAUVEGARDE
+   EFFACER
+========================================================= */
+
+function clearSave(){
+
+    document.getElementById(
+        "saveInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "results"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "error"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "cookiesStat"
+    ).textContent = "-";
+
+
+    document.getElementById(
+        "cpsStat"
+    ).textContent = "-";
+
+
+    document.getElementById(
+        "buildingStat"
+    ).textContent = "-";
+
+
+    document.getElementById(
+        "upgradeStat"
+    ).textContent = "-";
+
+
+    document.getElementById(
+        "buildingTable"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "upgradeTable"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "purchasePlan"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "tips"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "bestPurchase"
+    ).innerHTML = "-";
+
+}
+
+
+/* =========================================================
+   DÉCODAGE
 ========================================================= */
 
 function decodeSave(input){
 
-    input = input.trim();
+    input =
+        input.trim();
+
 
     if(!input){
+
         throw new Error(
             "La sauvegarde est vide."
         );
+
     }
 
+
     try{
-        input = decodeURIComponent(input);
+
+        input =
+            decodeURIComponent(input);
+
     }
     catch(e){}
 
-    input = input.replace(/\s/g,"");
 
-    if(input.includes("!END!")){
+    input =
+        input.replace(
+            /\s/g,
+            ""
+        );
+
+
+    if(
+        input.includes("!END!")
+    ){
+
         input =
-            input.split("!END!")[0];
+            input.split(
+                "!END!"
+            )[0];
+
     }
 
-    /*
-       Sauvegarde déjà décodée.
-    */
 
     if(
         input.includes("|") &&
         input.includes(";")
     ){
+
         return input;
+
     }
 
-    /*
-       Sauvegarde Base64.
-    */
 
     try{
 
         const binary =
             atob(input);
 
+
         const bytes =
             new Uint8Array(
                 binary.length
             );
 
+
         for(
-            let i = 0;
-            i < binary.length;
+            let i=0;
+            i<binary.length;
             i++
         ){
 
             bytes[i] =
                 binary.charCodeAt(i);
+
         }
+
 
         return new TextDecoder()
             .decode(bytes);
@@ -655,12 +839,14 @@ function decodeSave(input){
             "Impossible de lire cette sauvegarde : " +
             e.message
         );
+
     }
+
 }
 
 
 /* =========================================================
-   PARSE SAVE
+   PARSER
 ========================================================= */
 
 function parseSave(decoded){
@@ -668,42 +854,40 @@ function parseSave(decoded){
     const sections =
         decoded.split("|");
 
-    if(sections.length < 6){
+
+    if(
+        sections.length < 6
+    ){
 
         throw new Error(
             "Format de sauvegarde Cookie Clicker non reconnu."
         );
+
     }
 
 
-    /*
-       Nom de la boulangerie
-    */
-
     let bakeryName =
         "Cookie";
+
 
     if(sections[2]){
 
         const run =
             sections[2].split(";");
 
+
         if(run[3]){
-            bakeryName = run[3];
+
+            bakeryName =
+                run[3];
+
         }
+
     }
 
 
     /*
-       IMPORTANT :
-
-       Ne plus chercher le plus grand nombre
-       de la section.
-
-       La sauvegarde Cookie Clicker contient
-       plusieurs statistiques dans cette section,
-       et prendre le maximum donnait par exemple
-       5 Qi au lieu des cookies réellement possédés.
+       Cookies actuels.
     */
 
     const stats =
@@ -712,24 +896,16 @@ function parseSave(decoded){
             : [];
 
 
-    /*
-       On récupère les valeurs numériques.
-    */
-
     const numbers =
         stats
-            .map(value => Number(value))
+            .map(
+                value => Number(value)
+            )
             .filter(
                 value =>
                     Number.isFinite(value)
             );
 
-
-    /*
-       Dans le format de sauvegarde utilisé ici,
-       les cookies actuels correspondent au premier
-       champ numérique de la section des statistiques.
-    */
 
     let cookies =
         numbers.length
@@ -737,23 +913,18 @@ function parseSave(decoded){
             : 0;
 
 
-    /*
-       Protection contre un format différent :
-       si le premier champ est manifestement invalide,
-       on cherche une valeur plausible.
-    */
-
     if(
         !Number.isFinite(cookies) ||
         cookies < 0
     ){
 
         cookies = 0;
+
     }
 
 
     /*
-       Bâtiments
+       Bâtiments.
     */
 
     const buildingData =
@@ -766,8 +937,8 @@ function parseSave(decoded){
 
 
     for(
-        let i = 0;
-        i < BUILDINGS.length;
+        let i=0;
+        i<BUILDINGS.length;
         i++
     ){
 
@@ -780,11 +951,14 @@ function parseSave(decoded){
         const amount =
             Number(data[0]) || 0;
 
+
         const bought =
             Number(data[1]) || 0;
 
+
         const produced =
             Number(data[2]) || 0;
+
 
         const level =
             Number(data[3]) || 0;
@@ -800,15 +974,12 @@ function parseSave(decoded){
             level
 
         });
+
     }
 
 
     /*
-       CpS de base.
-
-       Attention :
-       ceci est le CpS des bâtiments avant
-       tous les multiplicateurs d'améliorations.
+       CpS actuel estimé.
     */
 
     let rawCps = 0;
@@ -821,19 +992,20 @@ function parseSave(decoded){
         rawCps +=
             building.amount *
             building.baseCpS;
+
     }
 
 
     /*
-       Détection des upgrades possédées.
+       Nombre d'améliorations.
     */
 
     let upgradeCount = 0;
 
 
     for(
-        let i = 6;
-        i < sections.length;
+        let i=6;
+        i<sections.length;
         i++
     ){
 
@@ -851,10 +1023,15 @@ function parseSave(decoded){
             ){
 
                 if(char === "1"){
+
                     upgradeCount++;
+
                 }
+
             }
+
         }
+
     }
 
 
@@ -873,11 +1050,12 @@ function parseSave(decoded){
         sections
 
     };
+
 }
 
 
 /* =========================================================
-   PRIX
+   PRIX BÂTIMENT
 ========================================================= */
 
 function nextPrice(building){
@@ -889,16 +1067,7 @@ function nextPrice(building){
             building.amount
         )
     );
-}
 
-
-/* =========================================================
-   GAIN
-========================================================= */
-
-function buildingGain(building){
-
-    return building.baseCpS;
 }
 
 
@@ -1070,22 +1239,8 @@ const UPGRADES = [
     },
 
     {
-        name:"Flux capacitators",
-        price:140000,
-        cps:65000000,
-        type:"Machine temporelle"
-    },
-
-    {
         name:"Gem polish",
         price:21000000000000000,
-        cps:2900000000,
-        type:"Prisme"
-    },
-
-    {
-        name:"9th colour",
-        price:105000000000000000,
         cps:2900000000,
         type:"Prisme"
     }
@@ -1094,30 +1249,28 @@ const UPGRADES = [
 
 
 /* =========================================================
-   AMÉLIORATIONS DISPONIBLES
+   UPGRADES DISPONIBLES
 ========================================================= */
 
 function getAvailableUpgrades(save){
 
-    /*
-       Pour cette version, on conserve la logique
-       de détection par quantité d'upgrades possédées.
-    */
-
     const result = [];
+
 
     const owned =
         save.upgradeCount;
 
 
     for(
-        let i = 0;
-        i < UPGRADES.length;
+        let i=0;
+        i<UPGRADES.length;
         i++
     ){
 
         if(i < owned){
+
             continue;
+
         }
 
 
@@ -1129,27 +1282,140 @@ function getAvailableUpgrades(save){
 
             ...upgrade,
 
-            gain:upgrade.cps
+            gain:
+                upgrade.cps
 
         });
+
     }
 
 
     return result;
+
 }
 
 
 /* =========================================================
-   MEILLEURS ACHATS
+   NOUVEAU CALCUL DE RENTABILITÉ
+=========================================================
+
+   AVANT :
+
+   On regardait uniquement :
+
+       prix / gain
+
+   et uniquement si le joueur pouvait
+   acheter immédiatement.
+
+   MAINTENANT :
+
+       1. Si l'achat est abordable :
+          attente = 0
+
+       2. Sinon :
+          attente =
+          (prix - cookies) / CpS actuel
+
+       3. Temps de récupération :
+          prix / gain
+
+       4. Temps total :
+          attente + récupération
+
+   Cela permet de comparer :
+
+       Acheter maintenant
+
+   contre :
+
+       Attendre un achat plus cher
+       mais beaucoup plus rentable.
+
 ========================================================= */
 
-function calculateBestPurchases(save){
+function calculateInvestment(
+    price,
+    gain,
+    cookies,
+    cps
+){
+
+    if(gain <= 0){
+
+        return {
+
+            waitTime:Infinity,
+
+            payback:Infinity,
+
+            totalTime:Infinity
+
+        };
+
+    }
+
+
+    let waitTime = 0;
+
+
+    if(
+        price > cookies
+    ){
+
+        const missing =
+            price - cookies;
+
+
+        if(cps <= 0){
+
+            waitTime =
+                Infinity;
+
+        }
+        else{
+
+            waitTime =
+                missing / cps;
+
+        }
+
+    }
+
+
+    const payback =
+        price / gain;
+
+
+    const totalTime =
+        waitTime +
+        payback;
+
+
+    return {
+
+        waitTime,
+
+        payback,
+
+        totalTime
+
+    };
+
+}
+
+
+/* =========================================================
+   TOUS LES CANDIDATS
+========================================================= */
+
+function calculateCandidates(save){
 
     const candidates = [];
 
 
     /*
-       Bâtiments
+       BÂTIMENTS
     */
 
     for(
@@ -1157,89 +1423,145 @@ function calculateBestPurchases(save){
     ){
 
         const price =
-            nextPrice(building);
+            nextPrice(
+                building
+            );
+
 
         const gain =
-            buildingGain(building);
+            building.baseCpS;
 
 
-        if(
-            price <= save.cookies &&
-            gain > 0
-        ){
+        if(gain <= 0){
 
-            candidates.push({
+            continue;
 
-                type:"Bâtiment",
-
-                name:building.name,
-
-                price,
-
-                gain,
-
-                payback:
-                    price / gain,
-
-                amount:
-                    building.amount
-
-            });
         }
+
+
+        const investment =
+            calculateInvestment(
+                price,
+                gain,
+                save.cookies,
+                save.rawCps
+            );
+
+
+        candidates.push({
+
+            type:"Bâtiment",
+
+            name:
+                building.name,
+
+            price,
+
+            gain,
+
+            waitTime:
+                investment.waitTime,
+
+            payback:
+                investment.payback,
+
+            totalTime:
+                investment.totalTime,
+
+            amount:
+                building.amount
+
+        });
+
     }
 
 
     /*
-       Améliorations
+       AMÉLIORATIONS
     */
 
     const upgrades =
-        getAvailableUpgrades(save);
+        getAvailableUpgrades(
+            save
+        );
 
 
     for(
         const upgrade of upgrades
     ){
 
-        if(
-            upgrade.price <= save.cookies &&
-            upgrade.gain > 0
-        ){
+        if(upgrade.gain <= 0){
 
-            candidates.push({
+            continue;
 
-                type:"Amélioration",
-
-                name:upgrade.name,
-
-                price:upgrade.price,
-
-                gain:upgrade.gain,
-
-                payback:
-                    upgrade.price /
-                    upgrade.gain,
-
-                amount:null
-
-            });
         }
+
+
+        const investment =
+            calculateInvestment(
+                upgrade.price,
+                upgrade.gain,
+                save.cookies,
+                save.rawCps
+            );
+
+
+        candidates.push({
+
+            type:"Amélioration",
+
+            name:
+                upgrade.name,
+
+            price:
+                upgrade.price,
+
+            gain:
+                upgrade.gain,
+
+            waitTime:
+                investment.waitTime,
+
+            payback:
+                investment.payback,
+
+            totalTime:
+                investment.totalTime,
+
+            amount:null
+
+        });
+
     }
 
 
     candidates.sort(
         (a,b) =>
-            a.payback -
-            b.payback
+            a.totalTime -
+            b.totalTime
     );
 
 
     return candidates;
+
 }
 
 
 /* =========================================================
-   PLAN
+   MEILLEUR ACHAT
+========================================================= */
+
+function calculateBestPurchases(save){
+
+    return calculateCandidates(
+        save
+    );
+
+}
+
+
+/* =========================================================
+   PLAN D'ACHAT
 ========================================================= */
 
 function calculatePurchasePlan(
@@ -1249,6 +1571,7 @@ function calculatePurchasePlan(
 
     let cookies =
         save.cookies;
+
 
     let cps =
         save.rawCps;
@@ -1261,10 +1584,11 @@ function calculatePurchasePlan(
 
 
     const upgrades =
-        getAvailableUpgrades(save)
-            .map(
-                u => ({...u})
-            );
+        getAvailableUpgrades(
+            save
+        ).map(
+            u => ({...u})
+        );
 
 
     const plan = [];
@@ -1277,6 +1601,15 @@ function calculatePurchasePlan(
     ){
 
         const candidates = [];
+
+
+        /*
+           On ne fait pas seulement
+           les achats abordables.
+
+           On regarde aussi les achats
+           qu'il faudra attendre.
+        */
 
 
         for(
@@ -1297,76 +1630,117 @@ function calculatePurchasePlan(
                 building.baseCpS;
 
 
-            if(
-                price <= cookies &&
-                gain > 0
-            ){
+            if(gain <= 0){
 
-                candidates.push({
+                continue;
 
-                    type:"Bâtiment",
-
-                    name:
-                        building.name,
-
-                    price,
-
-                    gain,
-
-                    payback:
-                        price/gain,
-
-                    object:
-                        building
-
-                });
             }
+
+
+            const investment =
+                calculateInvestment(
+                    price,
+                    gain,
+                    cookies,
+                    cps
+                );
+
+
+            candidates.push({
+
+                type:"Bâtiment",
+
+                name:
+                    building.name,
+
+                price,
+
+                gain,
+
+                waitTime:
+                    investment.waitTime,
+
+                payback:
+                    investment.payback,
+
+                totalTime:
+                    investment.totalTime,
+
+                object:
+                    building
+
+            });
+
         }
 
+
+        /*
+           Améliorations
+        */
 
         for(
             const upgrade of upgrades
         ){
 
             if(
-                upgrade.price <= cookies &&
-                upgrade.gain > 0
+                upgrade.gain <= 0
             ){
 
-                candidates.push({
+                continue;
 
-                    type:"Amélioration",
-
-                    name:
-                        upgrade.name,
-
-                    price:
-                        upgrade.price,
-
-                    gain:
-                        upgrade.gain,
-
-                    payback:
-                        upgrade.price /
-                        upgrade.gain,
-
-                    object:
-                        upgrade
-
-                });
             }
+
+
+            const investment =
+                calculateInvestment(
+                    upgrade.price,
+                    upgrade.gain,
+                    cookies,
+                    cps
+                );
+
+
+            candidates.push({
+
+                type:"Amélioration",
+
+                name:
+                    upgrade.name,
+
+                price:
+                    upgrade.price,
+
+                gain:
+                    upgrade.gain,
+
+                waitTime:
+                    investment.waitTime,
+
+                payback:
+                    investment.payback,
+
+                totalTime:
+                    investment.totalTime,
+
+                object:
+                    upgrade
+
+            });
+
         }
 
 
         if(!candidates.length){
+
             break;
+
         }
 
 
         candidates.sort(
             (a,b) =>
-                a.payback -
-                b.payback
+                a.totalTime -
+                b.totalTime
         );
 
 
@@ -1374,16 +1748,46 @@ function calculatePurchasePlan(
             candidates[0];
 
 
+        /*
+           On attend d'avoir
+           suffisamment de cookies.
+        */
+
+        if(
+            best.waitTime >
+            0 &&
+            Number.isFinite(
+                best.waitTime
+            )
+        ){
+
+            cookies +=
+                best.waitTime *
+                cps;
+
+        }
+
+
+        /*
+           Achat.
+        */
+
         cookies -=
             best.price;
 
+
+        /*
+           Le gain du nouvel achat
+           augmente maintenant le CpS.
+        */
 
         cps +=
             best.gain;
 
 
         if(
-            best.type === "Bâtiment"
+            best.type ===
+            "Bâtiment"
         ){
 
             best.object.amount++;
@@ -1403,7 +1807,9 @@ function calculatePurchasePlan(
                     index,
                     1
                 );
+
             }
+
         }
 
 
@@ -1424,8 +1830,14 @@ function calculatePurchasePlan(
             gain:
                 best.gain,
 
+            waitTime:
+                best.waitTime,
+
             payback:
                 best.payback,
+
+            totalTime:
+                best.totalTime,
 
             remaining:
                 cookies,
@@ -1433,10 +1845,12 @@ function calculatePurchasePlan(
             cps
 
         });
+
     }
 
 
     return plan;
+
 }
 
 
@@ -1475,19 +1889,24 @@ function analyzeSave(){
 
 
         const decoded =
-            decodeSave(input);
+            decodeSave(
+                input
+            );
 
 
         const save =
-            parseSave(decoded);
+            parseSave(
+                decoded
+            );
 
 
-        renderResults(save);
+        renderResults(
+            save
+        );
 
 
         results.style.display =
             "block";
-
 
     }
     catch(e){
@@ -1499,7 +1918,9 @@ function analyzeSave(){
 
         error.style.display =
             "block";
+
     }
+
 }
 
 
@@ -1541,20 +1962,35 @@ function renderResults(save){
         save.upgradeCount;
 
 
-    renderBuildings(save);
+    renderBuildings(
+        save
+    );
 
-    renderUpgrades(save);
 
-    renderBest(save);
+    renderUpgrades(
+        save
+    );
 
-    renderPlan(save);
 
-    renderTips(save);
+    renderBest(
+        save
+    );
+
+
+    renderPlan(
+        save
+    );
+
+
+    renderTips(
+        save
+    );
+
 }
 
 
 /* =========================================================
-   BÂTIMENTS
+   TABLE BÂTIMENTS
 ========================================================= */
 
 function renderBuildings(save){
@@ -1570,52 +2006,52 @@ function renderBuildings(save){
 
     const buildings =
         save.buildings
-            .map(building => {
+            .map(
+                building => {
 
-                const price =
-                    nextPrice(
-                        building
-                    );
-
-
-                const gain =
-                    buildingGain(
-                        building
-                    );
+                    const price =
+                        nextPrice(
+                            building
+                        );
 
 
-                return {
+                    const gain =
+                        building.baseCpS;
 
-                    building,
 
-                    price,
+                    const investment =
+                        calculateInvestment(
+                            price,
+                            gain,
+                            save.cookies,
+                            save.rawCps
+                        );
 
-                    gain,
 
-                    payback:
-                        price/gain
+                    return {
 
-                };
+                        building,
 
-            })
+                        price,
+
+                        gain,
+
+                        ...investment
+
+                    };
+
+                }
+            )
             .sort(
                 (a,b) =>
-                    a.payback -
-                    b.payback
+                    a.totalTime -
+                    b.totalTime
             );
 
 
-    const affordable =
-        buildings.filter(
-            item =>
-                item.price <=
-                save.cookies
-        );
-
-
     const best =
-        affordable.length
-            ? affordable[0].payback
+        buildings.length
+            ? buildings[0].totalTime
             : Infinity;
 
 
@@ -1630,11 +2066,13 @@ function renderBuildings(save){
 
 
         if(
-            item.payback === best
+            item.totalTime ===
+            best
         ){
 
             tr.className =
                 "best";
+
         }
 
 
@@ -1664,22 +2102,32 @@ function renderBuildings(save){
                 )} CpS
             </td>
 
+            <td class="wait">
+                ${formatTime(
+                    item.waitTime
+                )}
+            </td>
+
             <td>
                 ${formatTime(
-                    item.payback
+                    item.totalTime
                 )}
             </td>
 
         `;
 
 
-        tbody.appendChild(tr);
+        tbody.appendChild(
+            tr
+        );
+
     }
+
 }
 
 
 /* =========================================================
-   AMÉLIORATIONS
+   TABLE UPGRADES
 ========================================================= */
 
 function renderUpgrades(save){
@@ -1694,27 +2142,40 @@ function renderUpgrades(save){
 
 
     const upgrades =
-        getAvailableUpgrades(save)
-            .filter(
-                upgrade =>
-                    upgrade.gain > 0
-            )
-            .map(
-                upgrade => ({
+        getAvailableUpgrades(
+            save
+        )
+        .filter(
+            upgrade =>
+                upgrade.gain > 0
+        )
+        .map(
+            upgrade => {
+
+                const investment =
+                    calculateInvestment(
+                        upgrade.price,
+                        upgrade.gain,
+                        save.cookies,
+                        save.rawCps
+                    );
+
+
+                return {
 
                     ...upgrade,
 
-                    payback:
-                        upgrade.price /
-                        upgrade.gain
+                    ...investment
 
-                })
-            )
-            .sort(
-                (a,b) =>
-                    a.payback -
-                    b.payback
-            );
+                };
+
+            }
+        )
+        .sort(
+            (a,b) =>
+                a.totalTime -
+                b.totalTime
+        );
 
 
     if(!upgrades.length){
@@ -1722,16 +2183,21 @@ function renderUpgrades(save){
         tbody.innerHTML = `
 
             <tr>
-                <td colspan="4">
+
+                <td colspan="5">
+
                     Aucune amélioration
                     détectable avec un gain
                     direct de CpS.
+
                 </td>
+
             </tr>
 
         `;
 
         return;
+
     }
 
 
@@ -1743,16 +2209,6 @@ function renderUpgrades(save){
             document.createElement(
                 "tr"
             );
-
-
-        if(
-            upgrade.price <=
-            save.cookies
-        ){
-
-            tr.className =
-                "best";
-        }
 
 
         tr.innerHTML = `
@@ -1785,17 +2241,27 @@ function renderUpgrades(save){
                 )} CpS
             </td>
 
+            <td class="wait">
+                ${formatTime(
+                    upgrade.waitTime
+                )}
+            </td>
+
             <td>
                 ${formatTime(
-                    upgrade.payback
+                    upgrade.totalTime
                 )}
             </td>
 
         `;
 
 
-        tbody.appendChild(tr);
+        tbody.appendChild(
+            tr
+        );
+
     }
+
 }
 
 
@@ -1822,14 +2288,16 @@ function renderBest(save){
         container.innerHTML = `
 
             <div class="warning">
+
                 Aucun achat rentable
-                et actuellement abordable
                 n'a été détecté.
+
             </div>
 
         `;
 
         return;
+
     }
 
 
@@ -1837,82 +2305,127 @@ function renderBest(save){
         candidates[0];
 
 
+    const waiting =
+        best.waitTime > 0;
+
+
     container.innerHTML = `
 
-        <div class="grid">
+        <div class="recommendation">
 
-            <div class="stat">
+            <h3>
+                ${waiting
+                    ? "⏳ Il vaut mieux attendre"
+                    : "✅ Achat recommandé"}
+            </h3>
 
-                <div class="label">
-                    Achat
-                </div>
 
-                <div class="value">
-                    ${escapeHtml(
-                        best.name
-                    )}
-                </div>
+            <div class="big">
+
+                ${escapeHtml(
+                    best.name
+                )}
 
             </div>
 
 
-            <div class="stat">
+            <p>
 
-                <div class="label">
-                    Type
-                </div>
-
-                <div class="value">
+                <span class="tag">
                     ${escapeHtml(
                         best.type
                     )}
+                </span>
+
+            </p>
+
+
+            <div class="grid">
+
+                <div class="stat">
+
+                    <div class="label">
+                        Prix
+                    </div>
+
+                    <div class="value">
+                        ${formatNumber(
+                            best.price
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Gain
+                    </div>
+
+                    <div class="value good">
+                        +${formatNumber(
+                            best.gain
+                        )} CpS
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Temps d'attente
+                    </div>
+
+                    <div class="value wait">
+                        ${formatTime(
+                            best.waitTime
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Temps total
+                    </div>
+
+                    <div class="value">
+                        ${formatTime(
+                            best.totalTime
+                        )}
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <div class="stat">
-
-                <div class="label">
-                    Prix
-                </div>
-
-                <div class="value">
-                    ${formatNumber(
-                        best.price
-                    )}
-                </div>
-
-            </div>
+            <hr>
 
 
-            <div class="stat">
+            <strong>
+                Pourquoi ?
+            </strong>
 
-                <div class="label">
-                    Gain
-                </div>
 
-                <div class="value good">
-                    +${formatNumber(
-                        best.gain
-                    )} CpS
-                </div>
+            <p>
 
-            </div>
+                L'optimiseur compare maintenant
+                le temps nécessaire pour attendre
+                l'achat avec le temps nécessaire
+                pour récupérer son coût grâce au
+                nouveau CpS.
+
+            </p>
 
         </div>
 
-        <hr>
-
-        <strong>
-            Retour sur investissement :
-        </strong>
-
-        ${formatTime(
-            best.payback
-        )}
-
     `;
+
 }
 
 
@@ -1940,14 +2453,16 @@ function renderPlan(save){
         container.innerHTML = `
 
             <div class="warning">
-                Pas assez de cookies pour
-                effectuer un achat dans
-                le plan actuel.
+
+                Aucun achat rentable
+                détecté.
+
             </div>
 
         `;
 
         return;
+
     }
 
 
@@ -1974,11 +2489,13 @@ function renderPlan(save){
                 ${item.step}
             </span>
 
+
             <strong>
                 ${escapeHtml(
                     item.name
                 )}
             </strong>
+
 
             <span class="tag">
                 ${escapeHtml(
@@ -1986,9 +2503,18 @@ function renderPlan(save){
                 )}
             </span>
 
+
             <br>
 
+
             <span class="small">
+
+                Attente :
+                ${formatTime(
+                    item.waitTime
+                )}
+
+                —
 
                 Prix :
                 ${formatNumber(
@@ -2004,9 +2530,16 @@ function renderPlan(save){
 
                 —
 
-                Retour :
+                Récupération :
                 ${formatTime(
                     item.payback
+                )}
+
+                —
+
+                Temps total :
+                ${formatTime(
+                    item.totalTime
                 )}
 
                 —
@@ -2021,8 +2554,12 @@ function renderPlan(save){
         `;
 
 
-        container.appendChild(div);
+        container.appendChild(
+            div
+        );
+
     }
+
 }
 
 
@@ -2049,14 +2586,14 @@ function renderTips(save){
         container.innerHTML = `
 
             <p>
-                Tu n'as actuellement aucun
-                achat détecté comme rentable
-                et abordable.
+                Aucun achat rentable
+                n'a été détecté.
             </p>
 
         `;
 
         return;
+
     }
 
 
@@ -2067,31 +2604,41 @@ function renderTips(save){
     container.innerHTML = `
 
         <p>
-            L'achat avec le meilleur temps
-            de récupération est
+
+            Le calcul ne se limite plus
+            à ce que tu peux acheter
+            immédiatement.
+
+        </p>
+
+
+        <p>
+
             <strong>
                 ${escapeHtml(
                     best.name
                 )}
-            </strong>.
+            </strong>
+
+            est actuellement le choix
+            ayant le meilleur temps
+            total selon le modèle.
+
         </p>
 
-        <p>
-            Son coût est récupéré en environ
-            <strong>
-                ${formatTime(
-                    best.payback
-                )}
-            </strong>.
-        </p>
 
         <p class="small">
-            Les grands nombres sont maintenant
-            affichés avec les suffixes K, M, B,
-            T, Qa, Qi, Sx, Sp, Oc, No, Dc, etc.
+
+            Pour un achat trop cher,
+            le calcul prend en compte
+            le temps nécessaire pour
+            gagner les cookies manquants
+            avec ton CpS actuel.
+
         </p>
 
     `;
+
 }
 
 </script>
