@@ -1,99 +1,435 @@
-```html
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Clicker Optimizer</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #171717;
+    color: #eee;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px 15px;
+}
+
+h1 {
+    text-align: center;
+    color: #f5c16c;
+}
+
+.subtitle {
+    text-align: center;
+    color: #aaa;
+}
+
+.card {
+    background: #242424;
+    border: 1px solid #3b3b3b;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+textarea {
+    width: 100%;
+    min-height: 220px;
+    background: #111;
+    color: #eee;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: monospace;
+    font-size: 12px;
+    resize: vertical;
+}
+
+button {
+    background: #d99a3d;
+    color: #171717;
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+button:hover {
+    background: #f0b95b;
+}
+
+.error {
+    display: none;
+    background: #5a2020;
+    color: #ffbaba;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.stat {
+    background: #303030;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.label {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.value {
+    color: #f5c16c;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.recommendation {
+    background: #303030;
+    border-left: 4px solid #d99a3d;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.recommendation h3 {
+    margin: 0 0 8px;
+    color: #f5c16c;
+}
+
+.recommendation p {
+    margin: 6px 0;
+}
+
+.muted {
+    color: #999;
+    font-size: 13px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    text-align: left;
+}
+
+th {
+    color: #f5c16c;
+}
+
+.good {
+    color: #8ee28e;
+}
+
+.warning {
+    color: #ffd27d;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Cookie Clicker Optimizer</h1>
+
+<p class="subtitle">
+Colle ta sauvegarde réelle pour analyser ta partie.
+</p>
+
+<div class="card">
+
+<h2>Ta sauvegarde</h2>
+
+<textarea
+    id="saveInput"
+    placeholder="Colle ici ta sauvegarde Cookie Clicker complète..."
+></textarea>
+
+<button id="analyzeButton">
+Analyser
+</button>
+
+<div id="error" class="error"></div>
+
+<p class="muted">
+La sauvegarde est décodée directement dans ton navigateur.
+Elle n'est envoyée à aucun serveur.
+</p>
+
+</div>
+
+<div id="results" class="hidden">
+
+<div class="card">
+
+<h2>Résumé</h2>
+
+<div class="stats">
+
+<div class="stat">
+<div class="label">Cookies disponibles</div>
+<div class="value" id="cookies">-</div>
+</div>
+
+<div class="stat">
+<div class="label">Cookies par seconde</div>
+<div class="value" id="cps">-</div>
+</div>
+
+<div class="stat">
+<div class="label">Cookies produits</div>
+<div class="value" id="totalCookies">-</div>
+</div>
+
+<div class="stat">
+<div class="label">Bâtiments possédés</div>
+<div class="value" id="buildingCount">-</div>
+</div>
+
+<div class="stat">
+<div class="label">Améliorations achetées</div>
+<div class="value" id="upgradeCount">-</div>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+
+<h2>Recommandations</h2>
+
+<p class="muted">
+Les achats sont classés selon leur rendement estimé.
+</p>
+
+<div id="recommendations"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Bâtiments</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Bâtiment</th>
+<th>Quantité</th>
+<th>Prix suivant</th>
+<th>Production</th>
+<th>Rendement</th>
+</tr>
+
+</thead>
+
+<tbody id="buildingsTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Conseils</h2>
+
+<div id="tips"></div>
+
+</div>
+
+</div>
+
+</div>
+
 <script>
 
+/* =========================================================
+   COOKIE CLICKER OPTIMIZER
+   ========================================================= */
+
+
 /*
-====================================================
-COOKIE CLICKER OPTIMIZER
-PARSEUR RÉEL DU FORMAT COOKIE CLICKER 2.058
-====================================================
+   IMPORTANT :
+
+   Cookie Clicker possède 20 bâtiments.
 */
 
 const BUILDINGS = [
+
     ["Curseur", 15, 0.1],
+
     ["Grand-mère", 100, 1],
+
     ["Ferme", 500, 8],
+
     ["Usine", 3000, 47],
-    ["Mine", 11000, 260],
-    ["Banque", 14000, 1400],
+
+    ["Mine", 10000, 260],
+
+    ["Usine bancaire", 14000, 1400],
+
     ["Temple", 100000, 7800],
+
     ["Sorcellerie", 1100000, 44000],
+
     ["Expédition", 12000000, 260000],
+
     ["Laboratoire d'alchimie", 130000000, 1600000],
+
     ["Portail", 1400000000, 10000000],
+
     ["Machine temporelle", 20000000000, 65000000],
+
     ["Condenseur d'antimatière", 330000000000, 430000000],
+
     ["Prisme", 5100000000000, 2900000000],
+
     ["Moteur de chance", 75000000000000, 21000000000],
+
     ["Moteur fractal", 1000000000000000, 150000000000],
+
     ["Javascript", 14000000000000000, 1100000000000],
+
     ["Idleverse", 170000000000000000, 8300000000000],
+
     ["Cortex baker", 2100000000000000000, 64000000000000],
+
     ["You", 26000000000000000000, 510000000000000]
+
 ];
 
 
-/* ==================================================
-   BASE64
-   ================================================== */
+/* =========================================================
+   DÉCODAGE BASE64
+   ========================================================= */
 
-function decodeBase64(save) {
+function decodeSave(input) {
 
-    save = save.trim();
-
-    /*
-    Cookie Clicker peut fournir %3D et %21END%21
-    lorsqu'une sauvegarde a été copiée depuis une URL.
-    */
-
-    save = decodeURIComponent(save);
+    let text = input.trim();
 
     /*
-    !END! n'est PAS une partie du Base64.
+       Les sauvegardes copiées peuvent contenir
+       %3D et %21END%21.
     */
 
-    const endIndex = save.indexOf("!END!");
-
-    if (endIndex !== -1) {
-        save = save.substring(0, endIndex);
+    try {
+        text = decodeURIComponent(text);
+    } catch (e) {
+        // Si le texte n'est pas encodé par URL,
+        // on continue normalement.
     }
 
+
     /*
-    Base64 Cookie Clicker classique.
+       Suppression du marqueur final.
     */
 
-    while (save.length % 4 !== 0) {
-        save += "=";
+    const end = text.indexOf("!END!");
+
+    if (end !== -1) {
+        text = text.substring(0, end);
     }
+
+
+    /*
+       Suppression des espaces accidentels.
+    */
+
+    text = text.replace(/\s/g, "");
+
+
+    /*
+       Cookie Clicker utilise du Base64 classique.
+    */
+
+    while (text.length % 4 !== 0) {
+        text += "=";
+    }
+
 
     let binary;
 
     try {
-        binary = atob(save);
-    } catch (e) {
+
+        binary = atob(text);
+
+    } catch (error) {
+
         throw new Error(
-            "Le code Base64 de la sauvegarde est invalide."
+            "La sauvegarde Base64 est invalide."
         );
+
     }
+
 
     /*
-    Conversion correcte en UTF-8.
+       Conversion binaire → UTF-8.
     */
 
-    const bytes = new Uint8Array(binary.length);
+    const bytes =
+        new Uint8Array(binary.length);
 
-    for (let i = 0; i < binary.length; i++) {
-        bytes[i] = binary.charCodeAt(i);
+    for (
+        let i = 0;
+        i < binary.length;
+        i++
+    ) {
+
+        bytes[i] =
+            binary.charCodeAt(i);
+
     }
 
+
     return new TextDecoder("utf-8").decode(bytes);
+
 }
 
 
-/* ==================================================
-   NOMBRE
-   ================================================== */
+/* =========================================================
+   NOMBRE SÛR
+   ========================================================= */
 
-function toNumber(value) {
+function num(value) {
 
     if (
         value === undefined ||
@@ -103,149 +439,122 @@ function toNumber(value) {
         return 0;
     }
 
+
     const n = Number(value);
 
-    return Number.isFinite(n) ? n : 0;
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
+
 }
 
 
-/* ==================================================
+/* =========================================================
    PARSEUR
-   ================================================== */
+   ========================================================= */
 
 function parseSave(decoded) {
 
-    const sections = decoded.split("|");
+    const sections =
+        decoded.split("|");
 
-    /*
-    Format minimum :
-
-    0 = version
-    1 = section vide
-    2 = run details
-    3 = préférences
-    4 = données principales
-    5 = bâtiments
-    */
 
     if (sections.length < 6) {
+
         throw new Error(
-            "La sauvegarde ne contient pas assez de sections."
+            "Structure de sauvegarde Cookie Clicker inconnue."
         );
+
     }
 
 
-    /* ----------------------------------------------
-       VERSION
-    ---------------------------------------------- */
+    /*
+       Version.
 
-    const version = sections[0];
+       Ta sauvegarde commence par :
+
+       2.058
+    */
+
+    const version =
+        sections[0];
 
 
     /*
-    Ta sauvegarde est en 2.058.
+       Informations générales.
     */
 
-    if (!version.startsWith("2.")) {
-        throw new Error(
-            "Version Cookie Clicker inconnue : " + version
-        );
-    }
+    const run =
+        sections[2].split(";");
 
 
-    /* ----------------------------------------------
-       RUN DETAILS
-    ---------------------------------------------- */
-
-    const run = sections[2].split(";");
-
-    const ascensionStart = toNumber(run[0]);
-    const legacyStart = toNumber(run[1]);
-    const lastOpened = toNumber(run[2]);
-
-    const bakeryName = run[3] || "";
-    const seed = run[4] || "";
+    const bakeryName =
+        run[3] || "";
 
 
-    /* ----------------------------------------------
-       DONNÉES PRINCIPALES
-    ---------------------------------------------- */
-
-    const misc = sections[4].split(";");
+    const seed =
+        run[4] || "";
 
 
     /*
-    Cookie Clicker stocke ici les valeurs principales.
-
-    0  = cookies actuellement en banque
-    1  = cookies gagnés cette ascension
-    2  = clics cookie
-    3  = clics golden cookie
-    4  = cookies faits à la main
-    5  = golden cookies manqués
-    6  = background
-    7  = milk
-    8  = cookies des anciennes ascensions
-    9  = elder wrath
-    10 = pledges
-    11 = pledge time
-    12 = recherche
-    13 = recherche time
-    14 = ascensions
-    15 = golden clicks local
-    16 = vault
-    17 = heralds
-    18 = fortune GC
-    19 = fortune CPS
-    20 = highest raw CPS
-    21 = volume
-    22 = cookies sent
-    23 = cookies received
+       Section principale.
     */
 
-
-    const cookies = toNumber(misc[0]);
-
-    const totalCookies = toNumber(misc[1]);
-
-    const cookieClicks = toNumber(misc[2]);
-
-    const goldenClicks = toNumber(misc[3]);
-
-    const handmadeCookies = toNumber(misc[4]);
-
-    const missedGoldenClicks = toNumber(misc[5]);
-
-    const cookiesReset = toNumber(misc[8]);
-
-    const elderWrath = toNumber(misc[9]);
-
-    const pledges = toNumber(misc[10]);
-
-    const ascensions = toNumber(misc[14]);
-
-    const goldenClicksLocal = toNumber(misc[15]);
-
-    const heralds = toNumber(misc[17]);
-
-    const fortuneGC = toNumber(misc[18]);
-
-    const fortuneCPS = toNumber(misc[19]);
-
-    const highestRawCPS = toNumber(misc[20]);
-
-    const cookiesSent = toNumber(misc[22]);
-
-    const cookiesReceived = toNumber(misc[23]);
+    const main =
+        sections[4].split(";");
 
 
-    /* ----------------------------------------------
-       BÂTIMENTS
-    ---------------------------------------------- */
+    /*
+       Cookies actuellement possédés.
 
-    const buildingSection = sections[5];
+       Dans ta sauvegarde :
+       1776215687986681.5
+    */
 
-    const buildingStrings =
+    const cookies =
+        num(main[0]);
+
+
+    /*
+       Cookies gagnés pendant cette ascension.
+    */
+
+    const totalCookies =
+        num(main[1]);
+
+
+    /*
+       Quelques statistiques.
+    */
+
+    const cookieClicks =
+        num(main[2]);
+
+
+    const goldenClicks =
+        num(main[3]);
+
+
+    const handmadeCookies =
+        num(main[4]);
+
+
+    /*
+       Bâtiments.
+
+       Chaque entrée est séparée par ;
+
+       Exemple :
+
+       152,252,136...,4,...
+    */
+
+    const buildingSection =
+        sections[5];
+
+
+    const buildingEntries =
         buildingSection.split(";");
 
 
@@ -258,68 +567,60 @@ function parseSave(decoded) {
         i++
     ) {
 
+        const entry =
+            buildingEntries[i] || "";
+
+
         const data =
-            buildingStrings[i]
-                ? buildingStrings[i].split(",")
-                : [];
+            entry.split(",");
 
 
         /*
-        Format réel :
-
-        0 = amount
-        1 = bought
-        2 = cookies produits
-        3 = level
-        4+ = données minijeu / muted / highest
+           Premier nombre =
+           quantité actuelle.
         */
-
 
         const amount =
-            toNumber(data[0]);
-
-
-        const bought =
-            toNumber(data[1]);
-
-
-        const produced =
-            toNumber(data[2]);
-
-
-        const level =
-            toNumber(data[3]);
+            num(data[0]);
 
 
         /*
-        Dans les sauvegardes récentes,
-        muted/highest peuvent être présents
-        à la fin de l'entrée.
+           Deuxième nombre =
+           nombre acheté.
         */
 
-        let highest = amount;
+        const bought =
+            num(data[1]);
 
-        if (data.length > 4) {
 
-            const possibleHighest =
-                toNumber(data[data.length - 1]);
+        /*
+           Troisième =
+           cookies produits par le bâtiment.
+        */
 
-            if (
-                Number.isFinite(possibleHighest) &&
-                possibleHighest >= amount
-            ) {
-                highest = possibleHighest;
-            }
-        }
+        const produced =
+            num(data[2]);
+
+
+        /*
+           Quatrième =
+           niveau du bâtiment.
+        */
+
+        const level =
+            num(data[3]);
 
 
         buildings.push({
 
-            name: BUILDINGS[i][0],
+            name:
+                BUILDINGS[i][0],
 
-            basePrice: BUILDINGS[i][1],
+            basePrice:
+                BUILDINGS[i][1],
 
-            baseCps: BUILDINGS[i][2],
+            baseCps:
+                BUILDINGS[i][2],
 
             amount,
 
@@ -327,9 +628,7 @@ function parseSave(decoded) {
 
             produced,
 
-            level,
-
-            highest
+            level
 
         });
 
@@ -337,16 +636,13 @@ function parseSave(decoded) {
 
 
     /*
-    ----------------------------------------------
-    CPS
-    ----------------------------------------------
+       CPS de base.
 
-    Le jeu sauvegarde le highest raw CPS.
-    Pour l'affichage actuel on calcule aussi le
-    CPS de base des bâtiments.
+       Cela ne prend pas encore en compte
+       tous les multiplicateurs du jeu.
     */
 
-    const buildingCps =
+    const cps =
         buildings.reduce(
             (total, building) => {
 
@@ -360,37 +656,15 @@ function parseSave(decoded) {
 
 
     /*
-    Si highestRawCPS existe, on l'utilise comme
-    information supplémentaire, mais le CPS
-    affiché reste celui calculé à partir des
-    bâtiments.
-    */
+       On récupère les sections restantes
+       pour compter les données d'améliorations.
 
-    const cps = buildingCps;
-
-
-    /*
-    ----------------------------------------------
-    UPGRADES
-    ----------------------------------------------
-
-    La section suivante contient les bitfields
-    d'achievements/upgrades.
-
-    On ne compte PAS les ";" :
-    c'était l'erreur de l'ancien code.
-
-    On compte les bits à 1 dans les sections
-    de bitfields pertinentes.
+       Ici on évite volontairement de compter
+       les ";".
     */
 
     let upgradeCount = 0;
 
-    /*
-    Dans les sauvegardes modernes, les upgrades
-    achetées sont stockées dans les bitfields après
-    les données de bâtiments/buffs.
-    */
 
     for (
         let i = 6;
@@ -398,36 +672,29 @@ function parseSave(decoded) {
         i++
     ) {
 
-        const section = sections[i];
+        const section =
+            sections[i];
+
 
         /*
-        On ne considère que les sections constituées
-        essentiellement de 0 et 1.
+           Les grosses chaînes composées de
+           0 et 1 sont des bitfields.
         */
 
         if (
-            /^[01]+(?:;[01]+)*$/.test(section)
+            section.length > 10 &&
+            /^[01]+$/.test(section)
         ) {
 
-            const groups =
-                section.split(";");
+            for (
+                const character of section
+            ) {
 
-            for (const group of groups) {
+                if (
+                    character === "1"
+                ) {
 
-                /*
-                Un groupe très long correspond
-                généralement à un bitfield.
-                */
-
-                if (group.length >= 16) {
-
-                    for (const bit of group) {
-
-                        if (bit === "1") {
-                            upgradeCount++;
-                        }
-
-                    }
+                    upgradeCount++;
 
                 }
 
@@ -452,129 +719,139 @@ function parseSave(decoded) {
 
         cps,
 
-        highestRawCPS,
-
         cookieClicks,
 
         goldenClicks,
 
         handmadeCookies,
 
-        missedGoldenClicks,
-
-        cookiesReset,
-
-        elderWrath,
-
-        pledges,
-
-        ascensions,
-
-        goldenClicksLocal,
-
-        heralds,
-
-        fortuneGC,
-
-        fortuneCPS,
-
-        cookiesSent,
-
-        cookiesReceived,
-
         buildings,
 
-        upgradeCount,
-
-        ascensionStart,
-
-        legacyStart,
-
-        lastOpened
+        upgradeCount
 
     };
 
 }
 
 
-/* ==================================================
-   FORMATAGE
-   ================================================== */
+/* =========================================================
+   FORMATAGE DES NOMBRES
+   ========================================================= */
 
-function formatNumber(n) {
+function formatNumber(value) {
 
-    if (!Number.isFinite(n)) {
+    if (
+        !Number.isFinite(value)
+    ) {
+
         return "-";
+
     }
 
 
-    if (Math.abs(n) < 1000) {
+    if (
+        Math.abs(value) < 1000
+    ) {
 
-        return Number(n).toFixed(2);
+        return value.toFixed(2);
 
     }
 
 
     const units = [
+
         "",
+
         "K",
+
         "M",
+
         "Md",
+
         "T",
+
         "Qa",
+
         "Qi",
+
         "Sx",
+
         "Sp",
+
         "Oc",
+
         "No",
+
         "Dc",
+
         "Ud",
+
         "Dd",
+
         "Td",
+
         "Qad",
+
         "Qid",
+
         "Sxd",
+
         "Spd",
+
         "Ocd",
-        "Nod",
-        "Vg"
+
+        "Nod"
+
     ];
 
 
-    let value = n;
+    let number =
+        value;
 
-    let i = 0;
+
+    let unit =
+        0;
 
 
     while (
-        Math.abs(value) >= 1000 &&
-        i < units.length - 1
+        Math.abs(number) >= 1000 &&
+        unit < units.length - 1
     ) {
 
-        value /= 1000;
+        number /= 1000;
 
-        i++;
+        unit++;
 
     }
 
 
-    return value.toFixed(2) + " " + units[i];
+    return (
+        number.toFixed(2) +
+        " " +
+        units[unit]
+    );
 
 }
 
 
-/* ==================================================
+/* =========================================================
    ERREUR
-   ================================================== */
+   ========================================================= */
 
 function showError(message) {
 
     const error =
-        document.getElementById("error");
+        document.getElementById(
+            "error"
+        );
 
-    error.textContent = message;
 
-    error.style.display = "block";
+    error.textContent =
+        message;
+
+
+    error.style.display =
+        "block";
 
 }
 
@@ -582,18 +859,24 @@ function showError(message) {
 function clearError() {
 
     const error =
-        document.getElementById("error");
+        document.getElementById(
+            "error"
+        );
 
-    error.textContent = "";
 
-    error.style.display = "none";
+    error.textContent =
+        "";
+
+
+    error.style.display =
+        "none";
 
 }
 
 
-/* ==================================================
+/* =========================================================
    ANALYSE
-   ================================================== */
+   ========================================================= */
 
 function analyzeSave() {
 
@@ -603,10 +886,9 @@ function analyzeSave() {
     try {
 
         const input =
-            document
-                .getElementById("saveInput")
-                .value
-                .trim();
+            document.getElementById(
+                "saveInput"
+            ).value.trim();
 
 
         if (!input) {
@@ -618,27 +900,12 @@ function analyzeSave() {
         }
 
 
-        /*
-        Nettoyage :
-
-        IMPORTANT :
-        on ne supprime PAS les caractères
-        internes du Base64.
-        */
-
-        const cleaned =
-            input
-                .replace(/\r/g, "")
-                .replace(/\n/g, "")
-                .trim();
-
-
         const decoded =
-            decodeBase64(cleaned);
+            decodeSave(input);
 
 
         console.log(
-            "Cookie Clicker décodé :",
+            "Sauvegarde décodée :",
             decoded
         );
 
@@ -654,7 +921,6 @@ function analyzeSave() {
 
 
         renderResults(save);
-
 
     }
     catch (error) {
@@ -672,433 +938,40 @@ function analyzeSave() {
 }
 
 
-/* ==================================================
+/* =========================================================
    AFFICHAGE
-   ================================================== */
+   ========================================================= */
 
 function renderResults(save) {
 
     document
-        .getElementById("results")
+        .getElementById(
+            "results"
+        )
         .classList
         .remove("hidden");
 
 
     document
-        .getElementById("cookies")
+        .getElementById(
+            "cookies"
+        )
         .textContent =
-            formatNumber(save.cookies);
-
-
-    document
-        .getElementById("cps")
-        .textContent =
-            formatNumber(save.cps);
-
-
-    document
-        .getElementById("totalCookies")
-        .textContent =
-            formatNumber(save.totalCookies);
-
-
-    document
-        .getElementById("buildingCount")
-        .textContent =
-            save.buildings.reduce(
-                (total, building) =>
-                    total + building.amount,
-                0
-            );
-
-
-    document
-        .getElementById("upgradeCount")
-        .textContent =
-            save.upgradeCount;
-
-
-    renderRecommendations(save);
-
-    renderBuildings(save);
-
-    renderTips(save);
-
-}
-
-
-/* ==================================================
-   DONNÉES DES BÂTIMENTS
-   ================================================== */
-
-function getBuildingData(save) {
-
-    return save.buildings.map(
-        building => {
-
-            const amount =
-                building.amount;
-
-
-            /*
-            Prix suivant selon la formule
-            Cookie Clicker.
-
-            Le jeu augmente le prix de 15 %
-            à chaque exemplaire.
-            */
-
-            const price =
-                building.basePrice *
-                Math.pow(1.15, amount);
-
-
-            const production =
-                building.baseCps;
-
-
-            const efficiency =
-                price > 0
-                    ? production / price
-                    : 0;
-
-
-            return {
-
-                name: building.name,
-
-                amount,
-
-                price,
-
-                production,
-
-                efficiency
-
-            };
-
-        }
-    );
-
-}
-
-
-/* ==================================================
-   RECOMMANDATIONS
-   ================================================== */
-
-function renderRecommendations(save) {
-
-    const container =
-        document.getElementById(
-            "recommendations"
+        formatNumber(
+            save.cookies
         );
 
 
-    container.innerHTML = "";
-
-
-    const buildings =
-        getBuildingData(save);
-
-
-    const affordable =
-        buildings
-            .filter(
-                building =>
-                    building.price <=
-                    save.cookies
-            )
-            .sort(
-                (a, b) =>
-                    b.efficiency -
-                    a.efficiency
-            );
-
-
-    if (affordable.length === 0) {
-
-        container.innerHTML = `
-            <div class="recommendation">
-
-                <h3>
-                    Aucun bâtiment abordable
-                </h3>
-
-                <p>
-                    Tu n'as actuellement pas
-                    assez de cookies pour acheter
-                    un bâtiment.
-                </p>
-
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    affordable
-        .slice(0, 5)
-        .forEach(
-            (building, index) => {
-
-                const payback =
-                    building.production > 0
-                        ? building.price /
-                          building.production
-                        : Infinity;
-
-
-                const div =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                div.className =
-                    "recommendation";
-
-
-                div.innerHTML = `
-
-                    <h3>
-                        #${index + 1}
-                        — ${building.name}
-                    </h3>
-
-                    <p>
-                        Prix :
-                        <strong>
-                            ${formatNumber(
-                                building.price
-                            )}
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain :
-                        <strong>
-                            +${formatNumber(
-                                building.production
-                            )} CPS
-                        </strong>
-                    </p>
-
-                    <p>
-                        Temps de retour :
-                        <strong>
-                            ${formatNumber(
-                                payback
-                            )} secondes
-                        </strong>
-                    </p>
-
-                `;
-
-
-                container.appendChild(div);
-
-            }
-        );
-
-}
-
-
-/* ==================================================
-   TABLEAU BÂTIMENTS
-   ================================================== */
-
-function renderBuildings(save) {
-
-    const tbody =
-        document.getElementById(
-            "buildingsTable"
+    document
+        .getElementById(
+            "cps"
+        )
+        .textContent =
+        formatNumber(
+            save.cps
         );
 
 
-    tbody.innerHTML = "";
-
-
-    const buildings =
-        getBuildingData(save);
-
-
-    buildings.forEach(
-        building => {
-
-            /*
-            On affiche tous les bâtiments
-            jusqu'au dernier possédé.
-            */
-
-            if (
-                building.amount === 0 &&
-                building.price > save.cookies * 100
-            ) {
-
-                return;
-
-            }
-
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${building.name}
-                </td>
-
-                <td>
-                    ${building.amount}
-                </td>
-
-                <td>
-                    ${formatNumber(
-                        building.price
-                    )}
-                </td>
-
-                <td>
-                    +${formatNumber(
-                        building.production
-                    )} CPS
-                </td>
-
-                <td class="good">
-                    ${formatNumber(
-                        building.efficiency *
-                        1000
-                    )}
-                </td>
-
-            `;
-
-
-            tbody.appendChild(row);
-
-        }
-    );
-
-}
-
-
-/* ==================================================
-   CONSEILS
-   ================================================== */
-
-function renderTips(save) {
-
-    const tips =
-        document.getElementById(
-            "tips"
-        );
-
-
-    const buildings =
-        getBuildingData(save);
-
-
-    const affordable =
-        buildings
-            .filter(
-                building =>
-                    building.price <=
-                    save.cookies
-            )
-            .sort(
-                (a, b) =>
-                    b.efficiency -
-                    a.efficiency
-            );
-
-
-    let html = "";
-
-
-    if (affordable.length > 0) {
-
-        const best =
-            affordable[0];
-
-
-        html += `
-
-            <p>
-
-                <strong>
-                    Priorité :
-                </strong>
-
-                ${best.name}
-
-                selon le rendement
-                cookies/CPS calculé.
-
-            </p>
-
-        `;
-
-    }
-    else {
-
-        html += `
-
-            <p>
-
-                <strong>
-                    Priorité :
-                </strong>
-
-                économiser des cookies
-                jusqu'au prochain achat.
-
-            </p>
-
-        `;
-
-    }
-
-
-    html += `
-
-        <p class="muted">
-
-            Sauvegarde Cookie Clicker
-            ${save.version} détectée.
-
-            ${save.bakeryName
-                ? "Boulangerie : " +
-                  save.bakeryName
-                : ""}
-
-        </p>
-
-    `;
-
-
-    tips.innerHTML = html;
-
-}
-
-
-/* ==================================================
-   DEBUG
-   ================================================== */
-
-window.CookieClickerOptimizer = {
-
-    decodeBase64,
-
-    parseSave,
-
-    analyzeSave
-
-};
-
-</script>
-```
+    document
+        .getElementById(
+            "
