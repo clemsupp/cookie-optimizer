@@ -204,10 +204,6 @@ hr{
     font-weight:bold;
 }
 
-/* =========================================================
-   AJOUTS MINIMAUX DEMANDÉS
-========================================================= */
-
 .analysis-options{
     margin-top:15px;
     display:flex;
@@ -240,7 +236,7 @@ hr{
 }
 
 .option-box input{
-    width:180px;
+    width:220px;
 }
 
 .mode-description{
@@ -269,10 +265,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
     placeholder="Colle ta sauvegarde Cookie Clicker ici..."
 ></textarea>
 
-<!-- =========================================================
-     OPTIONS DEMANDÉES
-========================================================= -->
-
 <div class="analysis-options">
 
     <div class="option-box">
@@ -297,8 +289,8 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
             id="modeDescription"
             class="mode-description"
         >
-            Inclut les achats qu'il faut attendre et compare
-            le temps d'attente avec le temps de récupération.
+            Inclut les achats qu'il faut attendre. Le CpS doit être
+            renseigné dans la case "Cookies par seconde".
         </div>
 
     </div>
@@ -318,6 +310,28 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
             value="0"
             placeholder="0"
         >
+
+    </div>
+
+
+    <div class="option-box">
+
+        <label for="manualCps">
+            Cookies par seconde (CpS)
+        </label>
+
+        <input
+            id="manualCps"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            placeholder="Ex. 5,2 B"
+        >
+
+        <div class="mode-description">
+            Exemple : 5,2 B = 5,2 milliards. K, M, B, T, etc.
+            sont acceptés, en majuscules ou minuscules.
+        </div>
 
     </div>
 
@@ -350,11 +364,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
             <div class="stat">
                 <div class="label">Cookies</div>
                 <div class="value" id="cookiesStat">-</div>
-            </div>
-
-            <div class="stat">
-                <div class="label">Cookies/s</div>
-                <div class="value" id="cpsStat">-</div>
             </div>
 
             <div class="stat">
@@ -826,6 +835,253 @@ function getReserve(){
 }
 
 
+/* =========================================================
+   LECTURE DU CPS SAISI MANUELLEMENT
+========================================================= */
+
+function parseCompactNumber(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return 0;
+
+    }
+
+
+    let text =
+        String(value)
+            .trim()
+            .replace(
+                /\s+/g,
+                ""
+            )
+            .replace(
+                /,/g,
+                "."
+            );
+
+
+    if(!text){
+
+        return 0;
+
+    }
+
+
+    /*
+       Les suffixes peuvent être écrits
+       en majuscules ou minuscules.
+
+       Exemples :
+
+       5.2B
+       5,2 B
+       5.2b
+       5200M
+       5.2 milliard
+       5.2 milliards
+    */
+
+    const suffixes = {
+
+        k:1e3,
+        thousand:1e3,
+        mille:1e3,
+
+        m:1e6,
+        million:1e6,
+        millions:1e6,
+
+        b:1e9,
+        billion:1e9,
+        billions:1e9,
+        milliard:1e9,
+        milliards:1e9,
+
+        t:1e12,
+        trillion:1e12,
+        trillions:1e12,
+
+        qa:1e15,
+        quadrillion:1e15,
+        quadrillions:1e15,
+
+        qi:1e18,
+        quintillion:1e18,
+        quintillions:1e18,
+
+        sx:1e21,
+        sextillion:1e21,
+        sextillions:1e21,
+
+        sp:1e24,
+        septillion:1e24,
+        septillions:1e24,
+
+        oc:1e27,
+        octillion:1e27,
+        octillions:1e27,
+
+        no:1e30,
+        nonillion:1e30,
+        nonillions:1e30,
+
+        dc:1e33,
+        decillion:1e33,
+        decillions:1e33,
+
+        ud:1e36,
+        undecillion:1e36,
+        undecillions:1e36,
+
+        dd:1e39,
+        duodecillion:1e39,
+        duodecillions:1e39,
+
+        td:1e42,
+        tredecillion:1e42,
+        tredecillions:1e42,
+
+        qd:1e45,
+        quattuordecillion:1e45,
+        quattuordecillions:1e45,
+
+        qid:1e48,
+        quindecillion:1e48,
+        quindecillions:1e48,
+
+        sxd:1e51,
+        sexdecillion:1e51,
+        sexdecillions:1e51,
+
+        spd:1e54,
+        septendecillion:1e54,
+        septendecillions:1e54,
+
+        ocd:1e57,
+        octodecillion:1e57,
+        octodecillions:1e57,
+
+        nod:1e60,
+        novemdecillion:1e60,
+        novemdecillions:1e60,
+
+        vg:1e63,
+        vigintillion:1e63,
+        vigintillions:1e63
+
+    };
+
+
+    const match =
+        text.match(
+            /^([+-]?(?:\d+(?:\.\d*)?|\.\d+))(.*)$/i
+        );
+
+
+    if(!match){
+
+        return NaN;
+
+    }
+
+
+    const number =
+        Number(
+            match[1]
+        );
+
+
+    const suffix =
+        match[2]
+            .toLowerCase();
+
+
+    if(
+        !Number.isFinite(number)
+    ){
+
+        return NaN;
+
+    }
+
+
+    if(!suffix){
+
+        return number;
+
+    }
+
+
+    if(
+        suffixes[suffix] !== undefined
+    ){
+
+        return number *
+            suffixes[suffix];
+
+    }
+
+
+    return NaN;
+
+}
+
+
+function getManualCps(){
+
+    const element =
+        document.getElementById(
+            "manualCps"
+        );
+
+
+    if(!element){
+
+        return 0;
+
+    }
+
+
+    const value =
+        parseCompactNumber(
+            element.value
+        );
+
+
+    if(
+        !Number.isFinite(value) ||
+        value < 0
+    ){
+
+        return 0;
+
+    }
+
+
+    return value;
+
+}
+
+
+function hasManualCps(){
+
+    const element =
+        document.getElementById(
+            "manualCps"
+        );
+
+
+    return !!element &&
+        element.value.trim() !== "" &&
+        getManualCps() > 0;
+
+}
+
+
 function updateModeDescription(){
 
     const mode =
@@ -847,7 +1103,7 @@ function updateModeDescription(){
     else{
 
         description.textContent =
-            "Inclut les achats qu'il faut attendre et compare le temps d'attente avec le temps de récupération.";
+            "Inclut les achats qu'il faut attendre. Le CpS doit être renseigné dans la case \"Cookies par seconde\".";
 
     }
 
@@ -866,6 +1122,11 @@ function clearSave(){
 
 
     document.getElementById(
+        "manualCps"
+    ).value = "";
+
+
+    document.getElementById(
         "results"
     ).style.display = "none";
 
@@ -877,11 +1138,6 @@ function clearSave(){
 
     document.getElementById(
         "cookiesStat"
-    ).textContent = "-";
-
-
-    document.getElementById(
-        "cpsStat"
     ).textContent = "-";
 
 
@@ -1061,24 +1317,6 @@ function getSection(sections,index){
    UPGRADES RÉELLES DE LA SAUVEGARDE
 ========================================================= */
 
-/*
-   Dans une sauvegarde moderne Cookie Clicker,
-   les améliorations sont stockées dans une
-   section sous forme de paires :
-
-       unlocked
-       bought
-
-   Exemple :
-
-       11  -> débloquée + achetée
-       10  -> débloquée mais pas achetée
-       00  -> pas débloquée
-
-   Le parser ci-dessous conserve donc l'ordre
-   exact des IDs.
-*/
-
 function parseUpgradeBits(section){
 
     const result = [];
@@ -1089,23 +1327,12 @@ function parseUpgradeBits(section){
     }
 
 
-    /*
-       Format moderne non commenté :
-       chaque amélioration = 2 caractères.
-    */
-
     let clean =
         section.replace(
             /[^01]/g,
             ""
         );
 
-
-    /*
-       Si le champ semble utiliser
-       une compression/encodage différent,
-       on ne force pas une fausse lecture.
-    */
 
     if(
         clean.length >= 2
@@ -1233,10 +1460,6 @@ function parseSave(decoded){
     }
 
 
-    /*
-       Nom de la boulangerie.
-    */
-
     let bakeryName =
         "Cookie";
 
@@ -1251,12 +1474,6 @@ function parseSave(decoded){
     const runData =
         runSection.split(";");
 
-
-    /*
-       Selon les versions, le nom
-       peut se trouver à différents endroits.
-       On évite de prendre un timestamp.
-    */
 
     for(
         const value of runData
@@ -1278,10 +1495,6 @@ function parseSave(decoded){
     }
 
 
-    /*
-       Statistiques cookies.
-    */
-
     const cookieStats =
         parseCookieStats(
             sections
@@ -1301,10 +1514,6 @@ function parseSave(decoded){
 
     }
 
-
-    /*
-       Bâtiments.
-    */
 
     const buildingSection =
         getSection(
@@ -1375,10 +1584,6 @@ function parseSave(decoded){
     }
 
 
-    /*
-       Améliorations.
-    */
-
     const upgradeData =
         parseUpgradeBits(
             getSection(
@@ -1401,10 +1606,6 @@ function parseSave(decoded){
                 upgrade.unlocked
         );
 
-
-    /*
-       Achievements.
-    */
 
     const achievementSection =
         getSection(
@@ -1442,12 +1643,6 @@ function parseSave(decoded){
     }
 
 
-    /*
-       Calcul initial des bâtiments.
-       C'est volontairement séparé du
-       calcul final des multiplicateurs.
-    */
-
     let buildingRawCps = 0;
 
 
@@ -1461,11 +1656,6 @@ function parseSave(decoded){
 
     }
 
-
-    /*
-       On récupère quelques valeurs
-       supplémentaires utiles au calcul.
-    */
 
     const prestige =
         calculatePrestige(
@@ -1529,20 +1719,9 @@ function calculatePrestige(cookiesReset){
     }
 
 
-    /*
-       Cookie Clicker :
-       prestige basé sur les cookies
-       reset.
-    */
-
     const value =
         cookiesReset / 1e12;
 
-
-    /*
-       Pour les valeurs normales,
-       on cherche le niveau correspondant.
-    */
 
     let low = 0;
     let high = 1;
@@ -1658,14 +1837,6 @@ function priceAfterAmount(
 
 /* =========================================================
    LISTE DES AMÉLIORATIONS CONNUES
-=========================================================
-
-   Cette liste sert à donner un nom et un effet
-   aux améliorations dont les données sont connues.
-
-   Les IDs de la sauvegarde restent conservés même
-   lorsqu'une amélioration n'est pas dans cette liste.
-
 ========================================================= */
 
 const UPGRADES = [
@@ -1900,15 +2071,6 @@ function calculateBuildingUpgradeMultipliers(
         );
 
 
-    /*
-       On applique les améliorations connues
-       dont l'effet est certain.
-
-       Beaucoup d'améliorations Cookie Clicker
-       sont des multiplicateurs et non un gain
-       fixe de CpS.
-    */
-
     for(
         const owned of save.ownedUpgrades
     ){
@@ -1955,11 +2117,6 @@ function calculateMilk(
     achievementCount
 ){
 
-    /*
-       Le lait dépend du nombre
-       d'accomplissements obtenus.
-    */
-
     return Math.min(
         achievementCount *
         0.04,
@@ -1970,141 +2127,37 @@ function calculateMilk(
 
 
 /* =========================================================
-   CPS RÉEL RECONSTRUIT
+   CPS UTILISÉ PAR L'OPTIMISEUR
 ========================================================= */
 
 function calculateCPS(save){
 
-    const multipliers =
-        calculateBuildingUpgradeMultipliers(
-            save
-        );
-
-
-    let rawBuildingCps = 0;
-
-
-    for(
-        let i=0;
-        i<save.buildings.length;
-        i++
-    ){
-
-        const building =
-            save.buildings[i];
-
-
-        /*
-           Production de base.
-        */
-
-        let cps =
-            building.amount *
-            building.baseCpS;
-
-
-        /*
-           Multiplicateurs d'améliorations
-           de bâtiment connus.
-        */
-
-        cps *=
-            multipliers[i];
-
-
-        rawBuildingCps +=
-            cps;
-
-    }
-
-
     /*
-       Bonus de lait.
-       Le lait augmente les bonus
-       des chatons, mais sans les données
-       exactes des upgrades de chatons,
-       on ne l'invente pas.
+       Le CpS n'est volontairement PLUS calculé
+       depuis la sauvegarde.
+
+       Le joueur saisit lui-même son vrai CpS.
+       Cela évite de donner un faux chiffre à cause
+       des nombreux multiplicateurs et effets de
+       Cookie Clicker que la sauvegarde ne permet
+       pas de reconstruire correctement ici.
     */
 
-    const milk =
-        calculateMilk(
-            save.achievementCount
-        );
-
-
-    /*
-       Prestige Heavenly Chips.
-       Le bonus standard est 2% par heavenly
-       chip dans le calcul global.
-    */
-
-    let prestigeMultiplier =
-        1;
-
-
-    if(
-        save.prestige > 0
-    ){
-
-        prestigeMultiplier +=
-            save.prestige *
-            0.02;
-
-    }
-
-
-    /*
-       Le CPS reconstruit de base.
-    */
-
-    let cps =
-        rawBuildingCps *
-        prestigeMultiplier;
-
-
-    /*
-       Quelques upgrades globaux connus.
-    */
-
-    let globalMultiplier = 1;
-
-
-    for(
-        const owned of save.ownedUpgrades
-    ){
-
-        const definition =
-            getUpgradeDefinition(
-                owned.id
-            );
-
-
-        if(
-            !definition
-        ){
-
-            continue;
-
-        }
-
-    }
-
-
-    cps *=
-        globalMultiplier;
+    const cps =
+        getManualCps();
 
 
     return {
 
         cps,
 
-        rawBuildingCps,
+        rawBuildingCps:0,
 
-        milk,
+        milk:0,
 
-        prestigeMultiplier,
+        prestigeMultiplier:1,
 
-        globalMultiplier
+        globalMultiplier:1
 
     };
 
@@ -2119,19 +2172,6 @@ function getAvailableUpgrades(save){
 
     const result = [];
 
-
-    /*
-       IMPORTANT :
-
-       On utilise réellement les bits de la sauvegarde
-       pour savoir si l'upgrade est déjà achetée.
-
-       On ne fait plus :
-
-           i < upgradeCount
-
-       car cette méthode était fausse.
-    */
 
     for(
         let i=0;
@@ -2166,13 +2206,6 @@ function getAvailableUpgrades(save){
                 i
             );
 
-
-        /*
-           On ne présente pas une amélioration
-           dont nous ne connaissons pas le prix.
-
-           Cela évite d'inventer un prix.
-        */
 
         if(
             !definition
@@ -2213,15 +2246,6 @@ function getUpgradeGain(
     upgrade,
     save
 ){
-
-    /*
-       Pour une amélioration qui double un bâtiment,
-       le gain est calculé sur la production actuelle
-       de ce bâtiment.
-
-       Cela est beaucoup plus correct qu'un nombre
-       fixe codé en dur.
-    */
 
     if(
         upgrade.building !== null &&
@@ -2307,24 +2331,12 @@ function calculateInvestment(
     }
 
 
-    /*
-       Argent réellement disponible.
-    */
-
     const available =
         Math.max(
             0,
             cookies - reserve
         );
 
-
-    /*
-       Mode "maintenant".
-
-       Si le joueur ne peut pas payer
-       en gardant sa réserve, on exclut
-       complètement l'achat.
-    */
 
     if(
         mode === "current"
@@ -2367,13 +2379,6 @@ function calculateInvestment(
     }
 
 
-    /*
-       Mode futur.
-
-       On calcule l'argent manquant
-       après prise en compte de la réserve.
-    */
-
     let waitTime = 0;
 
 
@@ -2402,11 +2407,6 @@ function calculateInvestment(
 
     }
 
-
-    /*
-       Temps nécessaire pour récupérer
-       le coût grâce au gain supplémentaire.
-    */
 
     const payback =
         price / gain;
@@ -2450,10 +2450,6 @@ function calculateCandidates(save){
         getReserve();
 
 
-    /*
-       CPS réel reconstruit.
-    */
-
     const cpsData =
         calculateCPS(
             save
@@ -2463,10 +2459,6 @@ function calculateCandidates(save){
     const cps =
         cpsData.cps;
 
-
-    /*
-       BÂTIMENTS
-    */
 
     for(
         const building of save.buildings
@@ -2545,10 +2537,6 @@ function calculateCandidates(save){
 
     }
 
-
-    /*
-       AMÉLIORATIONS
-    */
 
     const upgrades =
         getAvailableUpgrades(
@@ -2646,12 +2634,6 @@ function calculateBuildingPurchaseGain(
     save
 ){
 
-    /*
-       On calcule la production que donnera
-       réellement le nouveau bâtiment avec
-       les multiplicateurs connus.
-    */
-
     const multipliers =
         calculateBuildingUpgradeMultipliers(
             save
@@ -2744,10 +2726,6 @@ function calculatePurchasePlan(
         const candidates = [];
 
 
-        /*
-           Bâtiments.
-        */
-
         for(
             const building of buildings
         ){
@@ -2831,10 +2809,6 @@ function calculatePurchasePlan(
 
         }
 
-
-        /*
-           Améliorations.
-        */
 
         for(
             const upgrade of upgrades
@@ -2920,12 +2894,6 @@ function calculatePurchasePlan(
             candidates[0];
 
 
-        /*
-           En mode futur, on attend réellement
-           jusqu'à pouvoir acheter en gardant
-           la réserve.
-        */
-
         if(
             best.waitTime > 0 &&
             Number.isFinite(
@@ -2939,12 +2907,6 @@ function calculatePurchasePlan(
 
         }
 
-
-        /*
-           Vérification de sécurité :
-           on ne doit jamais utiliser
-           la réserve.
-        */
 
         if(
             cookies -
@@ -2960,11 +2922,6 @@ function calculatePurchasePlan(
         cookies -=
             best.price;
 
-
-        /*
-           Le nouveau CPS devient actif
-           après l'achat.
-        */
 
         cps +=
             best.gain;
@@ -3142,25 +3099,11 @@ function analyzeSave(){
 
 function renderResults(save){
 
-    const cpsData =
-        calculateCPS(
-            save
-        );
-
-
     document.getElementById(
         "cookiesStat"
     ).textContent =
         formatNumber(
             save.cookies
-        );
-
-
-    document.getElementById(
-        "cpsStat"
-    ).textContent =
-        formatNumber(
-            cpsData.cps
         );
 
 
@@ -3570,16 +3513,37 @@ function renderBest(save){
 
     if(!candidates.length){
 
-        container.innerHTML = `
+        if(
+            getAnalysisMode() === "future" &&
+            !hasManualCps()
+        ){
 
-            <div class="warning">
+            container.innerHTML = `
 
-                Aucun achat correspondant
-                au mode d'analyse sélectionné.
+                <div class="warning">
 
-            </div>
+                    Renseigne ton nombre de cookies par seconde
+                    pour calculer les achats futurs et leur temps d'attente.
 
-        `;
+                </div>
+
+            `;
+
+        }
+        else{
+
+            container.innerHTML = `
+
+                <div class="warning">
+
+                    Aucun achat correspondant
+                    au mode d'analyse sélectionné.
+
+                </div>
+
+            `;
+
+        }
 
         return;
 
@@ -3747,16 +3711,38 @@ function renderPlan(save){
 
     if(!plan.length){
 
-        container.innerHTML = `
+        if(
+            getAnalysisMode() === "future" &&
+            !hasManualCps()
+        ){
 
-            <div class="warning">
+            container.innerHTML = `
 
-                Aucun achat rentable
-                détecté.
+                <div class="warning">
 
-            </div>
+                    Renseigne ton CpS dans la case
+                    "Cookies par seconde" pour établir un plan
+                    avec attente.
 
-        `;
+                </div>
+
+            `;
+
+        }
+        else{
+
+            container.innerHTML = `
+
+                <div class="warning">
+
+                    Aucun achat rentable
+                    détecté.
+
+                </div>
+
+            `;
+
+        }
 
         return;
 
@@ -3902,6 +3888,10 @@ function renderTips(save){
         getAnalysisMode();
 
 
+    const manualCps =
+        getManualCps();
+
+
     container.innerHTML = `
 
         <p>
@@ -3956,6 +3946,25 @@ function renderTips(save){
             Le temps d'attente correspond aux cookies
             manquants pour atteindre le prix tout en
             conservant la réserve définie.
+
+        </p>
+
+
+        <p class="small">
+
+            CpS utilisé pour les attentes :
+
+            ${
+                manualCps > 0
+                    ? formatNumber(manualCps) + " CpS"
+                    : "non renseigné"
+            }.
+
+            ${
+                manualCps > 0
+                    ? ""
+                    : "Renseigne ton CpS dans la case prévue pour activer les calculs futurs."
+            }
 
         </p>
 
