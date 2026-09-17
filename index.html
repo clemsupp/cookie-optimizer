@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -223,11 +224,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
     placeholder="Colle ta sauvegarde Cookie Clicker ici..."
 ></textarea>
 
-
-<!-- =====================================================
-     NOUVEAUX PARAMÈTRES
-===================================================== -->
-
 <div class="card" style="margin-top:15px;">
 
     <h3 style="margin-top:0;">
@@ -267,7 +263,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
 
         </div>
 
-
         <div class="stat">
 
             <div class="label">
@@ -303,7 +298,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
     </div>
 
 </div>
-
 
 <div class="button-row">
 
@@ -357,7 +351,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
         </div>
     </div>
 
-
     <div class="card">
         <h2>🎯 Meilleur achat</h2>
 
@@ -365,7 +358,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
             -
         </div>
     </div>
-
 
     <div class="card">
         <h2>🏭 Bâtiments</h2>
@@ -389,7 +381,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
 
         </table>
     </div>
-
 
     <div class="card">
 
@@ -415,7 +406,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
 
     </div>
 
-
     <div class="card">
 
         <h2>📈 Plan d'achat</h2>
@@ -433,7 +423,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
 
     </div>
 
-
     <div class="card">
 
         <h2>💡 Conseils</h2>
@@ -443,7 +432,6 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
     </div>
 
 </div>
-
 
 <script>
 
@@ -471,16 +459,22 @@ const BUILDINGS = [
         baseCpS:8
     },
 
-    {
-        name:"Usine",
-        basePrice:12000,
-        baseCpS:47
-    },
+    /*
+       IMPORTANT :
+       Cookie Clicker enregistre Mine AVANT Usine.
+       L'ancien code avait ces deux bâtiments inversés.
+    */
 
     {
         name:"Mine",
         basePrice:130000,
         baseCpS:260
+    },
+
+    {
+        name:"Usine",
+        basePrice:12000,
+        baseCpS:47
     },
 
     {
@@ -914,10 +908,6 @@ function decodeSave(input){
 
     }
 
-    /*
-       Sauvegarde déjà décodée.
-    */
-
     if(
         input.includes("|") &&
         input.includes(";")
@@ -926,10 +916,6 @@ function decodeSave(input){
         return input;
 
     }
-
-    /*
-       Sauvegarde Base64.
-    */
 
     try{
 
@@ -1006,12 +992,11 @@ function parseSave(decoded){
 
 
     /*
-       STATISTIQUES
+       COOKIE STATS
 
-       On conserve le format du parseur
-       existant, mais on cherche les valeurs
-       numériques valides plutôt que de supposer
-       qu'une valeur absente vaut forcément 0.
+       La première valeur de la section 4
+       correspond aux cookies actuellement
+       présents dans la banque.
     */
 
     const stats =
@@ -1019,35 +1004,8 @@ function parseSave(decoded){
             ? sections[4].split(";")
             : [];
 
-    const numbers =
-        stats.map(
-            value => Number(value)
-        );
-
-
-    /*
-       Dans le format utilisé par la sauvegarde
-       actuelle, la première valeur numérique
-       correspond aux cookies actuels.
-    */
-
-    let cookies = 0;
-
-    for(
-        const value of numbers
-    ){
-
-        if(
-            Number.isFinite(value) &&
-            value >= 0
-        ){
-
-            cookies = value;
-            break;
-
-        }
-
-    }
+    const cookies =
+        Number(stats[0]) || 0;
 
 
     /*
@@ -1080,6 +1038,14 @@ function parseSave(decoded){
         const bought =
             Number(data[1]) || 0;
 
+        /*
+           Cette valeur est le nombre total
+           de cookies produits par le bâtiment
+           pendant l'ascension.
+
+           CE N'EST PAS LE CpS.
+        */
+
         const produced =
             Number(data[2]) || 0;
 
@@ -1102,7 +1068,14 @@ function parseSave(decoded){
 
 
     /*
-       CpS de base provenant des bâtiments.
+       CALCUL DU CpS
+
+       On utilise uniquement :
+       nombre de bâtiments × CpS de base.
+
+       On NE DOIT PAS utiliser "produced",
+       car produced = cookies produits au total,
+       pas cookies par seconde.
     */
 
     let rawCps = 0;
@@ -1115,52 +1088,6 @@ function parseSave(decoded){
         rawCps +=
             building.amount *
             building.baseCpS;
-
-    }
-
-
-    /*
-       On utilise aussi les données "produced"
-       si elles sont présentes dans la sauvegarde.
-
-       Cela permet d'éviter de perdre les valeurs
-       spécifiques enregistrées par la partie.
-    */
-
-    let producedCps = 0;
-
-    for(
-        const building of buildings
-    ){
-
-        if(
-            Number.isFinite(
-                building.produced
-            ) &&
-            building.produced > 0
-        ){
-
-            producedCps +=
-                building.produced;
-
-        }
-
-    }
-
-
-    /*
-       Si la sauvegarde contient des valeurs
-       produites cohérentes, on les utilise.
-       Sinon on garde le calcul classique.
-    */
-
-    if(
-        producedCps > 0 &&
-        producedCps >= rawCps * 0.01
-    ){
-
-        rawCps =
-            producedCps;
 
     }
 
@@ -1506,11 +1433,6 @@ function calculateInvestment(
     }
 
 
-    /*
-       Temps nécessaire pour récupérer
-       le prix grâce au CpS ajouté.
-    */
-
     const payback =
         price / gain;
 
@@ -1551,18 +1473,9 @@ function calculateCandidates(save){
         );
 
 
-    /*
-       Si mode "now", on ne considère
-       que les achats actuellement achetables.
-    */
-
     const onlyAffordable =
         mode === "now";
 
-
-    /*
-       BÂTIMENTS
-    */
 
     for(
         const building of save.buildings
@@ -1628,10 +1541,6 @@ function calculateCandidates(save){
 
     }
 
-
-    /*
-       AMÉLIORATIONS
-    */
 
     const upgrades =
         getAvailableUpgrades(
@@ -1766,10 +1675,6 @@ function calculatePurchasePlan(
         const candidates = [];
 
 
-        /*
-           BÂTIMENTS
-        */
-
         for(
             const building of buildings
         ){
@@ -1829,10 +1734,6 @@ function calculatePurchasePlan(
 
         }
 
-
-        /*
-           AMÉLIORATIONS
-        */
 
         for(
             const upgrade of upgrades
@@ -1902,11 +1803,6 @@ function calculatePurchasePlan(
             candidates[0];
 
 
-        /*
-           Si l'achat nécessite une attente,
-           on simule la production de cookies.
-        */
-
         if(
             best.waitTime > 0 &&
             Number.isFinite(
@@ -1921,17 +1817,9 @@ function calculatePurchasePlan(
         }
 
 
-        /*
-           Achat
-        */
-
         cookies -=
             best.price;
 
-
-        /*
-           CpS après achat
-        */
 
         cps +=
             best.gain;
@@ -2903,3 +2791,4 @@ document
 
 </body>
 </html>
+```
