@@ -7,154 +7,159 @@
 <title>Cookie Clicker Optimizer</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#171717;
+    color:#eee;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #171717;
-    color: #eee;
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:25px 15px;
 }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 25px 15px;
+h1{
+    text-align:center;
+    color:#f5c16c;
 }
 
-h1 {
-    text-align: center;
-    color: #f5c16c;
+h2{
+    color:#eee;
 }
 
-.subtitle {
-    text-align: center;
-    color: #aaa;
+.subtitle{
+    text-align:center;
+    color:#aaa;
 }
 
-.card {
-    background: #242424;
-    border: 1px solid #3b3b3b;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 20px 0;
+.card{
+    background:#242424;
+    border:1px solid #3b3b3b;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
 }
 
-textarea {
-    width: 100%;
-    min-height: 220px;
-    background: #111;
-    color: #eee;
-    border: 1px solid #555;
-    border-radius: 8px;
-    padding: 12px;
-    font-family: monospace;
-    font-size: 12px;
-    resize: vertical;
+textarea{
+    width:100%;
+    min-height:220px;
+    background:#111;
+    color:#eee;
+    border:1px solid #555;
+    border-radius:8px;
+    padding:12px;
+    font-family:monospace;
+    font-size:12px;
+    resize:vertical;
 }
 
-button {
-    background: #d99a3d;
-    color: #171717;
-    border: 0;
-    border-radius: 8px;
-    padding: 12px 18px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 12px;
+button{
+    background:#d99a3d;
+    color:#171717;
+    border:0;
+    border-radius:8px;
+    padding:12px 18px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:12px;
 }
 
-button:hover {
-    background: #f0b95b;
+button:hover{
+    background:#f0b95b;
 }
 
-.error {
-    display: none;
-    background: #5a2020;
-    color: #ffbaba;
-    padding: 12px;
-    border-radius: 8px;
-    margin-top: 15px;
+.error{
+    display:none;
+    background:#5a2020;
+    color:#ffbaba;
+    padding:12px;
+    border-radius:8px;
+    margin-top:15px;
 }
 
-.hidden {
-    display: none;
+.hidden{
+    display:none;
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
 }
 
-.stat {
-    background: #303030;
-    border-radius: 8px;
-    padding: 15px;
+.stat{
+    background:#303030;
+    border-radius:8px;
+    padding:15px;
 }
 
-.label {
-    color: #aaa;
-    font-size: 13px;
+.label{
+    color:#aaa;
+    font-size:13px;
 }
 
-.value {
-    color: #f5c16c;
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 5px;
+.value{
+    color:#f5c16c;
+    font-size:20px;
+    font-weight:bold;
+    margin-top:5px;
 }
 
-.recommendation {
-    background: #303030;
-    border-left: 4px solid #d99a3d;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 10px 0;
+.recommendation{
+    background:#303030;
+    border-left:4px solid #d99a3d;
+    border-radius:8px;
+    padding:15px;
+    margin:10px 0;
 }
 
-.recommendation h3 {
-    margin: 0 0 8px;
-    color: #f5c16c;
+.recommendation h3{
+    margin:0 0 8px;
+    color:#f5c16c;
 }
 
-.recommendation p {
-    margin: 6px 0;
+.recommendation p{
+    margin:6px 0;
 }
 
-.muted {
-    color: #999;
-    font-size: 13px;
+.muted{
+    color:#999;
+    font-size:13px;
 }
 
-.table-wrap {
-    overflow-x: auto;
+.table-wrap{
+    overflow-x:auto;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-th,
-td {
-    padding: 10px;
-    border-bottom: 1px solid #444;
-    text-align: left;
+th,td{
+    padding:10px;
+    border-bottom:1px solid #444;
+    text-align:left;
 }
 
-th {
-    color: #f5c16c;
+th{
+    color:#f5c16c;
 }
 
-.good {
-    color: #8ee28e;
+.good{
+    color:#8ee28e;
 }
 
-.warning {
-    color: #ffd27d;
+.warning{
+    color:#ffd27d;
+}
+
+.bad{
+    color:#ff8585;
 }
 </style>
 
@@ -179,7 +184,7 @@ Colle ta sauvegarde réelle pour analyser ta partie.
     placeholder="Colle ici ta sauvegarde Cookie Clicker complète..."
 ></textarea>
 
-<button id="analyzeButton">
+<button type="button" onclick="analyzeSave()">
 Analyser
 </button>
 
@@ -226,6 +231,9 @@ Elle n'est envoyée à aucun serveur.
 </div>
 
 </div>
+
+<p class="muted" id="saveInfo"></p>
+
 </div>
 
 <div class="card">
@@ -233,7 +241,7 @@ Elle n'est envoyée à aucun serveur.
 <h2>Recommandations</h2>
 
 <p class="muted">
-Les achats sont classés selon leur rendement estimé.
+Les bâtiments sont classés selon le rendement de leur prochain achat.
 </p>
 
 <div id="recommendations"></div>
@@ -249,7 +257,6 @@ Les achats sont classés selon leur rendement estimé.
 <table>
 
 <thead>
-
 <tr>
 <th>Bâtiment</th>
 <th>Quantité</th>
@@ -257,7 +264,6 @@ Les achats sont classés selon leur rendement estimé.
 <th>Production</th>
 <th>Rendement</th>
 </tr>
-
 </thead>
 
 <tbody id="buildingsTable"></tbody>
@@ -284,351 +290,305 @@ Les achats sont classés selon leur rendement estimé.
 
 /* =========================================================
    COOKIE CLICKER OPTIMIZER
+   Compatible avec les sauvegardes modernes Cookie Clicker
    ========================================================= */
 
 
-/*
-   IMPORTANT :
+/* =========================================================
+   BÂTIMENTS
 
-   Cookie Clicker possède 20 bâtiments.
-*/
+   Ordre réel des 20 bâtiments Cookie Clicker.
+   ========================================================= */
 
 const BUILDINGS = [
 
-    ["Curseur", 15, 0.1],
+    ["Curseur",15,0.1],
 
-    ["Grand-mère", 100, 1],
+    ["Grand-mère",100,1],
 
-    ["Ferme", 500, 8],
+    ["Ferme",1100,8],
 
-    ["Usine", 3000, 47],
+    ["Mine",12000,47],
 
-    ["Mine", 10000, 260],
+    ["Usine",130000,260],
 
-    ["Usine bancaire", 14000, 1400],
+    ["Banque",1400000,1400],
 
-    ["Temple", 100000, 7800],
+    ["Temple",20000000,7800],
 
-    ["Sorcellerie", 1100000, 44000],
+    ["Tour de sorciers",330000000,44000],
 
-    ["Expédition", 12000000, 260000],
+    ["Expédition",5100000000,260000],
 
-    ["Laboratoire d'alchimie", 130000000, 1600000],
+    ["Laboratoire d'alchimie",75000000000,1600000],
 
-    ["Portail", 1400000000, 10000000],
+    ["Portail",1000000000000,10000000],
 
-    ["Machine temporelle", 20000000000, 65000000],
+    ["Machine temporelle",14000000000000,65000000],
 
-    ["Condenseur d'antimatière", 330000000000, 430000000],
+    ["Condenseur d'antimatière",170000000000000,430000000],
 
-    ["Prisme", 5100000000000, 2900000000],
+    ["Prisme",2100000000000000,2900000000],
 
-    ["Moteur de chance", 75000000000000, 21000000000],
+    ["Faiseur de chance",26000000000000000,21000000000],
 
-    ["Moteur fractal", 1000000000000000, 150000000000],
+    ["Moteur fractal",310000000000000000,150000000000],
 
-    ["Javascript", 14000000000000000, 1100000000000],
+    ["Console Javascript",7100000000000000000,1100000000000],
 
-    ["Idleverse", 170000000000000000, 8300000000000],
+    ["Idleverse",120000000000000000000,8300000000000],
 
-    ["Cortex baker", 2100000000000000000, 64000000000000],
+    ["Cortex Baker",1900000000000000000000,64000000000000],
 
-    ["You", 26000000000000000000, 510000000000000]
+    ["You",54000000000000000000000,510000000000000]
 
 ];
 
 
 /* =========================================================
-   DÉCODAGE BASE64
+   DÉCODAGE DE LA SAUVEGARDE
    ========================================================= */
 
-function decodeSave(input) {
+function decodeSave(input){
 
-    let text = input.trim();
+    let text=input.trim();
+
+    if(!text){
+        throw new Error("Colle d'abord ta sauvegarde.");
+    }
 
     /*
-       Les sauvegardes copiées peuvent contenir
-       %3D et %21END%21.
+       Les sauvegardes peuvent être copiées
+       avec des caractères URL encodés :
+       %3D = =
+       %21 = !
     */
 
-    try {
-        text = decodeURIComponent(text);
-    } catch (e) {
-        // Si le texte n'est pas encodé par URL,
-        // on continue normalement.
+    try{
+        text=decodeURIComponent(text);
+    }catch(e){
+        /* Pas grave si elle n'est pas URL-encodée */
     }
 
 
     /*
-       Suppression du marqueur final.
+       Supprime les retours à la ligne et espaces
+       accidentels.
     */
 
-    const end = text.indexOf("!END!");
+    text=text.replace(/\s/g,"");
 
-    if (end !== -1) {
-        text = text.substring(0, end);
+
+    /*
+       Cookie Clicker ajoute !END! après le Base64.
+    */
+
+    const end=text.indexOf("!END!");
+
+    if(end!==-1){
+        text=text.substring(0,end);
+    }
+
+
+    if(!text){
+        throw new Error("La sauvegarde est vide après décodage.");
     }
 
 
     /*
-       Suppression des espaces accidentels.
+       Le Base64 doit avoir une longueur multiple de 4.
     */
 
-    text = text.replace(/\s/g, "");
-
-
-    /*
-       Cookie Clicker utilise du Base64 classique.
-    */
-
-    while (text.length % 4 !== 0) {
-        text += "=";
+    while(text.length%4!==0){
+        text+="=";
     }
 
 
     let binary;
 
-    try {
-
-        binary = atob(text);
-
-    } catch (error) {
-
+    try{
+        binary=atob(text);
+    }catch(e){
         throw new Error(
-            "La sauvegarde Base64 est invalide."
+            "Le code de sauvegarde Base64 est invalide."
         );
-
     }
 
 
     /*
-       Conversion binaire → UTF-8.
+       Conversion binaire -> UTF-8.
     */
 
-    const bytes =
-        new Uint8Array(binary.length);
+    const bytes=new Uint8Array(binary.length);
 
-    for (
-        let i = 0;
-        i < binary.length;
-        i++
-    ) {
-
-        bytes[i] =
-            binary.charCodeAt(i);
-
+    for(let i=0;i<binary.length;i++){
+        bytes[i]=binary.charCodeAt(i);
     }
 
 
-    return new TextDecoder("utf-8").decode(bytes);
+    try{
 
+        return new TextDecoder("utf-8").decode(bytes);
+
+    }catch(e){
+
+        /*
+           Fallback pour les navigateurs ne possédant
+           pas TextDecoder.
+        */
+
+        let result="";
+
+        for(let i=0;i<bytes.length;i++){
+            result+=String.fromCharCode(bytes[i]);
+        }
+
+        return result;
+    }
 }
 
 
 /* =========================================================
-   NOMBRE SÛR
+   CONVERSION EN NOMBRE
    ========================================================= */
 
-function num(value) {
+function num(value){
 
-    if (
-        value === undefined ||
-        value === null ||
-        value === ""
-    ) {
+    if(
+        value===undefined ||
+        value===null ||
+        value===""
+    ){
         return 0;
     }
 
+    const n=Number(value);
 
-    const n = Number(value);
-
-
-    return Number.isFinite(n)
-        ? n
-        : 0;
-
+    return Number.isFinite(n) ? n : 0;
 }
 
 
 /* =========================================================
-   PARSEUR
+   PARSEUR COOKIE CLICKER
    ========================================================= */
 
-function parseSave(decoded) {
+function parseSave(decoded){
 
-    const sections =
-        decoded.split("|");
+    const sections=decoded.split("|");
 
 
-    if (sections.length < 6) {
+    if(sections.length<6){
 
         throw new Error(
-            "Structure de sauvegarde Cookie Clicker inconnue."
+            "La structure de la sauvegarde n'est pas reconnue."
         );
 
     }
 
 
     /*
-       Version.
-
-       Ta sauvegarde commence par :
-
-       2.058
+       Section 0 :
+       version
     */
 
-    const version =
-        sections[0];
+    const version=sections[0];
 
 
     /*
-       Informations générales.
+       Section 2 :
+       informations de partie
+
+       start date ;
+       legacy date ;
+       last date ;
+       bakery name ;
+       seed ;
+       apparence de You...
     */
 
-    const run =
-        sections[2].split(";");
+    const run=sections[2]
+        ? sections[2].split(";")
+        : [];
 
 
-    const bakeryName =
-        run[3] || "";
-
-
-    const seed =
-        run[4] || "";
+    const bakeryName=run[3] || "";
+    const seed=run[4] || "";
 
 
     /*
-       Section principale.
+       Section 4 :
+       statistiques principales
     */
 
-    const main =
-        sections[4].split(";");
+    const stats=sections[4]
+        ? sections[4].split(";")
+        : [];
+
+
+    const cookies=num(stats[0]);
+
+    const totalCookies=num(stats[1]);
+
+    const cookieClicks=num(stats[2]);
+
+    const goldenClicks=num(stats[3]);
+
+    const handmadeCookies=num(stats[4]);
 
 
     /*
-       Cookies actuellement possédés.
-
-       Dans ta sauvegarde :
-       1776215687986681.5
+       Section 5 :
+       bâtiments
     */
 
-    const cookies =
-        num(main[0]);
+    const buildingEntries=sections[5]
+        ? sections[5].split(";")
+        : [];
 
 
-    /*
-       Cookies gagnés pendant cette ascension.
-    */
-
-    const totalCookies =
-        num(main[1]);
+    const buildings=[];
 
 
-    /*
-       Quelques statistiques.
-    */
+    for(let i=0;i<BUILDINGS.length;i++){
 
-    const cookieClicks =
-        num(main[2]);
+        const entry=buildingEntries[i] || "";
 
-
-    const goldenClicks =
-        num(main[3]);
-
-
-    const handmadeCookies =
-        num(main[4]);
-
-
-    /*
-       Bâtiments.
-
-       Chaque entrée est séparée par ;
-
-       Exemple :
-
-       152,252,136...,4,...
-    */
-
-    const buildingSection =
-        sections[5];
-
-
-    const buildingEntries =
-        buildingSection.split(";");
-
-
-    const buildings = [];
-
-
-    for (
-        let i = 0;
-        i < BUILDINGS.length;
-        i++
-    ) {
-
-        const entry =
-            buildingEntries[i] || "";
-
-
-        const data =
-            entry.split(",");
+        const data=entry.split(",");
 
 
         /*
-           Premier nombre =
-           quantité actuelle.
+           Format :
+           0 = quantité
+           1 = quantité achetée
+           2 = cookies produits
+           3 = niveau
+           ...
         */
 
-        const amount =
-            num(data[0]);
+        const amount=num(data[0]);
 
+        const bought=num(data[1]);
 
-        /*
-           Deuxième nombre =
-           nombre acheté.
-        */
+        const produced=num(data[2]);
 
-        const bought =
-            num(data[1]);
-
-
-        /*
-           Troisième =
-           cookies produits par le bâtiment.
-        */
-
-        const produced =
-            num(data[2]);
-
-
-        /*
-           Quatrième =
-           niveau du bâtiment.
-        */
-
-        const level =
-            num(data[3]);
+        const level=num(data[3]);
 
 
         buildings.push({
 
-            name:
-                BUILDINGS[i][0],
+            name:BUILDINGS[i][0],
 
-            basePrice:
-                BUILDINGS[i][1],
+            basePrice:BUILDINGS[i][1],
 
-            baseCps:
-                BUILDINGS[i][2],
+            baseCps:BUILDINGS[i][2],
 
-            amount,
+            amount:amount,
 
-            bought,
+            bought:bought,
 
-            produced,
+            produced:produced,
 
-            level
+            level:level
 
         });
 
@@ -636,66 +596,62 @@ function parseSave(decoded) {
 
 
     /*
-       CPS de base.
-
-       Cela ne prend pas encore en compte
-       tous les multiplicateurs du jeu.
+       Nombre total de bâtiments.
     */
 
-    const cps =
-        buildings.reduce(
-            (total, building) => {
-
-                return total +
-                    building.amount *
-                    building.baseCps;
-
-            },
-            0
-        );
+    const buildingCount=buildings.reduce(
+        function(total,b){
+            return total+b.amount;
+        },
+        0
+    );
 
 
     /*
-       On récupère les sections restantes
-       pour compter les données d'améliorations.
+       CpS brut basé sur les bâtiments.
 
-       Ici on évite volontairement de compter
-       les ";".
+       Attention :
+       les améliorations, synergies, buffs,
+       saisons, aura, etc. ne sont pas inclus ici.
     */
 
-    let upgradeCount = 0;
+    const rawCps=buildings.reduce(
+        function(total,b){
+
+            return total+
+                b.amount*b.baseCps;
+
+        },
+        0
+    );
 
 
-    for (
-        let i = 6;
-        i < sections.length;
-        i++
-    ) {
+    /*
+       Les bitfields sont présents dans plusieurs
+       sections du format de sauvegarde.
 
-        const section =
-            sections[i];
+       On compte uniquement les bits 1 dans les
+       sections qui sont clairement des bitfields.
+    */
+
+    let upgradeCount=0;
 
 
-        /*
-           Les grosses chaînes composées de
-           0 et 1 sont des bitfields.
-        */
+    for(let i=6;i<sections.length;i++){
 
-        if (
-            section.length > 10 &&
-            /^[01]+$/.test(section)
-        ) {
+        const section=sections[i];
 
-            for (
-                const character of section
-            ) {
 
-                if (
-                    character === "1"
-                ) {
+        if(
+            section &&
+            /^[01]+$/.test(section) &&
+            section.length>=20
+        ){
 
+            for(let j=0;j<section.length;j++){
+
+                if(section[j]==="1"){
                     upgradeCount++;
-
                 }
 
             }
@@ -705,29 +661,31 @@ function parseSave(decoded) {
     }
 
 
-    return {
+    return{
 
-        version,
+        version:version,
 
-        bakeryName,
+        bakeryName:bakeryName,
 
-        seed,
+        seed:seed,
 
-        cookies,
+        cookies: cookies,
 
-        totalCookies,
+        totalCookies: totalCookies,
 
-        cps,
+        cookieClicks: cookieClicks,
 
-        cookieClicks,
+        goldenClicks: goldenClicks,
 
-        goldenClicks,
+        handmadeCookies: handmadeCookies,
 
-        handmadeCookies,
+        cps:rawCps,
 
-        buildings,
+        buildingCount:buildingCount,
 
-        upgradeCount
+        upgradeCount:upgradeCount,
+
+        buildings:buildings
 
     };
 
@@ -735,30 +693,80 @@ function parseSave(decoded) {
 
 
 /* =========================================================
+   PRIX DU PROCHAIN BÂTIMENT
+   ========================================================= */
+
+function nextPrice(building){
+
+    /*
+       Cookie Clicker utilise :
+
+       prix = prix de base × 1.15^quantité
+
+       puis arrondi vers le haut.
+    */
+
+    const price=
+        building.basePrice*
+        Math.pow(1.15,building.amount);
+
+
+    if(!Number.isFinite(price)){
+        return Infinity;
+    }
+
+
+    return Math.ceil(price);
+}
+
+
+/* =========================================================
+   RENDEMENT
+   ========================================================= */
+
+function buildingEfficiency(building){
+
+    const price=nextPrice(building);
+
+
+    if(
+        !Number.isFinite(price) ||
+        price<=0
+    ){
+        return 0;
+    }
+
+
+    /*
+       Production supplémentaire d'un bâtiment
+       sans tenir compte des upgrades/synergies.
+    */
+
+    return building.baseCps/price;
+}
+
+
+/* =========================================================
    FORMATAGE DES NOMBRES
    ========================================================= */
 
-function formatNumber(value) {
+function formatNumber(value){
 
-    if (
+    if(value===Infinity){
+        return "∞";
+    }
+
+
+    if(
+        value===null ||
+        value===undefined ||
         !Number.isFinite(value)
-    ) {
-
+    ){
         return "-";
-
     }
 
 
-    if (
-        Math.abs(value) < 1000
-    ) {
-
-        return value.toFixed(2);
-
-    }
-
-
-    const units = [
+    const units=[
 
         "",
 
@@ -805,29 +813,51 @@ function formatNumber(value) {
     ];
 
 
-    let number =
-        value;
+    let number=Math.abs(value);
+
+    let unit=0;
 
 
-    let unit =
-        0;
+    while(
+        number>=1000 &&
+        unit<units.length-1
+    ){
 
-
-    while (
-        Math.abs(number) >= 1000 &&
-        unit < units.length - 1
-    ) {
-
-        number /= 1000;
+        number/=1000;
 
         unit++;
 
     }
 
 
+    if(number>=100){
+
+        return (
+            (value<0?"-":"")+
+            number.toFixed(0)+
+            " "+
+            units[unit]
+        );
+
+    }
+
+
+    if(number>=10){
+
+        return (
+            (value<0?"-":"")+
+            number.toFixed(1)+
+            " "+
+            units[unit]
+        );
+
+    }
+
+
     return (
-        number.toFixed(2) +
-        " " +
+        (value<0?"-":"")+
+        number.toFixed(2)+
+        " "+
         units[unit]
     );
 
@@ -835,42 +865,30 @@ function formatNumber(value) {
 
 
 /* =========================================================
-   ERREUR
+   ERREURS
    ========================================================= */
 
-function showError(message) {
+function showError(message){
 
-    const error =
-        document.getElementById(
-            "error"
-        );
+    const error=
+        document.getElementById("error");
 
 
-    error.textContent =
-        message;
+    error.textContent=message;
 
-
-    error.style.display =
-        "block";
-
+    error.style.display="block";
 }
 
 
-function clearError() {
+function clearError(){
 
-    const error =
-        document.getElementById(
-            "error"
-        );
+    const error=
+        document.getElementById("error");
 
 
-    error.textContent =
-        "";
+    error.textContent="";
 
-
-    error.style.display =
-        "none";
-
+    error.style.display="none";
 }
 
 
@@ -878,20 +896,25 @@ function clearError() {
    ANALYSE
    ========================================================= */
 
-function analyzeSave() {
+function analyzeSave(){
 
     clearError();
 
 
-    try {
-
-        const input =
-            document.getElementById(
-                "saveInput"
-            ).value.trim();
+    const results=
+        document.getElementById("results");
 
 
-        if (!input) {
+    results.classList.add("hidden");
+
+
+    try{
+
+        const input=
+            document.getElementById("saveInput").value;
+
+
+        if(!input.trim()){
 
             throw new Error(
                 "Colle d'abord ta sauvegarde."
@@ -900,36 +923,67 @@ function analyzeSave() {
         }
 
 
-        const decoded =
+        /*
+           Décodage.
+        */
+
+        const decoded=
             decodeSave(input);
 
 
         console.log(
-            "Sauvegarde décodée :",
+            "Cookie Clicker - sauvegarde décodée :",
             decoded
         );
 
 
-        const save =
+        /*
+           Vérification de la structure.
+        */
+
+        if(
+            decoded.indexOf("|")===-1 ||
+            !/^2\./.test(decoded)
+        ){
+
+            throw new Error(
+                "Ce code ne ressemble pas à une sauvegarde Cookie Clicker valide."
+            );
+
+        }
+
+
+        /*
+           Analyse.
+        */
+
+        const save=
             parseSave(decoded);
 
 
         console.log(
-            "Sauvegarde analysée :",
+            "Cookie Clicker - sauvegarde analysée :",
             save
         );
 
 
+        /*
+           Affichage.
+        */
+
         renderResults(save);
 
     }
-    catch (error) {
+    catch(error){
 
-        console.error(error);
+        console.error(
+            "Erreur Cookie Clicker Optimizer :",
+            error
+        );
 
 
         showError(
-            "Impossible de lire cette sauvegarde : " +
+            "Impossible de lire cette sauvegarde : "+
             error.message
         );
 
@@ -942,36 +996,432 @@ function analyzeSave() {
    AFFICHAGE
    ========================================================= */
 
-function renderResults(save) {
+function renderResults(save){
 
     document
-        .getElementById(
-            "results"
-        )
+        .getElementById("results")
         .classList
         .remove("hidden");
 
 
+    /*
+       Résumé
+    */
+
     document
-        .getElementById(
-            "cookies"
-        )
-        .textContent =
-        formatNumber(
-            save.cookies
+        .getElementById("cookies")
+        .textContent=
+        formatNumber(save.cookies);
+
+
+    document
+        .getElementById("cps")
+        .textContent=
+        formatNumber(save.cps);
+
+
+    document
+        .getElementById("totalCookies")
+        .textContent=
+        formatNumber(save.totalCookies);
+
+
+    document
+        .getElementById("buildingCount")
+        .textContent=
+        formatNumber(save.buildingCount);
+
+
+    document
+        .getElementById("upgradeCount")
+        .textContent=
+        save.upgradeCount;
+
+
+    document
+        .getElementById("saveInfo")
+        .textContent=
+        "Version "+
+        save.version+
+        " • Boulangerie : "+
+        (save.bakeryName || "Sans nom");
+
+
+    /*
+       Tableau des bâtiments.
+    */
+
+    const table=
+        document.getElementById("buildingsTable");
+
+
+    table.innerHTML="";
+
+
+    const ranked=
+        save.buildings
+        .map(function(building){
+
+            return{
+
+                building:building,
+
+                price:nextPrice(building),
+
+                efficiency:
+                    buildingEfficiency(building)
+
+            };
+
+        })
+        .sort(function(a,b){
+
+            return b.efficiency-a.efficiency;
+
+        });
+
+
+    /*
+       Création du tableau dans l'ordre
+       original des bâtiments.
+    */
+
+    save.buildings.forEach(function(building){
+
+        const price=
+            nextPrice(building);
+
+
+        const efficiency=
+            buildingEfficiency(building);
+
+
+        const row=
+            document.createElement("tr");
+
+
+        let production=
+            building.amount*
+            building.baseCps;
+
+
+        row.innerHTML=
+
+            "<td>"+
+            escapeHtml(building.name)+
+            "</td>"+
+
+            "<td>"+
+            formatNumber(building.amount)+
+            "</td>"+
+
+            "<td>"+
+            formatNumber(price)+
+            "</td>"+
+
+            "<td>"+
+            formatNumber(production)+
+            " CpS</td>"+
+
+            "<td>"+
+            formatNumber(efficiency)+
+            "</td>";
+
+
+        table.appendChild(row);
+
+    });
+
+
+    /*
+       Recommandations.
+    */
+
+    const recommendations=
+        document.getElementById(
+            "recommendations"
         );
 
 
-    document
-        .getElementById(
-            "cps"
-        )
-        .textContent =
-        formatNumber(
-            save.cps
+    recommendations.innerHTML="";
+
+
+    const affordable=
+        ranked.filter(function(item){
+
+            return item.price<=save.cookies;
+
+        });
+
+
+    if(affordable.length===0){
+
+        recommendations.innerHTML=
+            '<div class="recommendation">'+
+            '<h3>Pas encore d’achat recommandé</h3>'+
+            '<p>Tu n’as actuellement pas assez de cookies pour acheter le prochain bâtiment.</p>'+
+            '</div>';
+
+    }
+    else{
+
+        affordable
+            .slice(0,5)
+            .forEach(function(item,index){
+
+                const building=
+                    item.building;
+
+
+                const card=
+                    document.createElement("div");
+
+
+                card.className=
+                    "recommendation";
+
+
+                let title;
+
+
+                if(index===0){
+
+                    title="Achat recommandé";
+
+                }
+                else{
+
+                    title="Alternative #"+(index+1);
+
+                }
+
+
+                card.innerHTML=
+
+                    "<h3>"+
+                    title+
+                    " : "+
+                    escapeHtml(building.name)+
+                    "</h3>"+
+
+                    "<p>Prix : <b>"+
+                    formatNumber(item.price)+
+                    "</b></p>"+
+
+                    "<p>Production supplémentaire : <b>"+
+                    formatNumber(building.baseCps)+
+                    " CpS</b></p>"+
+
+                    "<p>Rendement brut : <b>"+
+                    formatNumber(item.efficiency)+
+                    "</b></p>";
+
+
+                recommendations.appendChild(card);
+
+            });
+
+    }
+
+
+    /*
+       Conseils.
+    */
+
+    renderTips(save);
+
+}
+
+
+/* =========================================================
+   CONSEILS
+   ========================================================= */
+
+function renderTips(save){
+
+    const tips=
+        document.getElementById("tips");
+
+
+    tips.innerHTML="";
+
+
+    const tipsList=[];
+
+
+    /*
+       Cookies.
+    */
+
+    if(save.cookies>0){
+
+        tipsList.push(
+            "Tu as actuellement "+
+            formatNumber(save.cookies)+
+            " cookies disponibles."
         );
 
+    }
 
-    document
-        .getElementById(
-            "
+
+    /*
+       Bâtiment le plus rentable
+       parmi ceux qui peuvent être achetés.
+    */
+
+    const affordable=
+        save.buildings
+        .map(function(building){
+
+            return{
+
+                building:building,
+
+                price:nextPrice(building),
+
+                efficiency:
+                    buildingEfficiency(building)
+
+            };
+
+        })
+        .filter(function(item){
+
+            return item.price<=save.cookies;
+
+        })
+        .sort(function(a,b){
+
+            return b.efficiency-a.efficiency;
+
+        });
+
+
+    if(affordable.length>0){
+
+        tipsList.push(
+
+            "Le meilleur rendement brut parmi les achats actuellement accessibles est "+
+            "<b>"+
+            escapeHtml(
+                affordable[0].building.name
+            )+
+            "</b>."
+
+        );
+
+    }
+
+
+    /*
+       Vérification des bâtiments.
+    */
+
+    const zeroBuildings=
+        save.buildings.filter(function(b){
+
+            return b.amount===0;
+
+        });
+
+
+    if(zeroBuildings.length>0){
+
+        tipsList.push(
+
+            "Tu n’as encore aucun "+
+            "<b>"+
+            escapeHtml(
+                zeroBuildings[0].name
+            )+
+            "</b>."
+
+        );
+
+    }
+
+
+    /*
+       Nombre de bâtiments.
+    */
+
+    tipsList.push(
+
+        "Tu possèdes actuellement "+
+        "<b>"+
+        formatNumber(save.buildingCount)+
+        "</b> bâtiments au total."
+
+    );
+
+
+    /*
+       Statistiques.
+    */
+
+    tipsList.push(
+
+        "Tu as réalisé "+
+        "<b>"+
+        formatNumber(save.cookieClicks)+
+        "</b> clics sur le gros cookie."
+
+    );
+
+
+    tipsList.forEach(function(text){
+
+        const div=
+            document.createElement("div");
+
+
+        div.className=
+            "recommendation";
+
+
+        div.innerHTML=
+            "<p>"+
+            text+
+            "</p>";
+
+
+        tips.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================================
+   PROTECTION HTML
+   ========================================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   TEST DU BOUTON
+   ========================================================= */
+
+console.log(
+    "Cookie Clicker Optimizer chargé correctement."
+);
+
+</script>
+
+</body>
+</html>
