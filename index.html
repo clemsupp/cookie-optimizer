@@ -1,0 +1,661 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Clicker Optimizer</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #171717;
+        color: #f2f2f2;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 30px 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #f5c16c;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #aaa;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: #242424;
+        border: 1px solid #3b3b3b;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 180px;
+        resize: vertical;
+        background: #111;
+        color: #eee;
+        border: 1px solid #555;
+        border-radius: 8px;
+        padding: 12px;
+        font-family: monospace;
+        font-size: 13px;
+    }
+
+    button {
+        background: #d99a3d;
+        color: #171717;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 12px;
+    }
+
+    button:hover {
+        background: #f0b95b;
+    }
+
+    .secondary {
+        background: #444;
+        color: white;
+        margin-left: 8px;
+    }
+
+    .secondary:hover {
+        background: #555;
+    }
+
+    .error {
+        background: #5a2020;
+        color: #ffbaba;
+        padding: 12px;
+        border-radius: 8px;
+        margin-top: 15px;
+        display: none;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+    }
+
+    .stat {
+        background: #303030;
+        border-radius: 8px;
+        padding: 15px;
+    }
+
+    .stat .label {
+        color: #aaa;
+        font-size: 13px;
+    }
+
+    .stat .value {
+        color: #f5c16c;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .recommendation {
+        background: #303030;
+        border-left: 4px solid #d99a3d;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+    }
+
+    .recommendation h3 {
+        margin: 0 0 8px;
+        color: #f5c16c;
+    }
+
+    .recommendation p {
+        margin: 5px 0;
+        color: #ddd;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #4b3b22;
+        color: #ffd88a;
+        border-radius: 5px;
+        padding: 3px 7px;
+        font-size: 12px;
+        margin-right: 5px;
+    }
+
+    .muted {
+        color: #999;
+        font-size: 13px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #444;
+        text-align: left;
+    }
+
+    th {
+        color: #f5c16c;
+    }
+
+    .good {
+        color: #8ee28e;
+    }
+
+    .warning {
+        color: #ffd27d;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            padding: 20px 10px;
+        }
+
+        .secondary {
+            margin-left: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Cookie Clicker Optimizer</h1>
+    <p class="subtitle">
+        Colle ta sauvegarde pour savoir quoi acheter en priorité.
+    </p>
+
+    <div class="card">
+        <h2>1. Ta sauvegarde</h2>
+
+        <textarea id="saveInput"
+            placeholder="Colle ici le texte complet de ta sauvegarde Cookie Clicker..."></textarea>
+
+        <button onclick="analyzeSave()">Analyser la sauvegarde</button>
+        <button class="secondary" onclick="loadExample()">Charger un exemple</button>
+        <button class="secondary" onclick="clearAll()">Effacer</button>
+
+        <div id="error" class="error"></div>
+
+        <p class="muted">
+            La sauvegarde est analysée localement dans ton navigateur.
+        </p>
+    </div>
+
+    <div id="results" class="hidden">
+
+        <div class="card">
+            <h2>Résumé de ta partie</h2>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="label">Cookies disponibles</div>
+                    <div class="value" id="cookies">-</div>
+                </div>
+
+                <div class="stat">
+                    <div class="label">Cookies par seconde</div>
+                    <div class="value" id="cps">-</div>
+                </div>
+
+                <div class="stat">
+                    <div class="label">Cookies produits au total</div>
+                    <div class="value" id="totalCookies">-</div>
+                </div>
+
+                <div class="stat">
+                    <div class="label">Bâtiments possédés</div>
+                    <div class="value" id="buildingCount">-</div>
+                </div>
+
+                <div class="stat">
+                    <div class="label">Améliorations achetées</div>
+                    <div class="value" id="upgradeCount">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Achats recommandés</h2>
+            <p class="muted">
+                Les recommandations sont classées selon le rendement estimé
+                par rapport au prix de l'achat.
+            </p>
+
+            <div id="recommendations"></div>
+        </div>
+
+        <div class="card">
+            <h2>Tes bâtiments</h2>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bâtiment</th>
+                            <th>Quantité</th>
+                            <th>Prix suivant</th>
+                            <th>Production estimée</th>
+                            <th>Rendement</th>
+                        </tr>
+                    </thead>
+                    <tbody id="buildingsTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Conseils généraux</h2>
+            <div id="tips"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+/*
+    Cookie Clicker Optimizer
+    Analyse locale d'une sauvegarde exportée.
+
+    Remarque :
+    Cookie Clicker encode sa sauvegarde dans un format spécifique.
+    Cette version tente de décoder les formats courants et propose
+    également une analyse de secours si certaines données sont absentes.
+*/
+
+const BUILDINGS = [
+    { name: "Curseur", basePrice: 15, baseCps: 0.1 },
+    { name: "Grand-mère", basePrice: 100, baseCps: 1 },
+    { name: "Ferme", basePrice: 500, baseCps: 8 },
+    { name: "Usine", basePrice: 3000, baseCps: 47 },
+    { name: "Banque", basePrice: 14000, baseCps: 260 },
+    { name: "Temple", basePrice: 100000, baseCps: 1400 },
+    { name: "Sorcellerie", basePrice: 1.1e6, baseCps: 7800 },
+    { name: "Expédition", basePrice: 12e6, baseCps: 44000 },
+    { name: "Laboratoire d'alchimie", basePrice: 130e6, baseCps: 260000 },
+    { name: "Portail", basePrice: 1.4e9, baseCps: 1.6e6 },
+    { name: "Machine temporelle", basePrice: 20e9, baseCps: 10e6 },
+    { name: "Condenseur d'antimatière", basePrice: 330e9, baseCps: 65e6 },
+    { name: "Prisme", basePrice: 5.1e12, baseCps: 430e6 },
+    { name: "Moteur de chance", basePrice: 75e12, baseCps: 2.9e9 },
+    { name: "Moteur fractal", basePrice: 1e15, baseCps: 21e9 },
+    { name: "Javascript", basePrice: 14e15, baseCps: 150e9 },
+    { name: "Idleverse", basePrice: 170e15, baseCps: 1.1e12 },
+    { name: "Cortex baker", basePrice: 2.1e18, baseCps: 8.3e12 },
+    { name: "You", basePrice: 26e18, baseCps: 64e12 }
+];
+
+function formatNumber(n) {
+    if (!isFinite(n)) return "-";
+    if (n < 1000) return n.toFixed(2);
+
+    const units = [
+        "", "K", "M", "Md", "T", "Qa", "Qi", "Sx",
+        "Sp", "Oc", "No", "Dc", "Ud", "Dd", "Td"
+    ];
+
+    let i = 0;
+
+    while (Math.abs(n) >= 1000 && i < units.length - 1) {
+        n /= 1000;
+        i++;
+    }
+
+    return n.toFixed(2) + " " + units[i];
+}
+
+function showError(message) {
+    const error = document.getElementById("error");
+    error.textContent = message;
+    error.style.display = "block";
+}
+
+function clearError() {
+    const error = document.getElementById("error");
+    error.textContent = "";
+    error.style.display = "none";
+}
+
+function clearAll() {
+    document.getElementById("saveInput").value = "";
+    document.getElementById("results").classList.add("hidden");
+    clearError();
+}
+
+function loadExample() {
+    const example = {
+        cookies: 250000,
+        cps: 1250,
+        totalCookies: 10000000,
+        buildings: [10, 15, 8, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        upgrades: 12
+    };
+
+    document.getElementById("saveInput").value =
+        "EXEMPLE_JSON:" + JSON.stringify(example);
+}
+
+function decodeSave(text) {
+    text = text.trim();
+
+    if (!text) {
+        throw new Error("La zone de sauvegarde est vide.");
+    }
+
+    /*
+        Format de secours pour tester l'outil :
+        EXEMPLE_JSON:{"cookies":250000,...}
+    */
+    if (text.startsWith("EXEMPLE_JSON:")) {
+        return JSON.parse(text.substring("EXEMPLE_JSON:".length));
+    }
+
+    /*
+        Certaines sauvegardes exportées contiennent des caractères
+        encodés en base64. On tente plusieurs décodages.
+    */
+
+    let candidates = [text];
+
+    try {
+        candidates.push(decodeURIComponent(text));
+    } catch (e) {}
+
+    try {
+        candidates.push(atob(text));
+    } catch (e) {}
+
+    for (const candidate of candidates) {
+        const parsed = parsePossibleSave(candidate);
+        if (parsed) return parsed;
+    }
+
+    /*
+        Analyse de secours :
+        on tente d'extraire les nombres visibles.
+        Cela permet de ne pas planter si le format change.
+    */
+
+    const numbers = text.match(/\d+(?:\.\d+)?/g);
+
+    if (numbers && numbers.length >= 3) {
+        return {
+            cookies: Number(numbers[0]),
+            cps: Number(numbers[1]),
+            totalCookies: Number(numbers[2]),
+            buildings: BUILDINGS.map(() => 0),
+            upgrades: 0
+        };
+    }
+
+    throw new Error(
+        "Impossible de lire cette sauvegarde. Vérifie que tu as copié le texte complet exporté par Cookie Clicker."
+    );
+}
+
+function parsePossibleSave(text) {
+    /*
+        Recherche de données JSON éventuelles.
+    */
+
+    try {
+        const json = JSON.parse(text);
+
+        if (json && typeof json === "object") {
+            return normalizeSave(json);
+        }
+    } catch (e) {}
+
+    /*
+        Recherche de valeurs nommées dans le texte.
+    */
+
+    const cookiesMatch = text.match(/cookies["']?\s*[:=]\s*([0-9.e+-]+)/i);
+    const cpsMatch = text.match(/cps["']?\s*[:=]\s*([0-9.e+-]+)/i);
+    const totalMatch = text.match(/totalCookies["']?\s*[:=]\s*([0-9.e+-]+)/i);
+
+    if (cookiesMatch || cpsMatch || totalMatch) {
+        return {
+            cookies: cookiesMatch ? Number(cookiesMatch[1]) : 0,
+            cps: cpsMatch ? Number(cpsMatch[1]) : 0,
+            totalCookies: totalMatch ? Number(totalMatch[1]) : 0,
+            buildings: BUILDINGS.map(() => 0),
+            upgrades: 0
+        };
+    }
+
+    return null;
+}
+
+function normalizeSave(data) {
+    let buildings = data.buildings || data.buildingCounts || [];
+
+    if (!Array.isArray(buildings)) {
+        buildings = BUILDINGS.map(() => 0);
+    }
+
+    return {
+        cookies: Number(data.cookies ?? data.cookiesEarned ?? 0),
+        cps: Number(data.cps ?? data.cookiesPerSecond ?? 0),
+        totalCookies: Number(data.totalCookies ?? data.total ?? 0),
+        buildings: BUILDINGS.map((_, i) => Number(buildings[i] || 0)),
+        upgrades: Number(data.upgrades ?? data.upgradeCount ?? 0)
+    };
+}
+
+function calculateBuildingData(save) {
+    return BUILDINGS.map((building, i) => {
+        const amount = save.buildings[i] || 0;
+
+        const price = building.basePrice * Math.pow(1.15, amount);
+
+        const production = building.baseCps;
+
+        const efficiency = production / price;
+
+        return {
+            ...building,
+            amount,
+            price,
+            production,
+            efficiency
+        };
+    });
+}
+
+function analyzeSave() {
+    clearError();
+
+    try {
+        const text = document.getElementById("saveInput").value;
+        const save = decodeSave(text);
+
+        renderResults(save);
+    } catch (error) {
+        showError(error.message);
+    }
+}
+
+function renderResults(save) {
+    document.getElementById("results").classList.remove("hidden");
+
+    document.getElementById("cookies").textContent =
+        formatNumber(save.cookies);
+
+    document.getElementById("cps").textContent =
+        formatNumber(save.cps);
+
+    document.getElementById("totalCookies").textContent =
+        formatNumber(save.totalCookies);
+
+    document.getElementById("buildingCount").textContent =
+        save.buildings.reduce((a, b) => a + b, 0);
+
+    document.getElementById("upgradeCount").textContent =
+        save.upgrades;
+
+    const buildings = calculateBuildingData(save);
+
+    renderRecommendations(save, buildings);
+    renderBuildings(buildings);
+    renderTips(save, buildings);
+}
+
+function renderRecommendations(save, buildings) {
+    const container = document.getElementById("recommendations");
+    container.innerHTML = "";
+
+    const affordable = buildings
+        .filter(b => b.price <= save.cookies)
+        .sort((a, b) => b.efficiency - a.efficiency);
+
+    if (affordable.length === 0) {
+        container.innerHTML = `
+            <div class="recommendation">
+                <h3>Aucun bâtiment directement achetable</h3>
+                <p>
+                    Garde tes cookies jusqu'à pouvoir acheter un bâtiment
+                    ou une amélioration importante.
+                </p>
+            </div>
+        `;
+        return;
+    }
+
+    affordable.slice(0, 5).forEach((building, index) => {
+        const payback = building.price / building.production;
+
+        const div = document.createElement("div");
+        div.className = "recommendation";
+
+        div.innerHTML = `
+            <h3>#${index + 1} — ${building.name}</h3>
+            <p>
+                <span class="tag">Prix : ${formatNumber(building.price)}</span>
+                <span class="tag">Gain : +${formatNumber(building.production)} CPS</span>
+            </p>
+            <p>
+                Rendement estimé :
+                <strong>${formatNumber(building.efficiency * 1000)} CPS / 1 000 cookies</strong>
+            </p>
+            <p>
+                Temps de retour estimé :
+                <strong>${formatNumber(payback)} secondes</strong>
+            </p>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+function renderBuildings(buildings) {
+    const tbody = document.getElementById("buildingsTable");
+    tbody.innerHTML = "";
+
+    buildings.forEach(building => {
+        if (building.amount === 0 && building.price > 1e15) return;
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${building.name}</td>
+            <td>${building.amount}</td>
+            <td>${formatNumber(building.price)}</td>
+            <td>+${formatNumber(building.production)} CPS</td>
+            <td class="good">${formatNumber(building.efficiency * 1000)}</td>
+        `;
+
+        tbody.appendChild(row);
+    });
+}
+
+function renderTips(save, buildings) {
+    const tips = document.getElementById("tips");
+
+    const best = buildings
+        .filter(b => b.price <= save.cookies)
+        .sort((a, b) => b.efficiency - a.efficiency)[0];
+
+    let html = "";
+
+    if (best) {
+        html += `
+            <p>
+                <strong>Priorité actuelle :</strong>
+                ${best.name}, car son rapport production/prix est
+                le plus intéressant parmi les bâtiments abordables.
+            </p>
+        `;
+    }
+
+    if (save.cookies < 1000) {
+        html += `
+            <p>
+                <strong>Conseil :</strong>
+                au début, les curseurs et les grand-mères sont souvent
+                les achats les plus accessibles.
+            </p>
+        `;
+    }
+
+    if (save.cps > 0 && save.cookies < save.cps * 60) {
+        html += `
+            <p>
+                <strong>Conseil :</strong>
+                tu peux attendre environ une minute de production
+                pour financer un achat plus important.
+            </p>
+        `;
+    }
+
+    html += `
+        <p class="muted">
+            Cette analyse ne prend pas encore en compte toutes les
+            améliorations spéciales, les bonus temporaires et les
+            mécaniques d'ascension.
+        </p>
+    `;
+
+    tips.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
+```
