@@ -6,7 +6,9 @@
 <title>Cookie Clicker Optimizer</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
@@ -17,121 +19,99 @@ body{
 
 .container{
     max-width:1100px;
-    margin:auto;
-    padding:25px 15px;
+    margin:30px auto;
+    padding:20px;
 }
 
 h1{
-    text-align:center;
-    color:#f5c16c;
-}
-
-h2{
-    color:#eee;
-}
-
-.subtitle{
-    text-align:center;
-    color:#aaa;
-}
-
-.card{
-    background:#242424;
-    border:1px solid #3b3b3b;
-    border-radius:12px;
-    padding:20px;
-    margin:20px 0;
+    margin-top:0;
 }
 
 textarea{
     width:100%;
-    min-height:220px;
-    background:#111;
+    min-height:180px;
+    resize:vertical;
+    background:#222;
     color:#eee;
-    border:1px solid #555;
+    border:1px solid #444;
     border-radius:8px;
     padding:12px;
     font-family:monospace;
-    font-size:12px;
-    resize:vertical;
+}
+
+.button-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
 }
 
 button{
-    background:#d99a3d;
-    color:#171717;
-    border:0;
-    border-radius:8px;
-    padding:12px 18px;
-    font-weight:bold;
-    cursor:pointer;
     margin-top:12px;
+    padding:10px 18px;
+    border:0;
+    border-radius:7px;
+    cursor:pointer;
+    background:#e0a400;
+    color:#111;
+    font-weight:bold;
 }
 
 button:hover{
-    background:#f0b95b;
+    background:#ffc107;
+}
+
+button.clear{
+    background:#444;
+    color:#eee;
+}
+
+button.clear:hover{
+    background:#555;
 }
 
 .error{
-    display:none;
-    background:#5a2020;
-    color:#ffbaba;
-    padding:12px;
-    border-radius:8px;
     margin-top:15px;
-}
-
-.hidden{
+    padding:12px;
+    background:#421c1c;
+    border:1px solid #8c3333;
+    border-radius:7px;
     display:none;
 }
 
-.stats{
+.results{
+    margin-top:25px;
+    display:none;
+}
+
+.card{
+    background:#202020;
+    border:1px solid #333;
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
     gap:12px;
 }
 
 .stat{
-    background:#303030;
-    border-radius:8px;
+    background:#292929;
     padding:15px;
+    border-radius:8px;
 }
 
-.label{
+.stat .label{
     color:#aaa;
     font-size:13px;
 }
 
-.value{
-    color:#f5c16c;
+.stat .value{
+    margin-top:5px;
     font-size:20px;
     font-weight:bold;
-    margin-top:5px;
-}
-
-.recommendation{
-    background:#303030;
-    border-left:4px solid #d99a3d;
-    border-radius:8px;
-    padding:15px;
-    margin:10px 0;
-}
-
-.recommendation h3{
-    margin:0 0 8px;
-    color:#f5c16c;
-}
-
-.recommendation p{
-    margin:6px 0;
-}
-
-.muted{
-    color:#999;
-    font-size:13px;
-}
-
-.table-wrap{
-    overflow-x:auto;
 }
 
 table{
@@ -141,44 +121,134 @@ table{
 
 th,td{
     padding:10px;
-    border-bottom:1px solid #444;
+    border-bottom:1px solid #333;
     text-align:left;
 }
 
 th{
-    color:#f5c16c;
+    color:#aaa;
 }
 
 .good{
-    color:#8ee28e;
+    color:#65e665;
 }
 
 .warning{
-    color:#ffd27d;
+    color:#ffd35a;
 }
 
 .bad{
-    color:#ff8585;
+    color:#ff7777;
+}
+
+.best{
+    background:#26351f;
+}
+
+.tag{
+    display:inline-block;
+    padding:4px 7px;
+    border-radius:5px;
+    background:#333;
+    font-size:12px;
+}
+
+.plan-item{
+    padding:13px;
+    margin:8px 0;
+    background:#292929;
+    border-radius:8px;
 }
 
 .plan-number{
     display:inline-block;
-    min-width:28px;
+    width:28px;
+    height:28px;
+    line-height:28px;
     text-align:center;
-    background:#d99a3d;
-    color:#171717;
+    border-radius:50%;
+    background:#e0a400;
+    color:#111;
+    font-weight:bold;
+    margin-right:8px;
+}
+
+.small{
+    color:#aaa;
+    font-size:13px;
+}
+
+hr{
+    border:0;
+    border-top:1px solid #333;
+    margin:20px 0;
+}
+
+.wait{
+    color:#ffd35a;
+}
+
+.recommendation{
+    background:#26351f;
+    border:1px solid #3c6330;
+    border-radius:8px;
+    padding:15px;
+}
+
+.recommendation h3{
+    margin-top:0;
+}
+
+.big{
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* =========================================================
+   AJOUTS MINIMAUX DEMANDÉS
+========================================================= */
+
+.analysis-options{
+    margin-top:15px;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+.option-box{
+    background:#202020;
+    border:1px solid #333;
+    border-radius:8px;
+    padding:12px 15px;
+}
+
+.option-box label{
+    color:#aaa;
+    font-size:13px;
+    display:block;
+    margin-bottom:7px;
+}
+
+.option-box select,
+.option-box input{
+    background:#292929;
+    color:#eee;
+    border:1px solid #444;
     border-radius:6px;
-    padding:3px 6px;
-    margin-right:6px;
+    padding:8px 10px;
 }
 
-.best{
-    border-left-color:#8ee28e;
+.option-box input{
+    width:180px;
 }
 
-.best h3{
-    color:#8ee28e;
+.mode-description{
+    margin-top:8px;
+    color:#aaa;
+    font-size:13px;
 }
+
 </style>
 </head>
 
@@ -186,144 +256,205 @@ th{
 
 <div class="container">
 
-<h1>Cookie Clicker Optimizer</h1>
+<h1>🍪 Cookie Clicker Optimizer</h1>
 
-<p class="subtitle">
-Colle ta sauvegarde réelle pour analyser ta partie.
+<p>
+Colle ta sauvegarde Cookie Clicker ci-dessous.
+L'optimiseur compare les bâtiments et les améliorations disponibles,
+y compris les achats qu'il faut attendre pour pouvoir acheter.
 </p>
-
-<div class="card">
-
-<h2>Ta sauvegarde</h2>
 
 <textarea
     id="saveInput"
-    placeholder="Colle ici ta sauvegarde Cookie Clicker complète..."
+    placeholder="Colle ta sauvegarde Cookie Clicker ici..."
 ></textarea>
 
-<button type="button" onclick="analyzeSave()">
-Analyser
-</button>
+<!-- =========================================================
+     OPTIONS DEMANDÉES
+========================================================= -->
+
+<div class="analysis-options">
+
+    <div class="option-box">
+
+        <label for="analysisMode">
+            Mode d'analyse
+        </label>
+
+        <select id="analysisMode" onchange="updateModeDescription()">
+
+            <option value="current">
+                Acheter uniquement maintenant
+            </option>
+
+            <option value="future" selected>
+                Comparer avec attente
+            </option>
+
+        </select>
+
+        <div
+            id="modeDescription"
+            class="mode-description"
+        >
+            Inclut les achats qu'il faut attendre et compare
+            le temps d'attente avec le temps de récupération.
+        </div>
+
+    </div>
+
+
+    <div class="option-box">
+
+        <label for="reserveCookies">
+            Cookies à garder en réserve
+        </label>
+
+        <input
+            id="reserveCookies"
+            type="number"
+            min="0"
+            step="any"
+            value="0"
+            placeholder="0"
+        >
+
+    </div>
+
+</div>
+
+<div class="button-row">
+
+    <button onclick="analyzeSave()">
+        Analyser la sauvegarde
+    </button>
+
+    <button
+        class="clear"
+        onclick="clearSave()"
+    >
+        Effacer la sauvegarde
+    </button>
+
+</div>
 
 <div id="error" class="error"></div>
 
-<p class="muted">
-La sauvegarde est décodée directement dans ton navigateur.
-Elle n'est envoyée à aucun serveur.
-</p>
+<div id="results" class="results">
 
-</div>
+    <div class="card">
+        <h2>Résumé</h2>
 
+        <div class="grid">
 
-<div id="results" class="hidden">
+            <div class="stat">
+                <div class="label">Cookies</div>
+                <div class="value" id="cookiesStat">-</div>
+            </div>
 
+            <div class="stat">
+                <div class="label">Cookies/s</div>
+                <div class="value" id="cpsStat">-</div>
+            </div>
 
-<!-- =====================================================
-     RÉSUMÉ
-     ===================================================== -->
+            <div class="stat">
+                <div class="label">Bâtiments</div>
+                <div class="value" id="buildingStat">-</div>
+            </div>
 
-<div class="card">
+            <div class="stat">
+                <div class="label">Améliorations détectées</div>
+                <div class="value" id="upgradeStat">-</div>
+            </div>
 
-<h2>Résumé</h2>
-
-<div class="stats">
-
-<div class="stat">
-<div class="label">Cookies disponibles</div>
-<div class="value" id="cookies">-</div>
-</div>
-
-<div class="stat">
-<div class="label">Cookies par seconde</div>
-<div class="value" id="cps">-</div>
-</div>
-
-<div class="stat">
-<div class="label">Cookies produits</div>
-<div class="value" id="totalCookies">-</div>
-</div>
-
-<div class="stat">
-<div class="label">Bâtiments possédés</div>
-<div class="value" id="buildingCount">-</div>
-</div>
-
-<div class="stat">
-<div class="label">Améliorations achetées</div>
-<div class="value" id="upgradeCount">-</div>
-</div>
-
-</div>
-
-<p class="muted" id="saveInfo"></p>
-
-</div>
+        </div>
+    </div>
 
 
-<!-- =====================================================
-     PLAN D'ACHAT
-     ===================================================== -->
+    <div class="card">
+        <h2>🎯 Meilleur achat maintenant</h2>
 
-<div class="card">
-
-<h2>Ordre des achats</h2>
-
-<p class="muted">
-L'optimiseur simule les achats un par un. Après chaque achat,
-les prix sont recalculés avant de choisir le prochain achat.
-</p>
-
-<div id="recommendations"></div>
-
-</div>
+        <div id="bestPurchase">
+            -
+        </div>
+    </div>
 
 
-<!-- =====================================================
-     BÂTIMENTS
-     ===================================================== -->
+    <div class="card">
+        <h2>🏭 Bâtiments</h2>
 
-<div class="card">
+        <table>
 
-<h2>Bâtiments</h2>
+            <thead>
 
-<div class="table-wrap">
+                <tr>
+                    <th>Bâtiment</th>
+                    <th>Possédés</th>
+                    <th>Prix</th>
+                    <th>CpS ajouté</th>
+                    <th>Attente</th>
+                    <th>Temps total</th>
+                </tr>
 
-<table>
+            </thead>
 
-<thead>
+            <tbody id="buildingTable"></tbody>
 
-<tr>
-<th>Bâtiment</th>
-<th>Quantité</th>
-<th>Prix suivant</th>
-<th>Production</th>
-<th>Rentabilité</th>
-</tr>
-
-</thead>
-
-<tbody id="buildingsTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
+        </table>
+    </div>
 
 
-<!-- =====================================================
-     CONSEILS
-     ===================================================== -->
+    <div class="card">
 
-<div class="card">
+        <h2>⬆️ Améliorations disponibles</h2>
 
-<h2>Conseils</h2>
+        <table>
 
-<div id="tips"></div>
+            <thead>
 
-</div>
+                <tr>
+                    <th>Amélioration</th>
+                    <th>Prix</th>
+                    <th>Gain estimé</th>
+                    <th>Attente</th>
+                    <th>Temps total</th>
+                </tr>
 
-</div>
+            </thead>
+
+            <tbody id="upgradeTable"></tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📈 Plan d'achat</h2>
+
+        <div class="small">
+
+            Le plan compare maintenant les achats immédiatement
+            accessibles avec ceux qu'il est préférable d'attendre.
+            Le temps d'attente est inclus dans le calcul.
+
+        </div>
+
+        <hr>
+
+        <div id="purchasePlan"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>💡 Conseils</h2>
+
+        <div id="tips"></div>
+
+    </div>
 
 </div>
 
@@ -331,164 +462,546 @@ les prix sont recalculés avant de choisir le prochain achat.
 <script>
 
 /* =========================================================
-   COOKIE CLICKER OPTIMIZER
-   ========================================================= */
-
-
-/* =========================================================
-   BÂTIMENTS
-   ========================================================= */
+   BÂTIMENTS COOKIE CLICKER
+========================================================= */
 
 const BUILDINGS = [
 
-    ["Curseur",15,0.1],
+    {
+        name:"Curseur",
+        basePrice:15,
+        baseCpS:0.1
+    },
 
-    ["Grand-mère",100,1],
+    {
+        name:"Grand-mère",
+        basePrice:100,
+        baseCpS:1
+    },
 
-    ["Ferme",1100,8],
+    {
+        name:"Ferme",
+        basePrice:1100,
+        baseCpS:8
+    },
 
-    ["Mine",12000,47],
+    {
+        name:"Usine",
+        basePrice:12000,
+        baseCpS:47
+    },
 
-    ["Usine",130000,260],
+    {
+        name:"Mine",
+        basePrice:130000,
+        baseCpS:260
+    },
 
-    ["Banque",1400000,1400],
+    {
+        name:"Banque",
+        basePrice:1400000,
+        baseCpS:1400
+    },
 
-    ["Temple",20000000,7800],
+    {
+        name:"Temple",
+        basePrice:20000000,
+        baseCpS:7800
+    },
 
-    ["Tour de sorciers",330000000,44000],
+    {
+        name:"Tour de sorcier",
+        basePrice:330000000,
+        baseCpS:44000
+    },
 
-    ["Expédition",5100000000,260000],
+    {
+        name:"Expédition",
+        basePrice:5100000000,
+        baseCpS:260000
+    },
 
-    ["Laboratoire d'alchimie",75000000000,1600000],
+    {
+        name:"Laboratoire d'alchimie",
+        basePrice:75000000000,
+        baseCpS:1600000
+    },
 
-    ["Portail",1000000000000,10000000],
+    {
+        name:"Portail",
+        basePrice:1000000000000,
+        baseCpS:10000000
+    },
 
-    ["Machine temporelle",14000000000000,65000000],
+    {
+        name:"Machine temporelle",
+        basePrice:14000000000000,
+        baseCpS:65000000
+    },
 
-    ["Condenseur d'antimatière",170000000000000,430000000],
+    {
+        name:"Condenseur d'antimatière",
+        basePrice:170000000000000,
+        baseCpS:430000000
+    },
 
-    ["Prisme",2100000000000000,2900000000],
+    {
+        name:"Prisme",
+        basePrice:2100000000000000,
+        baseCpS:2900000000
+    },
 
-    ["Faiseur de chance",26000000000000000,21000000000],
+    {
+        name:"Chancellerie",
+        basePrice:26000000000000000,
+        baseCpS:21000000000
+    },
 
-    ["Moteur fractal",310000000000000000,150000000000],
+    {
+        name:"Moteur fractal",
+        basePrice:310000000000000000,
+        baseCpS:150000000000
+    },
 
-    ["Console Javascript",7100000000000000000,1100000000000],
+    {
+        name:"Console Javascript",
+        basePrice:7100000000000000000,
+        baseCpS:1100000000000
+    },
 
-    ["Idleverse",120000000000000000000,8300000000000],
+    {
+        name:"Idleverse",
+        basePrice:120000000000000000000,
+        baseCpS:8300000000000
+    },
 
-    ["Cortex Baker",1900000000000000000000,64000000000000],
+    {
+        name:"Cortex Baker",
+        basePrice:1900000000000000000000,
+        baseCpS:64000000000000
+    },
 
-    ["You",54000000000000000000000,510000000000000]
+    {
+        name:"You",
+        basePrice:54000000000000000000000,
+        baseCpS:510000000000000
+    }
 
 ];
 
 
 /* =========================================================
-   DÉCODAGE
-   ========================================================= */
+   SUFFIXES
+========================================================= */
+
+const NUMBER_SUFFIXES = [
+
+    {value:1e63,name:"Vg"},
+    {value:1e60,name:"Nod"},
+    {value:1e57,name:"Ocd"},
+    {value:1e54,name:"Spd"},
+    {value:1e51,name:"Sxd"},
+    {value:1e48,name:"Qid"},
+    {value:1e45,name:"Qad"},
+    {value:1e42,name:"Td"},
+    {value:1e39,name:"Dd"},
+    {value:1e36,name:"Ud"},
+    {value:1e33,name:"Dc"},
+    {value:1e30,name:"No"},
+    {value:1e27,name:"Oc"},
+    {value:1e24,name:"Sp"},
+    {value:1e21,name:"Sx"},
+    {value:1e18,name:"Qi"},
+    {value:1e15,name:"Qa"},
+    {value:1e12,name:"T"},
+    {value:1e9,name:"B"},
+    {value:1e6,name:"M"},
+    {value:1e3,name:"K"}
+
+];
+
+
+/* =========================================================
+   FORMAT NOMBRE
+========================================================= */
+
+function formatNumber(number){
+
+    if(!Number.isFinite(number)){
+        return "∞";
+    }
+
+    if(number === 0){
+        return "0";
+    }
+
+    const absolute =
+        Math.abs(number);
+
+
+    for(
+        const suffix of NUMBER_SUFFIXES
+    ){
+
+        if(
+            absolute >= suffix.value
+        ){
+
+            const value =
+                number /
+                suffix.value;
+
+
+            let decimals = 2;
+
+
+            if(
+                Math.abs(value) >= 100
+            ){
+
+                decimals = 0;
+
+            }
+            else if(
+                Math.abs(value) >= 10
+            ){
+
+                decimals = 1;
+
+            }
+
+
+            return value
+                .toFixed(decimals)
+                .replace(/\.00$/,"")
+                .replace(
+                    /(\.\d)0$/,
+                    "$1"
+                )
+                + " " +
+                suffix.name;
+        }
+    }
+
+
+    if(number >= 1000){
+
+        return number.toLocaleString(
+            "fr-FR",
+            {
+                maximumFractionDigits:2
+            }
+        );
+
+    }
+
+
+    return number.toFixed(
+        number < 10 ? 2 : 0
+    );
+}
+
+
+/* =========================================================
+   TEMPS
+========================================================= */
+
+function formatTime(seconds){
+
+    if(!Number.isFinite(seconds)){
+        return "∞";
+    }
+
+    if(seconds <= 0){
+        return "Maintenant";
+    }
+
+    if(seconds < 1){
+        return "< 1 s";
+    }
+
+    if(seconds < 60){
+
+        return Math.round(seconds) +
+            " s";
+
+    }
+
+    if(seconds < 3600){
+
+        return Math.floor(
+            seconds / 60
+        ) +
+        " min " +
+        Math.floor(
+            seconds % 60
+        ) +
+        " s";
+
+    }
+
+    if(seconds < 86400){
+
+        return Math.floor(
+            seconds / 3600
+        ) +
+        " h " +
+        Math.floor(
+            (seconds % 3600) / 60
+        ) +
+        " min";
+
+    }
+
+    return Math.floor(
+        seconds / 86400
+    ) +
+    " j " +
+    Math.floor(
+        (seconds % 86400) / 3600
+    ) +
+    " h";
+}
+
+
+/* =========================================================
+   HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   MODE
+========================================================= */
+
+function getAnalysisMode(){
+
+    const element =
+        document.getElementById(
+            "analysisMode"
+        );
+
+    return element
+        ? element.value
+        : "future";
+
+}
+
+
+function getReserve(){
+
+    const element =
+        document.getElementById(
+            "reserveCookies"
+        );
+
+    if(!element){
+        return 0;
+    }
+
+    const value =
+        Number(element.value);
+
+    if(
+        !Number.isFinite(value) ||
+        value < 0
+    ){
+
+        return 0;
+
+    }
+
+    return value;
+
+}
+
+
+function updateModeDescription(){
+
+    const mode =
+        getAnalysisMode();
+
+
+    const description =
+        document.getElementById(
+            "modeDescription"
+        );
+
+
+    if(mode === "current"){
+
+        description.textContent =
+            "Seuls les achats que tu peux payer maintenant, en gardant ta réserve, sont comparés.";
+
+    }
+    else{
+
+        description.textContent =
+            "Inclut les achats qu'il faut attendre et compare le temps d'attente avec le temps de récupération.";
+
+    }
+
+}
+
+
+/* =========================================================
+   EFFACER
+========================================================= */
+
+function clearSave(){
+
+    document.getElementById(
+        "saveInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "results"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "error"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "cookiesStat"
+    ).textContent = "-";
+
+
+    document.getElementById(
+        "cpsStat"
+    ).textContent = "-";
+
+
+    document.getElementById(
+        "buildingStat"
+    ).textContent = "-";
+
+
+    document.getElementById(
+        "upgradeStat"
+    ).textContent = "-";
+
+
+    document.getElementById(
+        "buildingTable"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "upgradeTable"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "purchasePlan"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "tips"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "bestPurchase"
+    ).innerHTML = "-";
+
+}
+
+
+/* =========================================================
+   DÉCODAGE BASE64
+========================================================= */
 
 function decodeSave(input){
 
-    let text=input.trim();
+    input =
+        input.trim();
 
-    if(!text){
-        throw new Error("Colle d'abord ta sauvegarde.");
+
+    if(!input){
+
+        throw new Error(
+            "La sauvegarde est vide."
+        );
+
+    }
+
+
+    try{
+
+        input =
+            decodeURIComponent(input);
+
+    }
+    catch(e){}
+
+
+    input =
+        input.trim();
+
+
+    if(
+        input.includes("!END!")
+    ){
+
+        input =
+            input.split(
+                "!END!"
+            )[0];
+
+    }
+
+
+    input =
+        input.replace(
+            /\s/g,
+            ""
+        );
+
+
+    /*
+       Certaines sauvegardes sont déjà
+       décodées.
+    */
+
+    if(
+        input.includes("|") &&
+        input.includes(";")
+    ){
+
+        return input;
+
     }
 
 
     /*
-       Certaines sauvegardes sont URL-encodées.
+       Cookie Clicker utilise Base64.
     */
 
     try{
-        text=decodeURIComponent(text);
-    }
-    catch(e){
-        /*
-           La sauvegarde peut déjà être décodée.
-        */
-    }
+
+        const binary =
+            atob(input);
 
 
-    /*
-       Supprime uniquement les retours à la ligne
-       et espaces ajoutés lors du copier-coller.
-    */
-
-    text=text.replace(/\s/g,"");
-
-
-    /*
-       Cookie Clicker ajoute parfois !END!
-    */
-
-    const end=text.indexOf("!END!");
-
-    if(end!==-1){
-        text=text.substring(0,end);
-    }
-
-
-    /*
-       Sauvegarde vide.
-    */
-
-    if(!text){
-        throw new Error("La sauvegarde est vide.");
-    }
-
-
-    /*
-       Si elle est déjà décodée.
-    */
-
-    let decodedText=text;
-
-    if(text.includes("|") && text.includes(";")){
-
-        decodedText=text;
-
-    }
-
-    else{
-
-        /*
-           Correction importante :
-           le caractère = peut être encodé en %3D,
-           et la sauvegarde peut également contenir
-           %21END%21.
-        */
-
-        text=text
-            .replace(/%3D/gi,"=")
-            .replace(/%2B/gi,"+")
-            .replace(/%2F/gi,"/");
-
-
-        while(text.length%4!==0){
-            text+="=";
-        }
-
-
-        let binary;
-
-        try{
-
-            binary=atob(text);
-
-        }
-        catch(e){
-
-            throw new Error(
-                "Le code de sauvegarde Base64 est invalide."
+        const bytes =
+            new Uint8Array(
+                binary.length
             );
-
-        }
-
-
-        const bytes=
-            new Uint8Array(binary.length);
 
 
         for(
@@ -497,255 +1010,316 @@ function decodeSave(input){
             i++
         ){
 
-            bytes[i]=
+            bytes[i] =
                 binary.charCodeAt(i);
 
         }
 
 
-        try{
-
-            decodedText=
-                new TextDecoder("utf-8")
-                .decode(bytes);
-
-        }
-
-        catch(e){
-
-            let result="";
-
-            for(
-                let i=0;
-                i<bytes.length;
-                i++
-            ){
-
-                result+=
-                    String.fromCharCode(
-                        bytes[i]
-                    );
-
-            }
-
-            decodedText=result;
-
-        }
+        return new TextDecoder()
+            .decode(bytes);
 
     }
+    catch(e){
 
-
-    /*
-       Retire éventuellement !END! après décodage.
-    */
-
-    const decodedEnd=
-        decodedText.indexOf("!END!");
-
-    if(decodedEnd!==-1){
-
-        decodedText=
-            decodedText.substring(
-                0,
-                decodedEnd
-            );
+        throw new Error(
+            "Impossible de lire cette sauvegarde : " +
+            e.message
+        );
 
     }
-
-
-    return decodedText;
 
 }
 
 
 /* =========================================================
-   NOMBRE
-   ========================================================= */
+   OUTILS PARSER
+========================================================= */
 
-function num(value){
+function safeNumber(value){
 
-    if(
-        value===undefined ||
-        value===null ||
-        value===""
-    ){
-        return 0;
-    }
+    const number =
+        Number(value);
 
-
-    const n=Number(value);
-
-
-    return Number.isFinite(n)
-        ? n
+    return Number.isFinite(number)
+        ? number
         : 0;
 
 }
 
 
+function getSection(sections,index){
+
+    return sections[index] !== undefined
+        ? sections[index]
+        : "";
+
+}
+
+
 /* =========================================================
-   PARSEUR
-   ========================================================= */
+   UPGRADES RÉELLES DE LA SAUVEGARDE
+========================================================= */
+
+/*
+   Dans une sauvegarde moderne Cookie Clicker,
+   les améliorations sont stockées dans une
+   section sous forme de paires :
+
+       unlocked
+       bought
+
+   Exemple :
+
+       11  -> débloquée + achetée
+       10  -> débloquée mais pas achetée
+       00  -> pas débloquée
+
+   Le parser ci-dessous conserve donc l'ordre
+   exact des IDs.
+*/
+
+function parseUpgradeBits(section){
+
+    const result = [];
+
+
+    if(!section){
+        return result;
+    }
+
+
+    /*
+       Format moderne non commenté :
+       chaque amélioration = 2 caractères.
+    */
+
+    let clean =
+        section.replace(
+            /[^01]/g,
+            ""
+        );
+
+
+    /*
+       Si le champ semble utiliser
+       une compression/encodage différent,
+       on ne force pas une fausse lecture.
+    */
+
+    if(
+        clean.length >= 2
+    ){
+
+        for(
+            let i=0;
+            i+1<clean.length;
+            i+=2
+        ){
+
+            result.push({
+
+                id:
+                    i / 2,
+
+                unlocked:
+                    clean[i] === "1",
+
+                bought:
+                    clean[i + 1] === "1"
+
+            });
+
+        }
+
+    }
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   DONNÉES SUPPLÉMENTAIRES DE SAUVEGARDE
+========================================================= */
+
+function parseCookieStats(sections){
+
+    const section =
+        getSection(
+            sections,
+            4
+        );
+
+
+    const stats =
+        section.split(";");
+
+
+    return {
+
+        cookies:
+            safeNumber(stats[0]),
+
+        cookiesEarned:
+            safeNumber(stats[1]),
+
+        cookieClicks:
+            safeNumber(stats[2]),
+
+        goldenClicks:
+            safeNumber(stats[3]),
+
+        handmadeCookies:
+            safeNumber(stats[4]),
+
+        cookiesMissed:
+            safeNumber(stats[5]),
+
+        cookiesReset:
+            safeNumber(stats[8]),
+
+        elderWrath:
+            safeNumber(stats[9]),
+
+        pledges:
+            safeNumber(stats[10]),
+
+        pledgeTime:
+            safeNumber(stats[11]),
+
+        research:
+            safeNumber(stats[12]),
+
+        researchTime:
+            safeNumber(stats[13]),
+
+        resets:
+            safeNumber(stats[14]),
+
+        goldenClicksLocal:
+            safeNumber(stats[15]),
+
+        cookiesSucked:
+            safeNumber(stats[16]),
+
+        wrinklersPopped:
+            safeNumber(stats[17])
+
+    };
+
+}
+
+
+/* =========================================================
+   PARSER PRINCIPAL
+========================================================= */
 
 function parseSave(decoded){
 
-    const sections=
+    const sections =
         decoded.split("|");
 
 
-    if(sections.length<5){
+    if(
+        sections.length < 6
+    ){
 
         throw new Error(
-            "La structure de la sauvegarde n'est pas reconnue."
+            "Format de sauvegarde Cookie Clicker non reconnu."
         );
 
     }
 
 
     /*
-       Version.
+       Nom de la boulangerie.
     */
 
-    const version=
-        sections[0] || "";
+    let bakeryName =
+        "Cookie";
+
+
+    const runSection =
+        getSection(
+            sections,
+            2
+        );
+
+
+    const runData =
+        runSection.split(";");
 
 
     /*
-       Informations de partie.
+       Selon les versions, le nom
+       peut se trouver à différents endroits.
+       On évite de prendre un timestamp.
     */
 
-    const run=
-        sections[2]
-            ? sections[2].split(";")
-            : [];
+    for(
+        const value of runData
+    ){
 
+        if(
+            value &&
+            isNaN(Number(value)) &&
+            value.length < 100
+        ){
 
-    const bakeryName=
-        run[3] || "";
+            bakeryName =
+                value;
 
+            break;
 
-    const seed=
-        run[4] || "";
+        }
+
+    }
 
 
     /*
-       =====================================================
-       STATISTIQUES RÉELLES
-       =====================================================
-
-       Dans Cookie Clicker 2.058, cette section contient
-       notamment :
-
-       stats[0]  = cookies actuels
-       stats[1]  = cookies produits
-       stats[2]  = clics
-       ...
-       stats[52] = cookies par seconde sauvegardés
-
-       Pour ta sauvegarde :
-
-       stats[52]
-       =
-       51593840829.10287
-
-       soit environ 51,594 milliards CpS.
-
-       C'est cette valeur qu'il faut utiliser pour afficher
-       le CpS réel, et NON :
-
-       quantité × CpS de base.
-
-       Le calcul précédent était donc faux.
+       Statistiques cookies.
     */
 
-    const stats=
-        sections[3]
-            ? sections[3].split(";")
-            : [];
+    const cookieStats =
+        parseCookieStats(
+            sections
+        );
+
+
+    let cookies =
+        cookieStats.cookies;
+
+
+    if(
+        !Number.isFinite(cookies) ||
+        cookies < 0
+    ){
+
+        cookies = 0;
+
+    }
 
 
     /*
-       Cookies actuellement disponibles.
+       Bâtiments.
     */
 
-    const cookies=
-        num(stats[1]);
+    const buildingSection =
+        getSection(
+            sections,
+            5
+        );
 
 
-    /*
-       Cookies produits au total.
-    */
-
-    const totalCookies=
-        num(stats[2]);
-
-
-    /*
-       Clics sur le cookie.
-    */
-
-    const cookieClicks=
-        num(stats[3]);
-
-
-    /*
-       Autres statistiques.
-    */
-
-    const goldenClicks=
-        num(stats[4]);
-
-
-    const handmadeCookies=
-        num(stats[5]);
-
-
-    /*
-       =====================================================
-       CPS RÉEL
-       =====================================================
-
-       Cookie Clicker sauvegarde directement le CpS calculé.
-
-       On lit donc stats[52].
-
-       Cela prend en compte le résultat du calcul du jeu
-       plutôt que de refaire un faux calcul uniquement
-       avec les CpS de base des bâtiments.
-    */
-
-    const savedCps=
-        num(stats[52]);
-
-
-    /*
-       Sécurité :
-
-       si stats[52] n'existe pas dans une vieille sauvegarde,
-       on retombe sur le calcul de base.
-    */
-
-    let cps=
-        savedCps;
-
-
-    /*
-       BÂTIMENTS
-    */
-
-    const buildingSection=
-        sections[4]
-            ? sections[4]
-            : "";
-
-
-    const buildingEntries=
+    const buildingData =
         buildingSection
             ? buildingSection.split(";")
             : [];
 
 
-    const buildings=[];
+    const buildings = [];
 
 
     for(
@@ -754,52 +1328,47 @@ function parseSave(decoded){
         i++
     ){
 
-        const entry=
-            buildingEntries[i] || "";
+        const data =
+            buildingData[i]
+                ? buildingData[i].split(",")
+                : [];
 
 
-        const data=
-            entry.split(",");
+        const amount =
+            safeNumber(
+                data[0]
+            );
 
 
-        const amount=
-            num(data[0]);
+        const bought =
+            safeNumber(
+                data[1]
+            );
 
 
-        const bought=
-            num(data[1]);
+        const produced =
+            safeNumber(
+                data[2]
+            );
 
 
-        const produced=
-            num(data[2]);
-
-
-        const level=
-            num(data[3]);
+        const level =
+            safeNumber(
+                data[3]
+            );
 
 
         buildings.push({
 
-            name:
-                BUILDINGS[i][0],
+            ...BUILDINGS[i],
 
-            basePrice:
-                BUILDINGS[i][1],
+            amount,
 
-            baseCps:
-                BUILDINGS[i][2],
+            bought,
 
-            amount:
-                amount,
+            produced,
 
-            bought:
-                bought,
-
-            produced:
-                produced,
-
-            level:
-                level
+            level
 
         });
 
@@ -807,65 +1376,64 @@ function parseSave(decoded){
 
 
     /*
-       Nombre total de bâtiments.
+       Améliorations.
     */
 
-    const buildingCount=
-        buildings.reduce(
-            function(total,b){
+    const upgradeData =
+        parseUpgradeBits(
+            getSection(
+                sections,
+                6
+            )
+        );
 
-                return total+b.amount;
 
-            },
-            0
+    const ownedUpgrades =
+        upgradeData.filter(
+            upgrade =>
+                upgrade.bought
+        );
+
+
+    const unlockedUpgrades =
+        upgradeData.filter(
+            upgrade =>
+                upgrade.unlocked
         );
 
 
     /*
-       =====================================================
-       AMÉLIORATIONS
-       =====================================================
-
-       Les améliorations sont stockées dans les sections
-       suivantes sous forme de bitfields.
-
-       On compte les améliorations achetées uniquement dans
-       les sections qui sont clairement des bitfields.
+       Achievements.
     */
 
-    let upgradeCount=0;
+    const achievementSection =
+        getSection(
+            sections,
+            7
+        );
 
 
-    for(
-        let i=5;
-        i<sections.length;
-        i++
+    let achievementCount = 0;
+
+
+    if(
+        achievementSection
     ){
 
-        const section=
-            sections[i];
+        const achievementBits =
+            achievementSection.replace(
+                /[^01]/g,
+                ""
+            );
 
 
-        /*
-           Une section d'améliorations peut être une longue
-           suite de 0 et de 1.
-        */
-
-        if(
-            section &&
-            /^[01]+$/.test(section) &&
-            section.length>=20
+        for(
+            const bit of achievementBits
         ){
 
-            for(
-                let j=0;
-                j<section.length;
-                j++
-            ){
+            if(bit === "1"){
 
-                if(section[j]==="1"){
-                    upgradeCount++;
-                }
+                achievementCount++;
 
             }
 
@@ -875,73 +1443,68 @@ function parseSave(decoded){
 
 
     /*
-       Si le CPS sauvegardé est valide, on le conserve.
-
-       Si ce n'est pas le cas, on utilise le calcul
-       de secours basé sur les bâtiments.
+       Calcul initial des bâtiments.
+       C'est volontairement séparé du
+       calcul final des multiplicateurs.
     */
 
-    if(
-        !Number.isFinite(cps) ||
-        cps<=0
+    let buildingRawCps = 0;
+
+
+    for(
+        const building of buildings
     ){
 
-        cps=
-            buildings.reduce(
-                function(total,b){
-
-                    return total+
-                        b.amount*
-                        b.baseCps;
-
-                },
-                0
-            );
+        buildingRawCps +=
+            building.amount *
+            building.baseCpS;
 
     }
 
 
-    return{
+    /*
+       On récupère quelques valeurs
+       supplémentaires utiles au calcul.
+    */
 
-        version:
-            version,
+    const prestige =
+        calculatePrestige(
+            cookieStats.cookiesReset
+        );
 
-        bakeryName:
-            bakeryName,
 
-        seed:
-            seed,
+    return {
 
-        cookies:
-            cookies,
+        bakeryName,
 
-        totalCookies:
-            totalCookies,
+        cookies,
 
-        cookieClicks:
-            cookieClicks,
+        cookieStats,
 
-        goldenClicks:
-            goldenClicks,
+        buildings,
 
-        handmadeCookies:
-            handmadeCookies,
+        upgradeData,
 
-        /*
-           CpS réel sauvegardé par Cookie Clicker.
-        */
+        ownedUpgrades,
 
-        cps:
-            cps,
-
-        buildingCount:
-            buildingCount,
+        unlockedUpgrades,
 
         upgradeCount:
-            upgradeCount,
+            ownedUpgrades.length,
 
-        buildings:
-            buildings
+        unlockedUpgradeCount:
+            unlockedUpgrades.length,
+
+        achievementCount,
+
+        prestige,
+
+        buildingRawCps,
+
+        rawCps:
+            buildingRawCps,
+
+        sections
 
     };
 
@@ -949,230 +1512,1176 @@ function parseSave(decoded){
 
 
 /* =========================================================
-   PRIX DU PROCHAIN BÂTIMENT
-   ========================================================= */
+   PRESTIGE
+========================================================= */
 
-function nextPrice(building){
-
-    const price=
-        building.basePrice*
-        Math.pow(
-            1.15,
-            building.amount
-        );
-
-
-    if(!Number.isFinite(price)){
-        return Infinity;
-    }
-
-
-    return Math.ceil(price);
-
-}
-
-
-/* =========================================================
-   FORMAT DES NOMBRES
-   ========================================================= */
-
-function formatNumber(value){
-
-    if(value===Infinity){
-        return "∞";
-    }
-
+function calculatePrestige(cookiesReset){
 
     if(
-        value===null ||
-        value===undefined ||
-        !Number.isFinite(value)
+        !Number.isFinite(
+            cookiesReset
+        ) ||
+        cookiesReset <= 0
     ){
 
-        return "-";
+        return 0;
 
     }
 
 
-    const units=[
+    /*
+       Cookie Clicker :
+       prestige basé sur les cookies
+       reset.
+    */
 
-        "",
-
-        "K",
-
-        "M",
-
-        "B",
-
-        "T",
-
-        "Qa",
-
-        "Qi",
-
-        "Sx",
-
-        "Sp",
-
-        "Oc",
-
-        "No",
-
-        "Dc",
-
-        "Ud",
-
-        "Dd",
-
-        "Td",
-
-        "Qad",
-
-        "Qid",
-
-        "Sxd",
-
-        "Spd",
-
-        "Ocd",
-
-        "Nod"
-
-    ];
+    const value =
+        cookiesReset / 1e12;
 
 
-    let number=
-        Math.abs(value);
+    /*
+       Pour les valeurs normales,
+       on cherche le niveau correspondant.
+    */
 
-
-    let unit=0;
+    let low = 0;
+    let high = 1;
 
 
     while(
-        number>=1000 &&
-        unit<units.length-1
+        (
+            high *
+            (high + 1) /
+            2
+        ) * 1e12 <=
+        cookiesReset &&
+        high < 1e12
     ){
 
-        number/=1000;
-
-        unit++;
+        high *= 2;
 
     }
 
 
-    const sign=
-        value<0
-            ? "-"
-            : "";
+    while(
+        low + 1 < high
+    ){
+
+        const mid =
+            Math.floor(
+                (low + high) / 2
+            );
 
 
-    if(number>=100){
-
-        return(
-            sign+
-            number.toFixed(0)+
-            " "+
-            units[unit]
-        );
-
-    }
+        const required =
+            (
+                mid *
+                (mid + 1) /
+                2
+            ) * 1e12;
 
 
-    if(number>=10){
+        if(
+            required <=
+            cookiesReset
+        ){
 
-        return(
-            sign+
-            number.toFixed(1)+
-            " "+
-            units[unit]
-        );
+            low = mid;
 
-    }
+        }
+        else{
 
+            high = mid;
 
-    return(
-        sign+
-        number.toFixed(2)+
-        " "+
-        units[unit]
-    );
-
-}
-
-
-/* =========================================================
-   TEMPS DE REMBOURSEMENT
-   ========================================================= */
-
-function formatTime(seconds){
-
-    if(!Number.isFinite(seconds)){
-        return "-";
-    }
-
-
-    if(seconds<60){
-
-        return(
-            seconds.toFixed(1)+
-            " s"
-        );
+        }
 
     }
-
-
-    if(seconds<3600){
-
-        return(
-            (seconds/60).toFixed(1)+
-            " min"
-        );
-
-    }
-
-
-    if(seconds<86400){
-
-        return(
-            (seconds/3600).toFixed(1)+
-            " h"
-        );
-
-    }
-
-
-    return(
-        (seconds/86400).toFixed(1)+
-        " jours"
-    );
-
-}
-
-
-/* =========================================================
-   RENTABILITÉ
-   ========================================================= */
-
-function buildingEfficiency(building){
-
-    const price=
-        nextPrice(building);
 
 
     if(
-        !Number.isFinite(price) ||
-        price<=0 ||
-        building.baseCps<=0
+        low > 0
     ){
 
-        return Infinity;
+        return low;
 
     }
 
 
-    return(
-        price/
-        building.baseCps
+    return Math.floor(
+        Math.sqrt(
+            Math.max(
+                0,
+                value
+            )
+        )
+    );
+
+}
+
+
+/* =========================================================
+   PRIX BÂTIMENT
+========================================================= */
+
+function nextPrice(building){
+
+    return Math.ceil(
+        building.basePrice *
+        Math.pow(
+            1.15,
+            building.amount
+        )
+    );
+
+}
+
+
+/* =========================================================
+   PRIX APRÈS ACHAT
+========================================================= */
+
+function priceAfterAmount(
+    building,
+    amount
+){
+
+    return Math.ceil(
+        building.basePrice *
+        Math.pow(
+            1.15,
+            amount
+        )
+    );
+
+}
+
+
+/* =========================================================
+   LISTE DES AMÉLIORATIONS CONNUES
+=========================================================
+
+   Cette liste sert à donner un nom et un effet
+   aux améliorations dont les données sont connues.
+
+   Les IDs de la sauvegarde restent conservés même
+   lorsqu'une amélioration n'est pas dans cette liste.
+
+========================================================= */
+
+const UPGRADES = [
+
+    {
+        name:"Reinforced index finger",
+        price:100,
+        cps:0,
+        type:"Clic",
+        building:null
+    },
+
+    {
+        name:"Carpal tunnel prevention cream",
+        price:400,
+        cps:0,
+        type:"Clic",
+        building:null
+    },
+
+    {
+        name:"Ambidextrous",
+        price:10000,
+        cps:0,
+        type:"Clic",
+        building:null
+    },
+
+    {
+        name:"Thousand fingers",
+        price:100000,
+        cps:0,
+        type:"Clic",
+        building:null
+    },
+
+    {
+        name:"Million fingers",
+        price:1000000,
+        cps:0,
+        type:"Clic",
+        building:null
+    },
+
+    {
+        name:"Billion fingers",
+        price:1000000000,
+        cps:0,
+        type:"Clic",
+        building:null
+    },
+
+    {
+        name:"Trillion fingers",
+        price:1000000000000,
+        cps:0,
+        type:"Clic",
+        building:null
+    },
+
+    {
+        name:"Forwards from grandma",
+        price:100,
+        cps:0,
+        type:"Grand-mère",
+        building:1
+    },
+
+    {
+        name:"Steel-plated rolling pins",
+        price:500,
+        cps:0,
+        type:"Grand-mère",
+        building:1
+    },
+
+    {
+        name:"Lubricated dentures",
+        price:5000,
+        cps:0,
+        type:"Grand-mère",
+        building:1
+    },
+
+    {
+        name:"Prune juice",
+        price:50000,
+        cps:0,
+        type:"Grand-mère",
+        building:1
+    },
+
+    {
+        name:"Double-thick glasses",
+        price:500000,
+        cps:0,
+        type:"Grand-mère",
+        building:1
+    },
+
+    {
+        name:"Aging agents",
+        price:5000000,
+        cps:0,
+        type:"Grand-mère",
+        building:1
+    },
+
+    {
+        name:"Xtreme walkers",
+        price:50000000,
+        cps:0,
+        type:"Grand-mère",
+        building:1
+    },
+
+    {
+        name:"Cheap hoes",
+        price:1100,
+        cps:0,
+        type:"Ferme",
+        building:2
+    },
+
+    {
+        name:"Fertilizer",
+        price:5500,
+        cps:0,
+        type:"Ferme",
+        building:2
+    },
+
+    {
+        name:"Grains",
+        price:55000,
+        cps:0,
+        type:"Ferme",
+        building:2
+    },
+
+    {
+        name:"Steel plows",
+        price:550000,
+        cps:0,
+        type:"Ferme",
+        building:2
+    },
+
+    {
+        name:"Scythes",
+        price:5500000,
+        cps:0,
+        type:"Ferme",
+        building:2
+    },
+
+    {
+        name:"Sturdier conveyor belts",
+        price:12000,
+        cps:0,
+        type:"Usine",
+        building:3
+    },
+
+    {
+        name:"Child labor",
+        price:60000,
+        cps:0,
+        type:"Usine",
+        building:3
+    },
+
+    {
+        name:"Sweatshop",
+        price:600000,
+        cps:0,
+        type:"Usine",
+        building:3
+    },
+
+    {
+        name:"Radium reactors",
+        price:6000000,
+        cps:0,
+        type:"Usine",
+        building:3
+    },
+
+    {
+        name:"Gem polish",
+        price:21000000000000000,
+        cps:0,
+        type:"Prisme",
+        building:13
+    }
+
+];
+
+
+/* =========================================================
+   OBTENIR DONNÉES AMÉLIORATION
+========================================================= */
+
+function getUpgradeDefinition(id){
+
+    if(
+        id >= 0 &&
+        id < UPGRADES.length
+    ){
+
+        return UPGRADES[id];
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   MULTIPLICATEURS DE BÂTIMENTS
+========================================================= */
+
+function calculateBuildingUpgradeMultipliers(
+    save
+){
+
+    const multipliers =
+        BUILDINGS.map(
+            () => 1
+        );
+
+
+    /*
+       On applique les améliorations connues
+       dont l'effet est certain.
+
+       Beaucoup d'améliorations Cookie Clicker
+       sont des multiplicateurs et non un gain
+       fixe de CpS.
+    */
+
+    for(
+        const owned of save.ownedUpgrades
+    ){
+
+        const definition =
+            getUpgradeDefinition(
+                owned.id
+            );
+
+
+        if(
+            !definition
+        ){
+
+            continue;
+
+        }
+
+
+        if(
+            definition.building !== null &&
+            definition.building !== undefined
+        ){
+
+            multipliers[
+                definition.building
+            ] *= 2;
+
+        }
+
+    }
+
+
+    return multipliers;
+
+}
+
+
+/* =========================================================
+   MILK
+========================================================= */
+
+function calculateMilk(
+    achievementCount
+){
+
+    /*
+       Le lait dépend du nombre
+       d'accomplissements obtenus.
+    */
+
+    return Math.min(
+        achievementCount *
+        0.04,
+        4
+    );
+
+}
+
+
+/* =========================================================
+   CPS RÉEL RECONSTRUIT
+========================================================= */
+
+function calculateCPS(save){
+
+    const multipliers =
+        calculateBuildingUpgradeMultipliers(
+            save
+        );
+
+
+    let rawBuildingCps = 0;
+
+
+    for(
+        let i=0;
+        i<save.buildings.length;
+        i++
+    ){
+
+        const building =
+            save.buildings[i];
+
+
+        /*
+           Production de base.
+        */
+
+        let cps =
+            building.amount *
+            building.baseCpS;
+
+
+        /*
+           Multiplicateurs d'améliorations
+           de bâtiment connus.
+        */
+
+        cps *=
+            multipliers[i];
+
+
+        rawBuildingCps +=
+            cps;
+
+    }
+
+
+    /*
+       Bonus de lait.
+       Le lait augmente les bonus
+       des chatons, mais sans les données
+       exactes des upgrades de chatons,
+       on ne l'invente pas.
+    */
+
+    const milk =
+        calculateMilk(
+            save.achievementCount
+        );
+
+
+    /*
+       Prestige Heavenly Chips.
+       Le bonus standard est 2% par heavenly
+       chip dans le calcul global.
+    */
+
+    let prestigeMultiplier =
+        1;
+
+
+    if(
+        save.prestige > 0
+    ){
+
+        prestigeMultiplier +=
+            save.prestige *
+            0.02;
+
+    }
+
+
+    /*
+       Le CPS reconstruit de base.
+    */
+
+    let cps =
+        rawBuildingCps *
+        prestigeMultiplier;
+
+
+    /*
+       Quelques upgrades globaux connus.
+    */
+
+    let globalMultiplier = 1;
+
+
+    for(
+        const owned of save.ownedUpgrades
+    ){
+
+        const definition =
+            getUpgradeDefinition(
+                owned.id
+            );
+
+
+        if(
+            !definition
+        ){
+
+            continue;
+
+        }
+
+    }
+
+
+    cps *=
+        globalMultiplier;
+
+
+    return {
+
+        cps,
+
+        rawBuildingCps,
+
+        milk,
+
+        prestigeMultiplier,
+
+        globalMultiplier
+
+    };
+
+}
+
+
+/* =========================================================
+   UPGRADES DISPONIBLES
+========================================================= */
+
+function getAvailableUpgrades(save){
+
+    const result = [];
+
+
+    /*
+       IMPORTANT :
+
+       On utilise réellement les bits de la sauvegarde
+       pour savoir si l'upgrade est déjà achetée.
+
+       On ne fait plus :
+
+           i < upgradeCount
+
+       car cette méthode était fausse.
+    */
+
+    for(
+        let i=0;
+        i<save.upgradeData.length;
+        i++
+    ){
+
+        const data =
+            save.upgradeData[i];
+
+
+        if(
+            data.bought
+        ){
+
+            continue;
+
+        }
+
+
+        if(
+            !data.unlocked
+        ){
+
+            continue;
+
+        }
+
+
+        const definition =
+            getUpgradeDefinition(
+                i
+            );
+
+
+        /*
+           On ne présente pas une amélioration
+           dont nous ne connaissons pas le prix.
+
+           Cela évite d'inventer un prix.
+        */
+
+        if(
+            !definition
+        ){
+
+            continue;
+
+        }
+
+
+        result.push({
+
+            ...definition,
+
+            id:i,
+
+            gain:
+                getUpgradeGain(
+                    definition,
+                    save
+                )
+
+        });
+
+    }
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   GAIN D'UNE AMÉLIORATION
+========================================================= */
+
+function getUpgradeGain(
+    upgrade,
+    save
+){
+
+    /*
+       Pour une amélioration qui double un bâtiment,
+       le gain est calculé sur la production actuelle
+       de ce bâtiment.
+
+       Cela est beaucoup plus correct qu'un nombre
+       fixe codé en dur.
+    */
+
+    if(
+        upgrade.building !== null &&
+        upgrade.building !== undefined
+    ){
+
+        const building =
+            save.buildings[
+                upgrade.building
+            ];
+
+
+        if(!building){
+
+            return 0;
+
+        }
+
+
+        return
+            building.amount *
+            building.baseCpS;
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* =========================================================
+   INVESTISSEMENT
+========================================================= */
+
+function calculateInvestment(
+    price,
+    gain,
+    cookies,
+    cps,
+    reserve=0,
+    mode="future"
+){
+
+    if(
+        !Number.isFinite(price) ||
+        price <= 0
+    ){
+
+        return {
+
+            affordable:false,
+
+            waitTime:Infinity,
+
+            payback:Infinity,
+
+            totalTime:Infinity
+
+        };
+
+    }
+
+
+    if(
+        !Number.isFinite(gain) ||
+        gain <= 0
+    ){
+
+        return {
+
+            affordable:
+                cookies - reserve >= price,
+
+            waitTime:Infinity,
+
+            payback:Infinity,
+
+            totalTime:Infinity
+
+        };
+
+    }
+
+
+    /*
+       Argent réellement disponible.
+    */
+
+    const available =
+        Math.max(
+            0,
+            cookies - reserve
+        );
+
+
+    /*
+       Mode "maintenant".
+
+       Si le joueur ne peut pas payer
+       en gardant sa réserve, on exclut
+       complètement l'achat.
+    */
+
+    if(
+        mode === "current"
+    ){
+
+        if(
+            price > available
+        ){
+
+            return {
+
+                affordable:false,
+
+                waitTime:Infinity,
+
+                payback:
+                    price / gain,
+
+                totalTime:Infinity
+
+            };
+
+        }
+
+
+        return {
+
+            affordable:true,
+
+            waitTime:0,
+
+            payback:
+                price / gain,
+
+            totalTime:
+                price / gain
+
+        };
+
+    }
+
+
+    /*
+       Mode futur.
+
+       On calcule l'argent manquant
+       après prise en compte de la réserve.
+    */
+
+    let waitTime = 0;
+
+
+    if(
+        price > available
+    ){
+
+        const missing =
+            price - available;
+
+
+        if(
+            cps <= 0
+        ){
+
+            waitTime =
+                Infinity;
+
+        }
+        else{
+
+            waitTime =
+                missing / cps;
+
+        }
+
+    }
+
+
+    /*
+       Temps nécessaire pour récupérer
+       le coût grâce au gain supplémentaire.
+    */
+
+    const payback =
+        price / gain;
+
+
+    const totalTime =
+        waitTime +
+        payback;
+
+
+    return {
+
+        affordable:
+            price <= available,
+
+        waitTime,
+
+        payback,
+
+        totalTime
+
+    };
+
+}
+
+
+/* =========================================================
+   CANDIDATS
+========================================================= */
+
+function calculateCandidates(save){
+
+    const candidates = [];
+
+
+    const mode =
+        getAnalysisMode();
+
+
+    const reserve =
+        getReserve();
+
+
+    /*
+       CPS réel reconstruit.
+    */
+
+    const cpsData =
+        calculateCPS(
+            save
+        );
+
+
+    const cps =
+        cpsData.cps;
+
+
+    /*
+       BÂTIMENTS
+    */
+
+    for(
+        const building of save.buildings
+    ){
+
+        const price =
+            nextPrice(
+                building
+            );
+
+
+        const gain =
+            calculateBuildingPurchaseGain(
+                building,
+                save
+            );
+
+
+        if(
+            gain <= 0
+        ){
+
+            continue;
+
+        }
+
+
+        const investment =
+            calculateInvestment(
+                price,
+                gain,
+                save.cookies,
+                cps,
+                reserve,
+                mode
+            );
+
+
+        if(
+            mode === "current" &&
+            !investment.affordable
+        ){
+
+            continue;
+
+        }
+
+
+        candidates.push({
+
+            type:"Bâtiment",
+
+            name:
+                building.name,
+
+            price,
+
+            gain,
+
+            waitTime:
+                investment.waitTime,
+
+            payback:
+                investment.payback,
+
+            totalTime:
+                investment.totalTime,
+
+            amount:
+                building.amount,
+
+            object:
+                building
+
+        });
+
+    }
+
+
+    /*
+       AMÉLIORATIONS
+    */
+
+    const upgrades =
+        getAvailableUpgrades(
+            save
+        );
+
+
+    for(
+        const upgrade of upgrades
+    ){
+
+        const gain =
+            upgrade.gain;
+
+
+        if(
+            gain <= 0
+        ){
+
+            continue;
+
+        }
+
+
+        const investment =
+            calculateInvestment(
+                upgrade.price,
+                gain,
+                save.cookies,
+                cps,
+                reserve,
+                mode
+            );
+
+
+        if(
+            mode === "current" &&
+            !investment.affordable
+        ){
+
+            continue;
+
+        }
+
+
+        candidates.push({
+
+            type:"Amélioration",
+
+            name:
+                upgrade.name,
+
+            price:
+                upgrade.price,
+
+            gain,
+
+            waitTime:
+                investment.waitTime,
+
+            payback:
+                investment.payback,
+
+            totalTime:
+                investment.totalTime,
+
+            amount:null,
+
+            object:
+                upgrade
+
+        });
+
+    }
+
+
+    candidates.sort(
+        (a,b) =>
+            a.totalTime -
+            b.totalTime
+    );
+
+
+    return candidates;
+
+}
+
+
+/* =========================================================
+   GAIN D'UN NOUVEAU BÂTIMENT
+========================================================= */
+
+function calculateBuildingPurchaseGain(
+    building,
+    save
+){
+
+    /*
+       On calcule la production que donnera
+       réellement le nouveau bâtiment avec
+       les multiplicateurs connus.
+    */
+
+    const multipliers =
+        calculateBuildingUpgradeMultipliers(
+            save
+        );
+
+
+    const multiplier =
+        multipliers[
+            save.buildings.indexOf(
+                building
+            )
+        ] || 1;
+
+
+    return (
+        building.baseCpS *
+        multiplier
+    );
+
+}
+
+
+/* =========================================================
+   MEILLEUR ACHAT
+========================================================= */
+
+function calculateBestPurchases(save){
+
+    return calculateCandidates(
+        save
     );
 
 }
@@ -1180,42 +2689,50 @@ function buildingEfficiency(building){
 
 /* =========================================================
    PLAN D'ACHAT
-   ========================================================= */
+========================================================= */
 
 function calculatePurchasePlan(
     save,
     maxSteps=15
 ){
 
-    /*
-       Copie des bâtiments.
-    */
-
-    const simulatedBuildings=
-        save.buildings.map(
-            function(building){
-
-                return{
-                    ...building
-                };
-
-            }
-        );
-
-
-    let simulatedCookies=
+    let cookies =
         save.cookies;
 
 
-    /*
-       On part du CpS RÉEL de la sauvegarde.
-    */
-
-    let simulatedCps=
-        save.cps;
+    const reserve =
+        getReserve();
 
 
-    const plan=[];
+    let cps =
+        calculateCPS(
+            save
+        ).cps;
+
+
+    const mode =
+        getAnalysisMode();
+
+
+    const buildings =
+        save.buildings.map(
+            b => ({
+                ...b
+            })
+        );
+
+
+    const upgrades =
+        getAvailableUpgrades(
+            save
+        ).map(
+            u => ({
+                ...u
+            })
+        );
+
+
+    const plan = [];
 
 
     for(
@@ -1224,151 +2741,295 @@ function calculatePurchasePlan(
         step++
     ){
 
-        const possible=[];
+        const candidates = [];
 
 
         /*
-           Cherche les bâtiments achetables.
+           Bâtiments.
         */
 
-        simulatedBuildings.forEach(
-            function(building){
+        for(
+            const building of buildings
+        ){
 
-                const price=
-                    nextPrice(building);
-
-
-                if(
-                    Number.isFinite(price) &&
-                    price<=simulatedCookies
-                ){
-
-                    const cpsGain=
-                        building.baseCps;
+            const price =
+                priceAfterAmount(
+                    building,
+                    building.amount
+                );
 
 
-                    const paybackTime=
-                        price/
-                        cpsGain;
+            const index =
+                buildings.indexOf(
+                    building
+                );
 
 
-                    possible.push({
+            const gain =
+                calculateSimulatedBuildingGain(
+                    index,
+                    buildings
+                );
 
-                        building:
-                            building,
 
-                        price:
-                            price,
+            if(
+                gain <= 0
+            ){
 
-                        cpsGain:
-                            cpsGain,
-
-                        paybackTime:
-                            paybackTime
-
-                    });
-
-                }
+                continue;
 
             }
-        );
 
 
-        if(possible.length===0){
-            break;
+            const investment =
+                calculateInvestment(
+                    price,
+                    gain,
+                    cookies,
+                    cps,
+                    reserve,
+                    mode
+                );
+
+
+            if(
+                mode === "current" &&
+                !investment.affordable
+            ){
+
+                continue;
+
+            }
+
+
+            candidates.push({
+
+                type:"Bâtiment",
+
+                name:
+                    building.name,
+
+                price,
+
+                gain,
+
+                waitTime:
+                    investment.waitTime,
+
+                payback:
+                    investment.payback,
+
+                totalTime:
+                    investment.totalTime,
+
+                object:
+                    building,
+
+                index
+
+            });
+
         }
 
 
         /*
-           Meilleure rentabilité.
+           Améliorations.
         */
 
-        possible.sort(
-            function(a,b){
+        for(
+            const upgrade of upgrades
+        ){
 
-                return(
-                    a.paybackTime-
-                    b.paybackTime
-                );
+            if(
+                upgrade.gain <= 0
+            ){
+
+                continue;
 
             }
+
+
+            const investment =
+                calculateInvestment(
+                    upgrade.price,
+                    upgrade.gain,
+                    cookies,
+                    cps,
+                    reserve,
+                    mode
+                );
+
+
+            if(
+                mode === "current" &&
+                !investment.affordable
+            ){
+
+                continue;
+
+            }
+
+
+            candidates.push({
+
+                type:"Amélioration",
+
+                name:
+                    upgrade.name,
+
+                price:
+                    upgrade.price,
+
+                gain:
+                    upgrade.gain,
+
+                waitTime:
+                    investment.waitTime,
+
+                payback:
+                    investment.payback,
+
+                totalTime:
+                    investment.totalTime,
+
+                object:
+                    upgrade
+
+            });
+
+        }
+
+
+        if(
+            !candidates.length
+        ){
+
+            break;
+
+        }
+
+
+        candidates.sort(
+            (a,b) =>
+                a.totalTime -
+                b.totalTime
         );
 
 
-        const best=
-            possible[0];
-
-
-        const amountBefore=
-            best.building.amount;
-
-
-        const cookiesBefore=
-            simulatedCookies;
-
-
-        const cpsBefore=
-            simulatedCps;
+        const best =
+            candidates[0];
 
 
         /*
-           Achat simulé.
+           En mode futur, on attend réellement
+           jusqu'à pouvoir acheter en gardant
+           la réserve.
         */
 
-        simulatedCookies-=
+        if(
+            best.waitTime > 0 &&
+            Number.isFinite(
+                best.waitTime
+            )
+        ){
+
+            cookies +=
+                best.waitTime *
+                cps;
+
+        }
+
+
+        /*
+           Vérification de sécurité :
+           on ne doit jamais utiliser
+           la réserve.
+        */
+
+        if(
+            cookies -
+            best.price <
+            reserve
+        ){
+
+            break;
+
+        }
+
+
+        cookies -=
             best.price;
 
 
-        simulatedCps+=
-            best.cpsGain;
+        /*
+           Le nouveau CPS devient actif
+           après l'achat.
+        */
+
+        cps +=
+            best.gain;
 
 
-        best.building.amount++;
+        if(
+            best.type ===
+            "Bâtiment"
+        ){
+
+            best.object.amount++;
+
+        }
+        else{
+
+            const index =
+                upgrades.indexOf(
+                    best.object
+                );
 
 
-        const nextPriceAfter=
-            nextPrice(
-                best.building
-            );
+            if(
+                index !== -1
+            ){
+
+                upgrades.splice(
+                    index,
+                    1
+                );
+
+            }
+
+        }
 
 
         plan.push({
 
-            number:
-                step+1,
+            step:
+                step + 1,
+
+            type:
+                best.type,
 
             name:
-                best.building.name,
+                best.name,
 
             price:
                 best.price,
 
-            cpsGain:
-                best.cpsGain,
+            gain:
+                best.gain,
 
-            paybackTime:
-                best.paybackTime,
+            waitTime:
+                best.waitTime,
 
-            cookiesBefore:
-                cookiesBefore,
+            payback:
+                best.payback,
 
-            cookiesAfter:
-                simulatedCookies,
+            totalTime:
+                best.totalTime,
 
-            cpsBefore:
-                cpsBefore,
+            remaining:
+                cookies,
 
-            cpsAfter:
-                simulatedCps,
-
-            amountBefore:
-                amountBefore,
-
-            amountAfter:
-                best.building.amount,
-
-            nextPrice:
-                nextPriceAfter
+            cps
 
         });
 
@@ -1381,135 +3042,507 @@ function calculatePurchasePlan(
 
 
 /* =========================================================
-   ERREUR
-   ========================================================= */
+   GAIN SIMULÉ BÂTIMENT
+========================================================= */
 
-function showError(message){
+function calculateSimulatedBuildingGain(
+    index,
+    buildings
+){
 
-    const error=
-        document.getElementById(
-            "error"
-        );
-
-
-    error.textContent=
-        message;
+    const building =
+        buildings[index];
 
 
-    error.style.display=
-        "block";
+    if(!building){
 
-}
+        return 0;
 
-
-function clearError(){
-
-    const error=
-        document.getElementById(
-            "error"
-        );
+    }
 
 
-    error.textContent="";
-
-
-    error.style.display=
-        "none";
+    return building.baseCpS;
 
 }
 
 
 /* =========================================================
    ANALYSE
-   ========================================================= */
+========================================================= */
 
 function analyzeSave(){
 
-    clearError();
+    const error =
+        document.getElementById(
+            "error"
+        );
 
 
-    const results=
+    const results =
         document.getElementById(
             "results"
         );
 
 
-    results.classList.add(
-        "hidden"
-    );
+    error.style.display =
+        "none";
+
+
+    results.style.display =
+        "none";
 
 
     try{
 
-        const input=
+        const input =
             document.getElementById(
                 "saveInput"
             ).value;
 
 
-        if(!input.trim()){
-
-            throw new Error(
-                "Colle d'abord ta sauvegarde."
+        const decoded =
+            decodeSave(
+                input
             );
 
-        }
 
-
-        /*
-           Décodage.
-        */
-
-        const decoded=
-            decodeSave(input);
-
-
-        console.log(
-            "Sauvegarde décodée :",
-            decoded
-        );
-
-
-        if(
-            decoded.indexOf("|")===-1
-        ){
-
-            throw new Error(
-                "Ce code ne ressemble pas à une sauvegarde Cookie Clicker valide."
+        const save =
+            parseSave(
+                decoded
             );
 
-        }
 
-
-        /*
-           Analyse.
-        */
-
-        const save=
-            parseSave(decoded);
-
-
-        console.log(
-            "Sauvegarde analysée :",
+        renderResults(
             save
         );
 
 
-        renderResults(save);
+        results.style.display =
+            "block";
+
+    }
+    catch(e){
+
+        error.textContent =
+            e.message ||
+            "Erreur inconnue.";
+
+
+        error.style.display =
+            "block";
 
     }
 
-    catch(error){
+}
 
-        console.error(
-            "Erreur :",
-            error
+
+/* =========================================================
+   RÉSULTATS
+========================================================= */
+
+function renderResults(save){
+
+    const cpsData =
+        calculateCPS(
+            save
         );
 
 
-        showError(
-            "Impossible de lire cette sauvegarde : "+
-            error.message
+    document.getElementById(
+        "cookiesStat"
+    ).textContent =
+        formatNumber(
+            save.cookies
+        );
+
+
+    document.getElementById(
+        "cpsStat"
+    ).textContent =
+        formatNumber(
+            cpsData.cps
+        );
+
+
+    document.getElementById(
+        "buildingStat"
+    ).textContent =
+        save.buildings.reduce(
+            (sum,b) =>
+                sum + b.amount,
+            0
+        );
+
+
+    document.getElementById(
+        "upgradeStat"
+    ).textContent =
+        save.upgradeCount;
+
+
+    renderBuildings(
+        save
+    );
+
+
+    renderUpgrades(
+        save
+    );
+
+
+    renderBest(
+        save
+    );
+
+
+    renderPlan(
+        save
+    );
+
+
+    renderTips(
+        save
+    );
+
+}
+
+
+/* =========================================================
+   TABLE BÂTIMENTS
+========================================================= */
+
+function renderBuildings(save){
+
+    const tbody =
+        document.getElementById(
+            "buildingTable"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    const mode =
+        getAnalysisMode();
+
+
+    const reserve =
+        getReserve();
+
+
+    const cps =
+        calculateCPS(
+            save
+        ).cps;
+
+
+    const buildings =
+        save.buildings
+            .map(
+                building => {
+
+                    const price =
+                        nextPrice(
+                            building
+                        );
+
+
+                    const gain =
+                        calculateBuildingPurchaseGain(
+                            building,
+                            save
+                        );
+
+
+                    const investment =
+                        calculateInvestment(
+                            price,
+                            gain,
+                            save.cookies,
+                            cps,
+                            reserve,
+                            mode
+                        );
+
+
+                    return {
+
+                        building,
+
+                        price,
+
+                        gain,
+
+                        ...investment
+
+                    };
+
+                }
+            )
+            .filter(
+                item =>
+                    mode !== "current" ||
+                    item.affordable
+            )
+            .sort(
+                (a,b) =>
+                    a.totalTime -
+                    b.totalTime
+            );
+
+
+    const best =
+        buildings.length
+            ? buildings[0].totalTime
+            : Infinity;
+
+
+    for(
+        const item of buildings
+    ){
+
+        const tr =
+            document.createElement(
+                "tr"
+            );
+
+
+        if(
+            item.totalTime ===
+            best
+        ){
+
+            tr.className =
+                "best";
+
+        }
+
+
+        tr.innerHTML = `
+
+            <td>
+                <strong>
+                    ${escapeHtml(
+                        item.building.name
+                    )}
+                </strong>
+            </td>
+
+            <td>
+                ${item.building.amount}
+            </td>
+
+            <td>
+                ${formatNumber(
+                    item.price
+                )}
+            </td>
+
+            <td class="good">
+                +${formatNumber(
+                    item.gain
+                )} CpS
+            </td>
+
+            <td class="wait">
+                ${formatTime(
+                    item.waitTime
+                )}
+            </td>
+
+            <td>
+                ${formatTime(
+                    item.totalTime
+                )}
+            </td>
+
+        `;
+
+
+        tbody.appendChild(
+            tr
+        );
+
+    }
+
+
+    if(
+        !buildings.length
+    ){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="6">
+
+                    Aucun bâtiment correspondant
+                    au mode d'analyse sélectionné.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLE UPGRADES
+========================================================= */
+
+function renderUpgrades(save){
+
+    const tbody =
+        document.getElementById(
+            "upgradeTable"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    const mode =
+        getAnalysisMode();
+
+
+    const reserve =
+        getReserve();
+
+
+    const cps =
+        calculateCPS(
+            save
+        ).cps;
+
+
+    const upgrades =
+        getAvailableUpgrades(
+            save
+        )
+        .filter(
+            upgrade =>
+                upgrade.gain > 0
+        )
+        .map(
+            upgrade => {
+
+                const investment =
+                    calculateInvestment(
+                        upgrade.price,
+                        upgrade.gain,
+                        save.cookies,
+                        cps,
+                        reserve,
+                        mode
+                    );
+
+
+                return {
+
+                    ...upgrade,
+
+                    ...investment
+
+                };
+
+            }
+        )
+        .filter(
+            upgrade =>
+                mode !== "current" ||
+                upgrade.affordable
+        )
+        .sort(
+            (a,b) =>
+                a.totalTime -
+                b.totalTime
+        );
+
+
+    if(!upgrades.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="5">
+
+                    Aucune amélioration connue
+                    correspondant au mode d'analyse
+                    sélectionné.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    for(
+        const upgrade of upgrades
+    ){
+
+        const tr =
+            document.createElement(
+                "tr"
+            );
+
+
+        tr.innerHTML = `
+
+            <td>
+
+                <strong>
+                    ${escapeHtml(
+                        upgrade.name
+                    )}
+                </strong>
+
+                <div class="small">
+                    ${escapeHtml(
+                        upgrade.type
+                    )}
+                </div>
+
+            </td>
+
+            <td>
+                ${formatNumber(
+                    upgrade.price
+                )}
+            </td>
+
+            <td class="good">
+                +${formatNumber(
+                    upgrade.gain
+                )} CpS
+            </td>
+
+            <td class="wait">
+                ${formatTime(
+                    upgrade.waitTime
+                )}
+            </td>
+
+            <td>
+                ${formatTime(
+                    upgrade.totalTime
+                )}
+            </td>
+
+        `;
+
+
+        tbody.appendChild(
+            tr
         );
 
     }
@@ -1518,564 +3551,424 @@ function analyzeSave(){
 
 
 /* =========================================================
-   AFFICHAGE
-   ========================================================= */
+   MEILLEUR ACHAT
+========================================================= */
 
-function renderResults(save){
+function renderBest(save){
 
-    document
-        .getElementById("results")
-        .classList
-        .remove("hidden");
-
-
-    /*
-       Résumé
-    */
-
-    document
-        .getElementById("cookies")
-        .textContent=
-        formatNumber(
-            save.cookies
-        );
-
-
-    /*
-       =====================================================
-       CPS
-       =====================================================
-
-       Ici on affiche directement la valeur CPS sauvegardée
-       dans la partie.
-    */
-
-    document
-        .getElementById("cps")
-        .textContent=
-        formatNumber(
-            save.cps
-        );
-
-
-    document
-        .getElementById("totalCookies")
-        .textContent=
-        formatNumber(
-            save.totalCookies
-        );
-
-
-    document
-        .getElementById("buildingCount")
-        .textContent=
-        formatNumber(
-            save.buildingCount
-        );
-
-
-    document
-        .getElementById("upgradeCount")
-        .textContent=
-        save.upgradeCount;
-
-
-    document
-        .getElementById("saveInfo")
-        .textContent=
-        "Version "+
-        save.version+
-        " • Boulangerie : "+
-        (
-            save.bakeryName ||
-            "Sans nom"
-        );
-
-
-    /* =====================================================
-       TABLEAU DES BÂTIMENTS
-       ===================================================== */
-
-    const table=
+    const container =
         document.getElementById(
-            "buildingsTable"
+            "bestPurchase"
         );
 
 
-    table.innerHTML="";
+    const candidates =
+        calculateBestPurchases(
+            save
+        );
 
 
-    save.buildings.forEach(
-        function(building){
+    if(!candidates.length){
 
-            const price=
-                nextPrice(
-                    building
-                );
+        container.innerHTML = `
 
+            <div class="warning">
 
-            const payback=
-                buildingEfficiency(
-                    building
-                );
+                Aucun achat correspondant
+                au mode d'analyse sélectionné.
 
+            </div>
 
-            const production=
-                building.amount*
-                building.baseCps;
+        `;
+
+        return;
+
+    }
 
 
-            const row=
-                document.createElement(
-                    "tr"
-                );
+    const best =
+        candidates[0];
 
 
-            row.innerHTML=
-
-                "<td>"+
-                escapeHtml(
-                    building.name
-                )+
-                "</td>"+
-
-                "<td>"+
-                formatNumber(
-                    building.amount
-                )+
-                "</td>"+
-
-                "<td>"+
-                formatNumber(
-                    price
-                )+
-                "</td>"+
-
-                "<td>"+
-                formatNumber(
-                    production
-                )+
-                " CpS</td>"+
-
-                "<td>"+
-                formatTime(
-                    payback
-                )+
-                "</td>";
+    const waiting =
+        best.waitTime > 0;
 
 
-            table.appendChild(
-                row
-            );
+    container.innerHTML = `
 
-        }
-    );
+        <div class="recommendation">
+
+            <h3>
+                ${waiting
+                    ? "⏳ Il vaut mieux attendre"
+                    : "✅ Achat recommandé"}
+            </h3>
 
 
-    /* =====================================================
-       PLAN D'ACHAT
-       ===================================================== */
+            <div class="big">
 
-    const recommendations=
+                ${escapeHtml(
+                    best.name
+                )}
+
+            </div>
+
+
+            <p>
+
+                <span class="tag">
+                    ${escapeHtml(
+                        best.type
+                    )}
+                </span>
+
+            </p>
+
+
+            <div class="grid">
+
+                <div class="stat">
+
+                    <div class="label">
+                        Prix
+                    </div>
+
+                    <div class="value">
+                        ${formatNumber(
+                            best.price
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Gain
+                    </div>
+
+                    <div class="value good">
+                        +${formatNumber(
+                            best.gain
+                        )} CpS
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Temps d'attente
+                    </div>
+
+                    <div class="value wait">
+                        ${formatTime(
+                            best.waitTime
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Temps total
+                    </div>
+
+                    <div class="value">
+                        ${formatTime(
+                            best.totalTime
+                        )}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <strong>
+                Pourquoi ?
+            </strong>
+
+
+            <p>
+
+                Le calcul prend en compte le prix,
+                le gain de CpS, le temps nécessaire
+                pour atteindre le prix et le temps
+                nécessaire pour récupérer
+                l'investissement.
+
+            </p>
+
+
+            <p class="small">
+
+                Réserve utilisée :
+                ${formatNumber(
+                    getReserve()
+                )}
+
+                cookies.
+
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   PLAN
+========================================================= */
+
+function renderPlan(save){
+
+    const container =
         document.getElementById(
-            "recommendations"
+            "purchasePlan"
         );
 
 
-    recommendations.innerHTML="";
-
-
-    const purchasePlan=
+    const plan =
         calculatePurchasePlan(
             save,
             15
         );
 
 
-    if(
-        purchasePlan.length===0
-    ){
+    if(!plan.length){
 
-        recommendations.innerHTML=
-            '<div class="recommendation">'+
+        container.innerHTML = `
 
-            '<h3>Aucun achat possible</h3>'+
+            <div class="warning">
 
-            '<p>'+
-            "Tu n'as actuellement pas assez "+
-            "de cookies pour acheter un bâtiment."+
-            "</p>"+
+                Aucun achat rentable
+                détecté.
 
-            "</div>";
+            </div>
+
+        `;
+
+        return;
 
     }
 
-    else{
 
-        const intro=
+    container.innerHTML = "";
+
+
+    for(
+        const item of plan
+    ){
+
+        const div =
             document.createElement(
                 "div"
             );
 
 
-        intro.className=
-            "recommendation best";
+        div.className =
+            "plan-item";
 
 
-        intro.innerHTML=
+        div.innerHTML = `
 
-            "<h3>Plan calculé</h3>"+
-
-            "<p>"+
-            "Voici l'ordre d'achat calculé "+
-            "avec tes cookies actuels. "+
-            "Le prix est recalculé après "+
-            "chaque achat."+
-            "</p>";
+            <span class="plan-number">
+                ${item.step}
+            </span>
 
 
-        recommendations.appendChild(
-            intro
-        );
+            <strong>
+                ${escapeHtml(
+                    item.name
+                )}
+            </strong>
 
 
-        purchasePlan.forEach(
-            function(item,index){
-
-                const card=
-                    document.createElement(
-                        "div"
-                    );
+            <span class="tag">
+                ${escapeHtml(
+                    item.type
+                )}
+            </span>
 
 
-                card.className=
-                    "recommendation";
+            <br>
 
 
-                let title;
+            <span class="small">
+
+                Attente :
+                ${formatTime(
+                    item.waitTime
+                )}
+
+                —
+
+                Prix :
+                ${formatNumber(
+                    item.price
+                )}
+
+                —
+
+                Gain :
+                +${formatNumber(
+                    item.gain
+                )} CpS
+
+                —
+
+                Récupération :
+                ${formatTime(
+                    item.payback
+                )}
+
+                —
+
+                Temps total :
+                ${formatTime(
+                    item.totalTime
+                )}
+
+                —
+
+                Cookies restants :
+                ${formatNumber(
+                    item.remaining
+                )}
+
+            </span>
+
+        `;
 
 
-                if(index===0){
-
-                    title=
-                        "ACHAT MAINTENANT";
-
-
-                    card.classList.add(
-                        "best"
-                    );
-
-                }
-
-                else{
-
-                    title=
-                        "ACHAT #"+
-                        (index+1);
-
-                }
-
-
-                card.innerHTML=
-
-                    "<h3>"+
-
-                    '<span class="plan-number">'+
-                    (index+1)+
-                    "</span>"+
-
-                    title+
-                    " : "+
-
-                    escapeHtml(
-                        item.name
-                    )+
-
-                    "</h3>"+
-
-
-                    "<p>"+
-                    "Prix actuel : <b>"+
-                    formatNumber(
-                        item.price
-                    )+
-                    "</b>"+
-                    "</p>"+
-
-
-                    "<p>"+
-                    "Gain : <b>+"+
-                    formatNumber(
-                        item.cpsGain
-                    )+
-                    " CpS</b>"+
-                    "</p>"+
-
-
-                    "<p>"+
-                    "Temps de remboursement : <b>"+
-                    formatTime(
-                        item.paybackTime
-                    )+
-                    "</b>"+
-                    "</p>"+
-
-
-                    "<p>"+
-                    "Quantité : "+
-                    formatNumber(
-                        item.amountBefore
-                    )+
-                    " → <b>"+
-                    formatNumber(
-                        item.amountAfter
-                    )+
-                    "</b>"+
-                    "</p>"+
-
-
-                    "<p>"+
-                    "Cookies restants : <b>"+
-                    formatNumber(
-                        item.cookiesAfter
-                    )+
-                    "</b>"+
-                    "</p>"+
-
-
-                    "<p>"+
-                    "CpS après achat : <b>"+
-                    formatNumber(
-                        item.cpsAfter
-                    )+
-                    "</b>"+
-                    "</p>"+
-
-
-                    "<p class='muted'>"+
-                    "Prochain prix de "+
-                    escapeHtml(
-                        item.name
-                    )+
-                    " : "+
-                    formatNumber(
-                        item.nextPrice
-                    )+
-                    "</p>";
-
-
-                recommendations.appendChild(
-                    card
-                );
-
-            }
+        container.appendChild(
+            div
         );
 
     }
-
-
-    /*
-       CONSEILS
-    */
-
-    renderTips(
-        save,
-        purchasePlan
-    );
 
 }
 
 
 /* =========================================================
    CONSEILS
-   ========================================================= */
+========================================================= */
 
-function renderTips(
-    save,
-    purchasePlan
-){
+function renderTips(save){
 
-    const tips=
+    const container =
         document.getElementById(
             "tips"
         );
 
 
-    tips.innerHTML="";
-
-
-    const tipsList=[];
-
-
-    /*
-       Cookies disponibles.
-    */
-
-    tipsList.push(
-
-        "Tu as actuellement <b>"+
-        formatNumber(
-            save.cookies
-        )+
-        "</b> cookies disponibles."
-
-    );
-
-
-    /*
-       CpS réel.
-    */
-
-    tipsList.push(
-
-        "Ton CpS réel enregistré dans la sauvegarde est de <b>"+
-        formatNumber(
-            save.cps
-        )+
-        "</b>."
-
-    );
-
-
-    /*
-       Meilleur premier achat.
-    */
-
-    if(
-        purchasePlan.length>0
-    ){
-
-        const first=
-            purchasePlan[0];
-
-
-        tipsList.push(
-
-            "L'achat recommandé maintenant est "+
-            "<b>"+
-            escapeHtml(
-                first.name
-            )+
-            "</b> pour "+
-            "<b>"+
-            formatNumber(
-                first.price
-            )+
-            "</b>."
-
+    const candidates =
+        calculateBestPurchases(
+            save
         );
+
+
+    if(!candidates.length){
+
+        container.innerHTML = `
+
+            <p>
+                Aucun achat correspondant
+                au mode sélectionné.
+            </p>
+
+        `;
+
+        return;
 
     }
 
 
-    /*
-       Nombre de bâtiments.
-    */
-
-    tipsList.push(
-
-        "Tu possèdes actuellement "+
-        "<b>"+
-        formatNumber(
-            save.buildingCount
-        )+
-        "</b> bâtiments."
-
-    );
+    const best =
+        candidates[0];
 
 
-    /*
-       Clics.
-    */
-
-    tipsList.push(
-
-        "Tu as réalisé "+
-        "<b>"+
-        formatNumber(
-            save.cookieClicks
-        )+
-        "</b> clics sur le gros cookie."
-
-    );
+    const mode =
+        getAnalysisMode();
 
 
-    /*
-       Affichage.
-    */
+    container.innerHTML = `
 
-    tipsList.forEach(
-        function(text){
+        <p>
 
-            const div=
-                document.createElement(
-                    "div"
-                );
+            Le calcul utilise maintenant
+            les bâtiments présents dans
+            la sauvegarde et les données
+            d'améliorations détectées.
 
-
-            div.className=
-                "recommendation";
+        </p>
 
 
-            div.innerHTML=
-                "<p>"+
-                text+
-                "</p>";
+        <p>
+
+            <strong>
+                ${escapeHtml(
+                    best.name
+                )}
+            </strong>
+
+            est actuellement le premier choix
+            selon le temps total calculé.
+
+        </p>
 
 
-            tips.appendChild(
-                div
-            );
+        <p class="small">
 
-        }
-    );
+            Mode :
 
-}
+            ${
+                mode === "current"
+                    ? "achats disponibles immédiatement"
+                    : "achats disponibles maintenant ou après attente"
+            }
+
+            —
+
+            Réserve :
+
+            ${formatNumber(
+                getReserve()
+            )}
+
+            cookies.
+
+        </p>
 
 
-/* =========================================================
-   PROTECTION HTML
-   ========================================================= */
+        <p class="small">
 
-function escapeHtml(value){
+            Le temps d'attente correspond aux cookies
+            manquants pour atteindre le prix tout en
+            conservant la réserve définie.
 
-    return String(value)
+        </p>
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    `;
 
 }
 
 
 /* =========================================================
-   CHARGEMENT
-   ========================================================= */
+   INITIALISATION
+========================================================= */
 
-console.log(
-    "Cookie Clicker Optimizer chargé correctement."
-);
+updateModeDescription();
 
 </script>
 
