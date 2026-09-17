@@ -7,203 +7,39 @@
 <title>Cookie Clicker Optimizer</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#171717;
-    color:#eee;
-}
-
-.container{
-    max-width:1100px;
-    margin:30px auto;
-    padding:20px;
-}
-
-h1{
-    margin-top:0;
-}
-
-textarea{
-    width:100%;
-    min-height:180px;
-    resize:vertical;
-    background:#222;
-    color:#eee;
-    border:1px solid #444;
-    border-radius:8px;
-    padding:12px;
-    font-family:monospace;
-}
-
-.button-row{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-button{
-    margin-top:12px;
-    padding:10px 18px;
-    border:0;
-    border-radius:7px;
-    cursor:pointer;
-    background:#e0a400;
-    color:#111;
-    font-weight:bold;
-}
-
-button:hover{
-    background:#ffc107;
-}
-
-button.clear{
-    background:#444;
-    color:#eee;
-}
-
-button.clear:hover{
-    background:#555;
-}
-
-.error{
-    margin-top:15px;
-    padding:12px;
-    background:#421c1c;
-    border:1px solid #8c3333;
-    border-radius:7px;
-    display:none;
-}
-
-.results{
-    margin-top:25px;
-    display:none;
-}
-
-.card{
-    background:#202020;
-    border:1px solid #333;
-    border-radius:10px;
-    padding:18px;
-    margin-bottom:18px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:12px;
-}
-
-.stat{
-    background:#292929;
-    padding:15px;
-    border-radius:8px;
-}
-
-.stat .label{
-    color:#aaa;
-    font-size:13px;
-}
-
-.stat .value{
-    margin-top:5px;
-    font-size:20px;
-    font-weight:bold;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th,td{
-    padding:10px;
-    border-bottom:1px solid #333;
-    text-align:left;
-}
-
-th{
-    color:#aaa;
-}
-
-.good{
-    color:#65e665;
-}
-
-.warning{
-    color:#ffd35a;
-}
-
-.bad{
-    color:#ff7777;
-}
-
-.best{
-    background:#26351f;
-}
-
-.tag{
-    display:inline-block;
-    padding:4px 7px;
-    border-radius:5px;
-    background:#333;
-    font-size:12px;
-}
-
-.plan-item{
-    padding:13px;
-    margin:8px 0;
-    background:#292929;
-    border-radius:8px;
-}
-
-.plan-number{
-    display:inline-block;
-    width:28px;
-    height:28px;
-    line-height:28px;
-    text-align:center;
-    border-radius:50%;
-    background:#e0a400;
-    color:#111;
-    font-weight:bold;
-    margin-right:8px;
-}
-
-.small{
-    color:#aaa;
-    font-size:13px;
-}
-
-hr{
-    border:0;
-    border-top:1px solid #333;
-    margin:20px 0;
-}
-
-.wait{
-    color:#ffd35a;
-}
-
-.recommendation{
-    background:#26351f;
-    border:1px solid #3c6330;
-    border-radius:8px;
-    padding:15px;
-}
-
-.recommendation h3{
-    margin-top:0;
-}
-
-.big{
-    font-size:24px;
-    font-weight:bold;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#171717;color:#eee}
+.container{max-width:1100px;margin:30px auto;padding:20px}
+h1{margin-top:0}
+textarea{width:100%;min-height:180px;resize:vertical;background:#222;color:#eee;border:1px solid #444;border-radius:8px;padding:12px;font-family:monospace}
+.button-row{display:flex;gap:10px;flex-wrap:wrap}
+button{margin-top:12px;padding:10px 18px;border:0;border-radius:7px;cursor:pointer;background:#e0a400;color:#111;font-weight:bold}
+button:hover{background:#ffc107}
+button.clear{background:#444;color:#eee}
+button.clear:hover{background:#555}
+.error{margin-top:15px;padding:12px;background:#421c1c;border:1px solid #8c3333;border-radius:7px;display:none}
+.results{margin-top:25px;display:none}
+.card{background:#202020;border:1px solid #333;border-radius:10px;padding:18px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stat{background:#292929;padding:15px;border-radius:8px}
+.stat .label{color:#aaa;font-size:13px}
+.stat .value{margin-top:5px;font-size:20px;font-weight:bold}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #333;text-align:left}
+th{color:#aaa}
+.good{color:#65e665}
+.warning{color:#ffd35a}
+.bad{color:#ff7777}
+.best{background:#26351f}
+.tag{display:inline-block;padding:4px 7px;border-radius:5px;background:#333;font-size:12px}
+.plan-item{padding:13px;margin:8px 0;background:#292929;border-radius:8px}
+.plan-number{display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;background:#e0a400;color:#111;font-weight:bold;margin-right:8px}
+.small{color:#aaa;font-size:13px}
+hr{border:0;border-top:1px solid #333;margin:20px 0}
+.wait{color:#ffd35a}
+.recommendation{background:#26351f;border:1px solid #3c6330;border-radius:8px;padding:15px}
+.recommendation h3{margin-top:0}
+.big{font-size:24px;font-weight:bold}
 </style>
 </head>
 
@@ -219,98 +55,56 @@ L'optimiseur compare les bâtiments et les améliorations disponibles,
 y compris les achats qu'il faut attendre pour pouvoir acheter.
 </p>
 
-<textarea
-    id="saveInput"
-    placeholder="Colle ta sauvegarde Cookie Clicker ici..."
-></textarea>
+<textarea id="saveInput" placeholder="Colle ta sauvegarde Cookie Clicker ici..."></textarea>
 
 <div class="card" style="margin-top:15px;">
 
-    <h3 style="margin-top:0;">
-        ⚙️ Paramètres d'analyse
-    </h3>
+<h3 style="margin-top:0;">⚙️ Paramètres d'analyse</h3>
 
-    <div class="grid">
+<div class="grid">
 
-        <div class="stat">
+<div class="stat">
 
-            <div class="label">
-                Mode d'analyse
-            </div>
+<div class="label">Mode d'analyse</div>
 
-            <select
-                id="analysisMode"
-                style="
-                    width:100%;
-                    margin-top:8px;
-                    padding:10px;
-                    background:#222;
-                    color:#eee;
-                    border:1px solid #444;
-                    border-radius:7px;
-                "
-            >
+<select id="analysisMode"
+style="width:100%;margin-top:8px;padding:10px;background:#222;color:#eee;border:1px solid #444;border-radius:7px;">
 
-                <option value="now">
-                    Argent disponible maintenant
-                </option>
+<option value="now">Argent disponible maintenant</option>
+<option value="wait">Avec le temps d'attente</option>
 
-                <option value="wait">
-                    Avec le temps d'attente
-                </option>
+</select>
 
-            </select>
+</div>
 
-        </div>
+<div class="stat">
 
-        <div class="stat">
+<div class="label">Cookies à garder</div>
 
-            <div class="label">
-                Cookies à garder
-            </div>
+<input
+id="reserveCookies"
+type="number"
+min="0"
+value="0"
+placeholder="0"
+style="width:100%;margin-top:8px;padding:10px;background:#222;color:#eee;border:1px solid #444;border-radius:7px;"
+>
 
-            <input
-                id="reserveCookies"
-                type="number"
-                min="0"
-                value="0"
-                placeholder="0"
-                style="
-                    width:100%;
-                    margin-top:8px;
-                    padding:10px;
-                    background:#222;
-                    color:#eee;
-                    border:1px solid #444;
-                    border-radius:7px;
-                "
-            >
+</div>
 
-        </div>
+</div>
 
-    </div>
-
-    <div class="small" style="margin-top:10px;">
-
-        Les cookies indiqués comme réserve ne seront jamais
-        considérés comme disponibles pour les achats.
-
-    </div>
+<div class="small" style="margin-top:10px;">
+Les cookies indiqués comme réserve ne seront jamais considérés comme disponibles pour les achats.
+</div>
 
 </div>
 
 <div class="button-row">
 
-    <button onclick="analyzeSave()">
-        Analyser
-    </button>
+<button onclick="analyzeSave()">Analyser</button>
 
-    <button
-        class="clear"
-        onclick="clearSave()"
-    >
-        Effacer la sauvegarde
-    </button>
+<button class="clear" onclick="clearSave()">Effacer la sauvegarde</button>
 
 </div>
 
@@ -318,254 +112,151 @@ y compris les achats qu'il faut attendre pour pouvoir acheter.
 
 <div id="results" class="results">
 
-    <div class="card">
-        <h2>Résumé</h2>
+<div class="card">
 
-        <div class="grid">
+<h2>Résumé</h2>
 
-            <div class="stat">
-                <div class="label">Cookies</div>
-                <div class="value" id="cookiesStat">-</div>
-            </div>
+<div class="grid">
 
-            <div class="stat">
-                <div class="label">Cookies/s</div>
-                <div class="value" id="cpsStat">-</div>
-            </div>
+<div class="stat">
+<div class="label">Cookies</div>
+<div class="value" id="cookiesStat">-</div>
+</div>
 
-            <div class="stat">
-                <div class="label">Cookies disponibles</div>
-                <div class="value" id="availableCookiesStat">-</div>
-            </div>
+<div class="stat">
+<div class="label">Cookies/s</div>
+<div class="value" id="cpsStat">-</div>
+</div>
 
-            <div class="stat">
-                <div class="label">Bâtiments</div>
-                <div class="value" id="buildingStat">-</div>
-            </div>
+<div class="stat">
+<div class="label">Cookies disponibles</div>
+<div class="value" id="availableCookiesStat">-</div>
+</div>
 
-            <div class="stat">
-                <div class="label">Améliorations détectées</div>
-                <div class="value" id="upgradeStat">-</div>
-            </div>
+<div class="stat">
+<div class="label">Bâtiments</div>
+<div class="value" id="buildingStat">-</div>
+</div>
 
-        </div>
-    </div>
+<div class="stat">
+<div class="label">Améliorations détectées</div>
+<div class="value" id="upgradeStat">-</div>
+</div>
 
-    <div class="card">
-        <h2>🎯 Meilleur achat</h2>
+</div>
+</div>
 
-        <div id="bestPurchase">
-            -
-        </div>
-    </div>
+<div class="card">
 
-    <div class="card">
-        <h2>🏭 Bâtiments</h2>
+<h2>🎯 Meilleur achat</h2>
 
-        <table>
+<div id="bestPurchase">-</div>
 
-            <thead>
+</div>
 
-                <tr>
-                    <th>Bâtiment</th>
-                    <th>Possédés</th>
-                    <th>Prix</th>
-                    <th>CpS ajouté</th>
-                    <th>Attente</th>
-                    <th>Temps total</th>
-                </tr>
+<div class="card">
 
-            </thead>
+<h2>🏭 Bâtiments</h2>
 
-            <tbody id="buildingTable"></tbody>
+<table>
 
-        </table>
-    </div>
+<thead>
 
-    <div class="card">
+<tr>
+<th>Bâtiment</th>
+<th>Possédés</th>
+<th>Prix</th>
+<th>CpS ajouté</th>
+<th>Attente</th>
+<th>Temps total</th>
+</tr>
 
-        <h2>⬆️ Améliorations disponibles</h2>
+</thead>
 
-        <table>
+<tbody id="buildingTable"></tbody>
 
-            <thead>
+</table>
 
-                <tr>
-                    <th>Amélioration</th>
-                    <th>Prix</th>
-                    <th>Gain estimé</th>
-                    <th>Attente</th>
-                    <th>Temps total</th>
-                </tr>
+</div>
 
-            </thead>
+<div class="card">
 
-            <tbody id="upgradeTable"></tbody>
+<h2>⬆️ Améliorations disponibles</h2>
 
-        </table>
+<table>
 
-    </div>
+<thead>
 
-    <div class="card">
+<tr>
+<th>Amélioration</th>
+<th>Prix</th>
+<th>Gain estimé</th>
+<th>Attente</th>
+<th>Temps total</th>
+</tr>
 
-        <h2>📈 Plan d'achat</h2>
+</thead>
 
-        <div class="small">
+<tbody id="upgradeTable"></tbody>
 
-            Le plan compare les achats immédiatement accessibles
-            avec ceux qu'il est préférable d'attendre.
+</table>
 
-        </div>
+</div>
 
-        <hr>
+<div class="card">
 
-        <div id="purchasePlan"></div>
+<h2>📈 Plan d'achat</h2>
 
-    </div>
+<div class="small">
+Le plan compare les achats immédiatement accessibles avec ceux qu'il est préférable d'attendre.
+</div>
 
-    <div class="card">
+<hr>
 
-        <h2>💡 Conseils</h2>
+<div id="purchasePlan"></div>
 
-        <div id="tips"></div>
+</div>
 
-    </div>
+<div class="card">
+
+<h2>💡 Conseils</h2>
+
+<div id="tips"></div>
+
+</div>
+
+</div>
 
 </div>
 
 <script>
 
 /* =========================================================
-   BÂTIMENTS COOKIE CLICKER
+   BÂTIMENTS
 ========================================================= */
 
 const BUILDINGS = [
 
-    {
-        name:"Curseur",
-        basePrice:15,
-        baseCpS:0.1
-    },
-
-    {
-        name:"Grand-mère",
-        basePrice:100,
-        baseCpS:1
-    },
-
-    {
-        name:"Ferme",
-        basePrice:1100,
-        baseCpS:8
-    },
-
-    /*
-       IMPORTANT :
-       Cookie Clicker enregistre Mine AVANT Usine.
-       L'ancien code avait ces deux bâtiments inversés.
-    */
-
-    {
-        name:"Mine",
-        basePrice:130000,
-        baseCpS:260
-    },
-
-    {
-        name:"Usine",
-        basePrice:12000,
-        baseCpS:47
-    },
-
-    {
-        name:"Banque",
-        basePrice:1400000,
-        baseCpS:1400
-    },
-
-    {
-        name:"Temple",
-        basePrice:20000000,
-        baseCpS:7800
-    },
-
-    {
-        name:"Tour de sorcier",
-        basePrice:330000000,
-        baseCpS:44000
-    },
-
-    {
-        name:"Expédition",
-        basePrice:5100000000,
-        baseCpS:260000
-    },
-
-    {
-        name:"Laboratoire d'alchimie",
-        basePrice:75000000000,
-        baseCpS:1600000
-    },
-
-    {
-        name:"Portail",
-        basePrice:1000000000000,
-        baseCpS:10000000
-    },
-
-    {
-        name:"Machine temporelle",
-        basePrice:14000000000000,
-        baseCpS:65000000
-    },
-
-    {
-        name:"Condenseur d'antimatière",
-        basePrice:170000000000000,
-        baseCpS:430000000
-    },
-
-    {
-        name:"Prisme",
-        basePrice:2100000000000000,
-        baseCpS:2900000000
-    },
-
-    {
-        name:"Chancellerie",
-        basePrice:26000000000000000,
-        baseCpS:21000000000
-    },
-
-    {
-        name:"Moteur fractal",
-        basePrice:310000000000000000,
-        baseCpS:150000000000
-    },
-
-    {
-        name:"Console Javascript",
-        basePrice:7100000000000000000,
-        baseCpS:1100000000000
-    },
-
-    {
-        name:"Idleverse",
-        basePrice:120000000000000000000,
-        baseCpS:8300000000000
-    },
-
-    {
-        name:"Cortex Baker",
-        basePrice:1900000000000000000000,
-        baseCpS:64000000000000
-    },
-
-    {
-        name:"You",
-        basePrice:54000000000000000000000,
-        baseCpS:510000000000000
-    }
+{name:"Curseur",basePrice:15,baseCpS:0.1},
+{name:"Grand-mère",basePrice:100,baseCpS:1},
+{name:"Ferme",basePrice:1100,baseCpS:8},
+{name:"Mine",basePrice:12000,baseCpS:47},
+{name:"Usine",basePrice:130000,baseCpS:260},
+{name:"Banque",basePrice:1400000,baseCpS:1400},
+{name:"Temple",basePrice:20000000,baseCpS:7800},
+{name:"Tour de sorcier",basePrice:330000000,baseCpS:44000},
+{name:"Expédition",basePrice:5100000000,baseCpS:260000},
+{name:"Laboratoire d'alchimie",basePrice:75000000000,baseCpS:1600000},
+{name:"Portail",basePrice:1000000000000,baseCpS:10000000},
+{name:"Machine temporelle",basePrice:14000000000000,baseCpS:65000000},
+{name:"Condenseur d'antimatière",basePrice:170000000000000,baseCpS:430000000},
+{name:"Prisme",basePrice:2100000000000000,baseCpS:2900000000},
+{name:"Chancellerie",basePrice:26000000000000000,baseCpS:21000000000},
+{name:"Moteur fractal",basePrice:310000000000000000,baseCpS:150000000000},
+{name:"Console Javascript",basePrice:7100000000000000000,baseCpS:1100000000000},
+{name:"Idleverse",basePrice:120000000000000000000,baseCpS:8300000000000},
+{name:"Cortex Baker",basePrice:1900000000000000000000,baseCpS:64000000000000},
+{name:"You",basePrice:54000000000000000000000,baseCpS:510000000000000}
 
 ];
 
@@ -574,105 +265,76 @@ const BUILDINGS = [
    SUFFIXES
 ========================================================= */
 
-const NUMBER_SUFFIXES = [
+const NUMBER_SUFFIXES=[
 
-    {value:1e63,name:"Vg"},
-    {value:1e60,name:"Nod"},
-    {value:1e57,name:"Ocd"},
-    {value:1e54,name:"Spd"},
-    {value:1e51,name:"Sxd"},
-    {value:1e48,name:"Qid"},
-    {value:1e45,name:"Qad"},
-    {value:1e42,name:"Td"},
-    {value:1e39,name:"Dd"},
-    {value:1e36,name:"Ud"},
-    {value:1e33,name:"Dc"},
-    {value:1e30,name:"No"},
-    {value:1e27,name:"Oc"},
-    {value:1e24,name:"Sp"},
-    {value:1e21,name:"Sx"},
-    {value:1e18,name:"Qi"},
-    {value:1e15,name:"Qa"},
-    {value:1e12,name:"T"},
-    {value:1e9,name:"B"},
-    {value:1e6,name:"M"},
-    {value:1e3,name:"K"}
+{value:1e63,name:"Vg"},
+{value:1e60,name:"Nod"},
+{value:1e57,name:"Ocd"},
+{value:1e54,name:"Spd"},
+{value:1e51,name:"Sxd"},
+{value:1e48,name:"Qid"},
+{value:1e45,name:"Qad"},
+{value:1e42,name:"Td"},
+{value:1e39,name:"Dd"},
+{value:1e36,name:"Ud"},
+{value:1e33,name:"Dc"},
+{value:1e30,name:"No"},
+{value:1e27,name:"Oc"},
+{value:1e24,name:"Sp"},
+{value:1e21,name:"Sx"},
+{value:1e18,name:"Qi"},
+{value:1e15,name:"Qa"},
+{value:1e12,name:"T"},
+{value:1e9,name:"B"},
+{value:1e6,name:"M"},
+{value:1e3,name:"K"}
 
 ];
 
 
 /* =========================================================
-   FORMAT NOMBRE
+   FORMAT
 ========================================================= */
 
 function formatNumber(number){
 
-    if(!Number.isFinite(number)){
-        return "∞";
-    }
+if(!Number.isFinite(number))return "∞";
+if(number===0)return "0";
 
-    if(number === 0){
-        return "0";
-    }
+const absolute=Math.abs(number);
 
-    const absolute =
-        Math.abs(number);
+for(const suffix of NUMBER_SUFFIXES){
 
-    for(
-        const suffix of NUMBER_SUFFIXES
-    ){
+if(absolute>=suffix.value){
 
-        if(
-            absolute >= suffix.value
-        ){
+const value=number/suffix.value;
 
-            const value =
-                number /
-                suffix.value;
+let decimals=2;
 
-            let decimals = 2;
+if(Math.abs(value)>=100)decimals=0;
+else if(Math.abs(value)>=10)decimals=1;
 
-            if(
-                Math.abs(value) >= 100
-            ){
+return value
+.toFixed(decimals)
+.replace(/\.00$/,"")
+.replace(/(\.\d)0$/,"$1")
++" "+suffix.name;
 
-                decimals = 0;
+}
 
-            }
-            else if(
-                Math.abs(value) >= 10
-            ){
+}
 
-                decimals = 1;
+if(number>=1000){
 
-            }
+return number.toLocaleString(
+"fr-FR",
+{maximumFractionDigits:2}
+);
 
-            return value
-                .toFixed(decimals)
-                .replace(/\.00$/,"")
-                .replace(
-                    /(\.\d)0$/,
-                    "$1"
-                )
-                + " " +
-                suffix.name;
-        }
-    }
+}
 
-    if(number >= 1000){
+return number.toFixed(number<10?2:0);
 
-        return number.toLocaleString(
-            "fr-FR",
-            {
-                maximumFractionDigits:2
-            }
-        );
-
-    }
-
-    return number.toFixed(
-        number < 10 ? 2 : 0
-    );
 }
 
 
@@ -682,59 +344,28 @@ function formatNumber(number){
 
 function formatTime(seconds){
 
-    if(!Number.isFinite(seconds)){
-        return "∞";
-    }
+if(!Number.isFinite(seconds))return "∞";
+if(seconds<=0)return "Maintenant";
+if(seconds<1)return "< 1 s";
+if(seconds<60)return Math.round(seconds)+" s";
 
-    if(seconds <= 0){
-        return "Maintenant";
-    }
+if(seconds<3600){
 
-    if(seconds < 1){
-        return "< 1 s";
-    }
+return Math.floor(seconds/60)+" min "+
+Math.floor(seconds%60)+" s";
 
-    if(seconds < 60){
+}
 
-        return Math.round(seconds) +
-            " s";
+if(seconds<86400){
 
-    }
+return Math.floor(seconds/3600)+" h "+
+Math.floor((seconds%3600)/60)+" min";
 
-    if(seconds < 3600){
+}
 
-        return Math.floor(
-            seconds / 60
-        ) +
-        " min " +
-        Math.floor(
-            seconds % 60
-        ) +
-        " s";
+return Math.floor(seconds/86400)+" j "+
+Math.floor((seconds%86400)/3600)+" h";
 
-    }
-
-    if(seconds < 86400){
-
-        return Math.floor(
-            seconds / 3600
-        ) +
-        " h " +
-        Math.floor(
-            (seconds % 3600) / 60
-        ) +
-        " min";
-
-    }
-
-    return Math.floor(
-        seconds / 86400
-    ) +
-    " j " +
-    Math.floor(
-        (seconds % 86400) / 3600
-    ) +
-    " h";
 }
 
 
@@ -744,63 +375,41 @@ function formatTime(seconds){
 
 function escapeHtml(value){
 
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
 /* =========================================================
-   COOKIES RÉSERVÉS
+   RÉSERVE
 ========================================================= */
 
 function getReserve(){
 
-    const input =
-        document.getElementById(
-            "reserveCookies"
-        );
+const input=document.getElementById("reserveCookies");
 
-    if(!input){
-        return 0;
-    }
+if(!input)return 0;
 
-    let reserve =
-        Number(input.value);
+let reserve=Number(input.value);
 
-    if(
-        !Number.isFinite(reserve) ||
-        reserve < 0
-    ){
+if(!Number.isFinite(reserve)||reserve<0)reserve=0;
 
-        reserve = 0;
-
-    }
-
-    return reserve;
+return reserve;
 
 }
 
 
-/* =========================================================
-   COOKIES DISPONIBLES
-========================================================= */
+function getAvailableCookies(cookies){
 
-function getAvailableCookies(
-    cookies
-){
-
-    const reserve =
-        getReserve();
-
-    return Math.max(
-        0,
-        cookies - reserve
-    );
+return Math.max(
+0,
+cookies-getReserve()
+);
 
 }
 
@@ -811,57 +420,21 @@ function getAvailableCookies(
 
 function clearSave(){
 
-    document.getElementById(
-        "saveInput"
-    ).value = "";
+document.getElementById("saveInput").value="";
+document.getElementById("results").style.display="none";
+document.getElementById("error").style.display="none";
 
-    document.getElementById(
-        "results"
-    ).style.display = "none";
+document.getElementById("cookiesStat").textContent="-";
+document.getElementById("cpsStat").textContent="-";
+document.getElementById("availableCookiesStat").textContent="-";
+document.getElementById("buildingStat").textContent="-";
+document.getElementById("upgradeStat").textContent="-";
 
-    document.getElementById(
-        "error"
-    ).style.display = "none";
-
-    document.getElementById(
-        "cookiesStat"
-    ).textContent = "-";
-
-    document.getElementById(
-        "cpsStat"
-    ).textContent = "-";
-
-    document.getElementById(
-        "availableCookiesStat"
-    ).textContent = "-";
-
-    document.getElementById(
-        "buildingStat"
-    ).textContent = "-";
-
-    document.getElementById(
-        "upgradeStat"
-    ).textContent = "-";
-
-    document.getElementById(
-        "buildingTable"
-    ).innerHTML = "";
-
-    document.getElementById(
-        "upgradeTable"
-    ).innerHTML = "";
-
-    document.getElementById(
-        "purchasePlan"
-    ).innerHTML = "";
-
-    document.getElementById(
-        "tips"
-    ).innerHTML = "";
-
-    document.getElementById(
-        "bestPurchase"
-    ).innerHTML = "-";
+document.getElementById("buildingTable").innerHTML="";
+document.getElementById("upgradeTable").innerHTML="";
+document.getElementById("purchasePlan").innerHTML="";
+document.getElementById("tips").innerHTML="";
+document.getElementById("bestPurchase").innerHTML="-";
 
 }
 
@@ -872,1024 +445,743 @@ function clearSave(){
 
 function decodeSave(input){
 
-    input =
-        input.trim();
+input=input.trim();
 
-    if(!input){
+if(!input){
 
-        throw new Error(
-            "La sauvegarde est vide."
-        );
+throw new Error(
+"La sauvegarde est vide."
+);
 
-    }
+}
 
-    try{
+try{
 
-        input =
-            decodeURIComponent(input);
+input=decodeURIComponent(input);
 
-    }
-    catch(e){}
+}catch(e){}
 
-    input =
-        input.replace(
-            /\s/g,
-            ""
-        );
+input=input.replace(/\s/g,"");
 
-    if(
-        input.includes("!END!")
-    ){
+if(input.includes("!END!")){
 
-        input =
-            input.split(
-                "!END!"
-            )[0];
+input=input.split("!END!")[0];
 
-    }
+}
 
-    if(
-        input.includes("|") &&
-        input.includes(";")
-    ){
+if(input.includes("|")&&input.includes(";")){
 
-        return input;
+return input;
 
-    }
+}
 
-    try{
+try{
 
-        const binary =
-            atob(input);
+const binary=atob(input);
 
-        const bytes =
-            new Uint8Array(
-                binary.length
-            );
+const bytes=new Uint8Array(binary.length);
 
-        for(
-            let i=0;
-            i<binary.length;
-            i++
-        ){
+for(let i=0;i<binary.length;i++){
 
-            bytes[i] =
-                binary.charCodeAt(i);
+bytes[i]=binary.charCodeAt(i);
 
-        }
+}
 
-        return new TextDecoder()
-            .decode(bytes);
+return new TextDecoder().decode(bytes);
 
-    }
-    catch(e){
+}catch(e){
 
-        throw new Error(
-            "Impossible de lire cette sauvegarde : " +
-            e.message
-        );
+throw new Error(
+"Impossible de lire cette sauvegarde : "+e.message
+);
 
-    }
+}
 
 }
 
 
 /* =========================================================
-   PARSER
+   BITFIELD
+========================================================= */
+
+function countBits(section){
+
+if(!section||!/^[01]+$/.test(section))return 0;
+
+let total=0;
+
+for(const c of section){
+
+if(c==="1")total++;
+
+}
+
+return total;
+
+}
+
+
+/* =========================================================
+   ESTIMATION DES UPGRADES
+========================================================= */
+
+function estimateUpgradeMultiplier(
+sections,
+buildingData
+){
+
+let multiplier=1;
+
+
+/*
+   Les sections binaires de la sauvegarde
+   contiennent notamment les états d'achats.
+
+   On ne transforme pas arbitrairement chaque "1"
+   en x2 : ce serait faux.
+
+   On utilise uniquement les multiplicateurs
+   structurels pouvant être déduits sans
+   connaître le nom de chaque upgrade.
+*/
+
+
+/* Prestige */
+
+let prestige=0;
+
+for(const section of sections){
+
+if(
+section &&
+/^-?\d+(\.\d+)?$/.test(section)
+){
+
+const n=Number(section);
+
+if(
+Number.isFinite(n)&&
+n>=0&&
+n<1e15
+){
+
+/*
+   On cherche les valeurs plausibles
+   de prestige dans les sections numériques.
+*/
+if(n>1000)prestige=Math.max(prestige,n);
+
+}
+
+}
+
+}
+
+
+/*
+   Bonus de prestige.
+   Cookie Clicker utilise +1% par niveau
+   de prestige dans le calcul de production.
+*/
+
+if(prestige>0){
+
+multiplier*=1+prestige*0.01;
+
+}
+
+
+/*
+   Les niveaux de bâtiments apportent un bonus.
+   Chaque niveau donne un bonus de production
+   au bâtiment correspondant.
+
+   On ne les applique pas directement ici :
+   ils sont appliqués bâtiment par bâtiment.
+*/
+
+return multiplier;
+
+}
+
+
+/* =========================================================
+   PARSE SAVE
 ========================================================= */
 
 function parseSave(decoded){
 
-    const sections =
-        decoded.split("|");
+const sections=decoded.split("|");
 
-    if(
-        sections.length < 6
-    ){
+if(sections.length<6){
 
-        throw new Error(
-            "Format de sauvegarde Cookie Clicker non reconnu."
-        );
+throw new Error(
+"Format de sauvegarde Cookie Clicker non reconnu."
+);
 
-    }
+}
 
-    let bakeryName =
-        "Cookie";
 
-    if(sections[2]){
+/* Nom */
 
-        const run =
-            sections[2].split(";");
+let bakeryName="Cookie";
 
-        if(run[3]){
+if(sections[2]){
 
-            bakeryName =
-                run[3];
+const run=sections[2].split(";");
 
-        }
+if(run[3])bakeryName=run[3];
 
-    }
+}
 
 
-    /*
-       COOKIE STATS
+/* Cookies */
 
-       La première valeur de la section 4
-       correspond aux cookies actuellement
-       présents dans la banque.
-    */
+const stats=
+sections[4]
+?sections[4].split(";")
+:[];
 
-    const stats =
-        sections[4]
-            ? sections[4].split(";")
-            : [];
+const cookies=Number(stats[0])||0;
 
-    const cookies =
-        Number(stats[0]) || 0;
 
+/* Bâtiments */
 
-    /*
-       BÂTIMENTS
-    */
+const buildingData=
+sections[5]
+?sections[5].split(";")
+:[];
 
-    const buildingData =
-        sections[5]
-            ? sections[5].split(";")
-            : [];
+const buildings=[];
 
-    const buildings = [];
+for(let i=0;i<BUILDINGS.length;i++){
 
+const data=
+buildingData[i]
+?buildingData[i].split(",")
+:[];
 
-    for(
-        let i=0;
-        i<BUILDINGS.length;
-        i++
-    ){
+const amount=Number(data[0])||0;
+const bought=Number(data[1])||0;
+const produced=Number(data[2])||0;
+const level=Number(data[3])||0;
 
-        const data =
-            buildingData[i]
-                ? buildingData[i].split(",")
-                : [];
+buildings.push({
 
+...BUILDINGS[i],
 
-        const amount =
-            Number(data[0]) || 0;
+amount,
+bought,
+produced,
+level
 
-        const bought =
-            Number(data[1]) || 0;
-
-        /*
-           Cette valeur est le nombre total
-           de cookies produits par le bâtiment
-           pendant l'ascension.
-
-           CE N'EST PAS LE CpS.
-        */
-
-        const produced =
-            Number(data[2]) || 0;
-
-        const level =
-            Number(data[3]) || 0;
-
-
-        buildings.push({
-
-            ...BUILDINGS[i],
-
-            amount,
-            bought,
-            produced,
-            level
-
-        });
-
-    }
-
-
-    /*
-       CALCUL DU CpS
-
-       On utilise uniquement :
-       nombre de bâtiments × CpS de base.
-
-       On NE DOIT PAS utiliser "produced",
-       car produced = cookies produits au total,
-       pas cookies par seconde.
-    */
-
-    let rawCps = 0;
-
-
-    for(
-        const building of buildings
-    ){
-
-        rawCps +=
-            building.amount *
-            building.baseCpS;
-
-    }
-
-
-    /*
-       AMÉLIORATIONS DÉTECTÉES
-    */
-
-    let upgradeCount = 0;
-
-
-    for(
-        let i=6;
-        i<sections.length;
-        i++
-    ){
-
-        const section =
-            sections[i];
-
-
-        if(
-            /^[01]+$/.test(section) &&
-            section.length >= 20
-        ){
-
-            for(
-                const char of section
-            ){
-
-                if(char === "1"){
-
-                    upgradeCount++;
-
-                }
-
-            }
-
-        }
-
-    }
-
-
-    return {
-
-        bakeryName,
-
-        cookies,
-
-        rawCps,
-
-        buildings,
-
-        upgradeCount,
-
-        sections
-
-    };
+});
 
 }
 
 
 /* =========================================================
-   PRIX BÂTIMENT
+   CPS DE BASE
+========================================================= */
+
+let baseCps=0;
+
+for(const building of buildings){
+
+/*
+   Bonus de niveau.
+
+   Dans Cookie Clicker, les niveaux de bâtiments
+   améliorent leur production.
+*/
+
+const levelMultiplier=
+1+(building.level*0.01);
+
+baseCps+=
+building.amount*
+building.baseCpS*
+levelMultiplier;
+
+}
+
+
+/* =========================================================
+   MULTIPLICATEURS
+========================================================= */
+
+let multiplier=
+estimateUpgradeMultiplier(
+sections,
+buildingData
+);
+
+
+/*
+   Recherche des sections binaires.
+
+   On garde leur nombre pour les statistiques,
+   mais on ne considère PAS chaque bit comme
+   un multiplicateur x2 : les upgrades ont des
+   effets différents.
+*/
+
+let upgradeCount=0;
+
+for(let i=6;i<sections.length;i++){
+
+upgradeCount+=countBits(sections[i]);
+
+}
+
+
+/*
+   Limitation de sécurité.
+
+   Le multiplicateur de prestige ne doit pas
+   devenir infini si une section est mal lue.
+*/
+
+if(!Number.isFinite(multiplier)||multiplier<=0){
+
+multiplier=1;
+
+}
+
+if(multiplier>1e300){
+
+multiplier=1e300;
+
+}
+
+
+const rawCps=
+baseCps*
+multiplier;
+
+
+return{
+
+bakeryName,
+cookies,
+rawCps,
+baseCps,
+multiplier,
+buildings,
+upgradeCount,
+sections
+
+};
+
+}
+
+
+/* =========================================================
+   PRIX
 ========================================================= */
 
 function nextPrice(building){
 
-    return Math.ceil(
-        building.basePrice *
-        Math.pow(
-            1.15,
-            building.amount
-        )
-    );
+return Math.ceil(
+building.basePrice*
+Math.pow(1.15,building.amount)
+);
 
 }
 
 
 /* =========================================================
-   AMÉLIORATIONS
+   UPGRADES
 ========================================================= */
 
-const UPGRADES = [
+const UPGRADES=[
 
-    {
-        name:"Reinforced index finger",
-        price:100,
-        cps:0,
-        type:"Clic"
-    },
+{name:"Reinforced index finger",price:100,cps:0,type:"Clic"},
+{name:"Carpal tunnel prevention cream",price:400,cps:0,type:"Clic"},
+{name:"Ambidextrous",price:10000,cps:0,type:"Clic"},
+{name:"Thousand fingers",price:100000,cps:0,type:"Clic"},
+{name:"Million fingers",price:1000000,cps:0,type:"Clic"},
+{name:"Billion fingers",price:1000000000,cps:0,type:"Clic"},
+{name:"Trillion fingers",price:1000000000000,cps:0,type:"Clic"},
 
-    {
-        name:"Carpal tunnel prevention cream",
-        price:400,
-        cps:0,
-        type:"Clic"
-    },
+{name:"Forwards from grandma",price:100,cps:0.5,type:"Grand-mère"},
+{name:"Steel-plated rolling pins",price:500,cps:1,type:"Grand-mère"},
+{name:"Lubricated dentures",price:5000,cps:5,type:"Grand-mère"},
+{name:"Prune juice",price:50000,cps:50,type:"Grand-mère"},
+{name:"Double-thick glasses",price:500000,cps:500,type:"Grand-mère"},
+{name:"Aging agents",price:5000000,cps:5000,type:"Grand-mère"},
+{name:"Xtreme walkers",price:50000000,cps:50000,type:"Grand-mère"},
 
-    {
-        name:"Ambidextrous",
-        price:10000,
-        cps:0,
-        type:"Clic"
-    },
+{name:"Cheap hoes",price:1100,cps:4,type:"Ferme"},
+{name:"Fertilizer",price:5500,cps:8,type:"Ferme"},
+{name:"Grains",price:55000,cps:80,type:"Ferme"},
+{name:"Steel plows",price:550000,cps:800,type:"Ferme"},
+{name:"Scythes",price:5500000,cps:8000,type:"Ferme"},
 
-    {
-        name:"Thousand fingers",
-        price:100000,
-        cps:0,
-        type:"Clic"
-    },
+{name:"Sturdier conveyor belts",price:12000,cps:23.5,type:"Usine"},
+{name:"Child labor",price:60000,cps:47,type:"Usine"},
+{name:"Sweatshop",price:600000,cps:470,type:"Usine"},
+{name:"Radium reactors",price:6000000,cps:4700,type:"Usine"},
 
-    {
-        name:"Million fingers",
-        price:1000000,
-        cps:0,
-        type:"Clic"
-    },
-
-    {
-        name:"Billion fingers",
-        price:1000000000,
-        cps:0,
-        type:"Clic"
-    },
-
-    {
-        name:"Trillion fingers",
-        price:1000000000000,
-        cps:0,
-        type:"Clic"
-    },
-
-    {
-        name:"Forwards from grandma",
-        price:100,
-        cps:0.5,
-        type:"Grand-mère"
-    },
-
-    {
-        name:"Steel-plated rolling pins",
-        price:500,
-        cps:1,
-        type:"Grand-mère"
-    },
-
-    {
-        name:"Lubricated dentures",
-        price:5000,
-        cps:5,
-        type:"Grand-mère"
-    },
-
-    {
-        name:"Prune juice",
-        price:50000,
-        cps:50,
-        type:"Grand-mère"
-    },
-
-    {
-        name:"Double-thick glasses",
-        price:500000,
-        cps:500,
-        type:"Grand-mère"
-    },
-
-    {
-        name:"Aging agents",
-        price:5000000,
-        cps:5000,
-        type:"Grand-mère"
-    },
-
-    {
-        name:"Xtreme walkers",
-        price:50000000,
-        cps:50000,
-        type:"Grand-mère"
-    },
-
-    {
-        name:"Cheap hoes",
-        price:1100,
-        cps:4,
-        type:"Ferme"
-    },
-
-    {
-        name:"Fertilizer",
-        price:5500,
-        cps:8,
-        type:"Ferme"
-    },
-
-    {
-        name:"Grains",
-        price:55000,
-        cps:80,
-        type:"Ferme"
-    },
-
-    {
-        name:"Steel plows",
-        price:550000,
-        cps:800,
-        type:"Ferme"
-    },
-
-    {
-        name:"Scythes",
-        price:5500000,
-        cps:8000,
-        type:"Ferme"
-    },
-
-    {
-        name:"Sturdier conveyor belts",
-        price:12000,
-        cps:23.5,
-        type:"Usine"
-    },
-
-    {
-        name:"Child labor",
-        price:60000,
-        cps:47,
-        type:"Usine"
-    },
-
-    {
-        name:"Sweatshop",
-        price:600000,
-        cps:470,
-        type:"Usine"
-    },
-
-    {
-        name:"Radium reactors",
-        price:6000000,
-        cps:4700,
-        type:"Usine"
-    },
-
-    {
-        name:"Gem polish",
-        price:21000000000000000,
-        cps:2900000000,
-        type:"Prisme"
-    }
+{name:"Gem polish",price:21000000000000000,cps:2900000000,type:"Prisme"}
 
 ];
 
 
-/* =========================================================
-   UPGRADES DISPONIBLES
-========================================================= */
-
 function getAvailableUpgrades(save){
 
-    const result = [];
+const result=[];
+const owned=save.upgradeCount;
 
-    const owned =
-        save.upgradeCount;
+for(let i=0;i<UPGRADES.length;i++){
 
-    for(
-        let i=0;
-        i<UPGRADES.length;
-        i++
-    ){
+if(i<owned)continue;
 
-        if(i < owned){
-            continue;
-        }
+const upgrade=UPGRADES[i];
 
-        const upgrade =
-            UPGRADES[i];
+result.push({
 
-        result.push({
+...upgrade,
+gain:upgrade.cps
 
-            ...upgrade,
+});
 
-            gain:
-                upgrade.cps
+}
 
-        });
-
-    }
-
-    return result;
+return result;
 
 }
 
 
 /* =========================================================
-   CALCUL RENTABILITÉ
+   INVESTISSEMENT
 ========================================================= */
 
 function calculateInvestment(
-    price,
-    gain,
-    cookies,
-    cps
+price,
+gain,
+cookies,
+cps
 ){
 
-    if(gain <= 0){
+if(gain<=0){
 
-        return {
+return{
+waitTime:Infinity,
+payback:Infinity,
+totalTime:Infinity
+};
 
-            waitTime:Infinity,
-            payback:Infinity,
-            totalTime:Infinity
+}
 
-        };
+let waitTime=0;
 
-    }
+if(price>cookies){
 
+const missing=price-cookies;
 
-    let waitTime = 0;
+if(cps<=0){
 
+waitTime=Infinity;
 
-    if(price > cookies){
+}else{
 
-        const missing =
-            price - cookies;
+waitTime=missing/cps;
 
+}
 
-        if(cps <= 0){
+}
 
-            waitTime =
-                Infinity;
+const payback=price/gain;
 
-        }
-        else{
+return{
 
-            waitTime =
-                missing / cps;
+waitTime,
+payback,
+totalTime:
+waitTime+payback
 
-        }
-
-    }
-
-
-    const payback =
-        price / gain;
-
-
-    const totalTime =
-        waitTime + payback;
-
-
-    return {
-
-        waitTime,
-        payback,
-        totalTime
-
-    };
+};
 
 }
 
 
 /* =========================================================
-   TOUS LES CANDIDATS
+   CANDIDATS
 ========================================================= */
 
 function calculateCandidates(save){
 
-    const candidates = [];
+const candidates=[];
+
+const mode=
+document.getElementById("analysisMode")?.value||"wait";
+
+const availableCookies=
+getAvailableCookies(save.cookies);
+
+const onlyAffordable=
+mode==="now";
 
 
-    const mode =
-        document.getElementById(
-            "analysisMode"
-        )?.value || "wait";
+for(const building of save.buildings){
+
+const price=nextPrice(building);
+
+const gain=
+building.baseCpS*
+(1+building.level*0.01)*
+save.multiplier;
 
 
-    const availableCookies =
-        getAvailableCookies(
-            save.cookies
-        );
+if(gain<=0)continue;
+
+if(
+onlyAffordable &&
+price>availableCookies
+)continue;
 
 
-    const onlyAffordable =
-        mode === "now";
+const investment=
+calculateInvestment(
+price,
+gain,
+availableCookies,
+save.rawCps
+);
 
 
-    for(
-        const building of save.buildings
-    ){
+candidates.push({
 
-        const price =
-            nextPrice(
-                building
-            );
+type:"Bâtiment",
+name:building.name,
+price,
+gain,
+waitTime:investment.waitTime,
+payback:investment.payback,
+totalTime:investment.totalTime,
+amount:building.amount
 
-        const gain =
-            building.baseCpS;
-
-
-        if(gain <= 0){
-            continue;
-        }
-
-
-        if(
-            onlyAffordable &&
-            price > availableCookies
-        ){
-
-            continue;
-
-        }
-
-
-        const investment =
-            calculateInvestment(
-                price,
-                gain,
-                availableCookies,
-                save.rawCps
-            );
-
-
-        candidates.push({
-
-            type:"Bâtiment",
-
-            name:
-                building.name,
-
-            price,
-
-            gain,
-
-            waitTime:
-                investment.waitTime,
-
-            payback:
-                investment.payback,
-
-            totalTime:
-                investment.totalTime,
-
-            amount:
-                building.amount
-
-        });
-
-    }
-
-
-    const upgrades =
-        getAvailableUpgrades(
-            save
-        );
-
-
-    for(
-        const upgrade of upgrades
-    ){
-
-        if(upgrade.gain <= 0){
-            continue;
-        }
-
-
-        if(
-            onlyAffordable &&
-            upgrade.price > availableCookies
-        ){
-
-            continue;
-
-        }
-
-
-        const investment =
-            calculateInvestment(
-                upgrade.price,
-                upgrade.gain,
-                availableCookies,
-                save.rawCps
-            );
-
-
-        candidates.push({
-
-            type:"Amélioration",
-
-            name:
-                upgrade.name,
-
-            price:
-                upgrade.price,
-
-            gain:
-                upgrade.gain,
-
-            waitTime:
-                investment.waitTime,
-
-            payback:
-                investment.payback,
-
-            totalTime:
-                investment.totalTime,
-
-            amount:null
-
-        });
-
-    }
-
-
-    candidates.sort(
-        (a,b) =>
-            a.totalTime -
-            b.totalTime
-    );
-
-
-    return candidates;
+});
 
 }
 
 
-/* =========================================================
-   MEILLEUR ACHAT
-========================================================= */
+/* Upgrades */
+
+const upgrades=
+getAvailableUpgrades(save);
+
+for(const upgrade of upgrades){
+
+if(upgrade.gain<=0)continue;
+
+if(
+onlyAffordable &&
+upgrade.price>availableCookies
+)continue;
+
+
+const investment=
+calculateInvestment(
+upgrade.price,
+upgrade.gain,
+availableCookies,
+save.rawCps
+);
+
+
+candidates.push({
+
+type:"Amélioration",
+name:upgrade.name,
+price:upgrade.price,
+gain:upgrade.gain,
+waitTime:investment.waitTime,
+payback:investment.payback,
+totalTime:investment.totalTime,
+amount:null
+
+});
+
+}
+
+
+candidates.sort(
+(a,b)=>a.totalTime-b.totalTime
+);
+
+return candidates;
+
+}
+
 
 function calculateBestPurchases(save){
 
-    return calculateCandidates(
-        save
-    );
+return calculateCandidates(save);
 
 }
 
 
 /* =========================================================
-   PLAN D'ACHAT
+   PLAN
 ========================================================= */
 
-function calculatePurchasePlan(
-    save,
-    maxSteps=15
+function calculatePurchasePlan(save,maxSteps=15){
+
+let cookies=
+getAvailableCookies(save.cookies);
+
+let cps=save.rawCps;
+
+const buildings=
+save.buildings.map(b=>({...b}));
+
+const upgrades=
+getAvailableUpgrades(save).map(u=>({...u}));
+
+const plan=[];
+
+
+for(let step=0;step<maxSteps;step++){
+
+const candidates=[];
+
+
+for(const building of buildings){
+
+const price=
+Math.ceil(
+building.basePrice*
+Math.pow(1.15,building.amount)
+);
+
+const gain=
+building.baseCpS*
+(1+building.level*0.01)*
+save.multiplier;
+
+
+if(gain<=0)continue;
+
+
+const investment=
+calculateInvestment(
+price,
+gain,
+cookies,
+cps
+);
+
+
+candidates.push({
+
+type:"Bâtiment",
+name:building.name,
+price,
+gain,
+waitTime:investment.waitTime,
+payback:investment.payback,
+totalTime:investment.totalTime,
+object:building
+
+});
+
+}
+
+
+for(const upgrade of upgrades){
+
+if(upgrade.gain<=0)continue;
+
+
+const investment=
+calculateInvestment(
+upgrade.price,
+upgrade.gain,
+cookies,
+cps
+);
+
+
+candidates.push({
+
+type:"Amélioration",
+name:upgrade.name,
+price:upgrade.price,
+gain:upgrade.gain,
+waitTime:investment.waitTime,
+payback:investment.payback,
+totalTime:investment.totalTime,
+object:upgrade
+
+});
+
+}
+
+
+if(!candidates.length)break;
+
+
+candidates.sort(
+(a,b)=>a.totalTime-b.totalTime
+);
+
+const best=candidates[0];
+
+
+if(
+best.waitTime>0 &&
+Number.isFinite(best.waitTime)
 ){
 
-    let cookies =
-        getAvailableCookies(
-            save.cookies
-        );
+cookies+=best.waitTime*cps;
 
+}
 
-    let cps =
-        save.rawCps;
 
+cookies-=best.price;
 
-    const buildings =
-        save.buildings.map(
-            b => ({...b})
-        );
+cps+=best.gain;
 
 
-    const upgrades =
-        getAvailableUpgrades(
-            save
-        ).map(
-            u => ({...u})
-        );
+if(best.type==="Bâtiment"){
 
+best.object.amount++;
 
-    const plan = [];
+}else{
 
+const index=
+upgrades.indexOf(best.object);
 
-    for(
-        let step=0;
-        step<maxSteps;
-        step++
-    ){
+if(index!==-1){
 
-        const candidates = [];
+upgrades.splice(index,1);
 
+}
 
-        for(
-            const building of buildings
-        ){
+}
 
-            const price =
-                Math.ceil(
-                    building.basePrice *
-                    Math.pow(
-                        1.15,
-                        building.amount
-                    )
-                );
 
+plan.push({
 
-            const gain =
-                building.baseCpS;
+step:step+1,
+type:best.type,
+name:best.name,
+price:best.price,
+gain:best.gain,
+waitTime:best.waitTime,
+payback:best.payback,
+totalTime:best.totalTime,
+remaining:cookies,
+cps
 
+});
 
-            if(gain <= 0){
-                continue;
-            }
+}
 
 
-            const investment =
-                calculateInvestment(
-                    price,
-                    gain,
-                    cookies,
-                    cps
-                );
-
-
-            candidates.push({
-
-                type:"Bâtiment",
-
-                name:
-                    building.name,
-
-                price,
-
-                gain,
-
-                waitTime:
-                    investment.waitTime,
-
-                payback:
-                    investment.payback,
-
-                totalTime:
-                    investment.totalTime,
-
-                object:
-                    building
-
-            });
-
-        }
-
-
-        for(
-            const upgrade of upgrades
-        ){
-
-            if(
-                upgrade.gain <= 0
-            ){
-
-                continue;
-
-            }
-
-
-            const investment =
-                calculateInvestment(
-                    upgrade.price,
-                    upgrade.gain,
-                    cookies,
-                    cps
-                );
-
-
-            candidates.push({
-
-                type:"Amélioration",
-
-                name:
-                    upgrade.name,
-
-                price:
-                    upgrade.price,
-
-                gain:
-                    upgrade.gain,
-
-                waitTime:
-                    investment.waitTime,
-
-                payback:
-                    investment.payback,
-
-                totalTime:
-                    investment.totalTime,
-
-                object:
-                    upgrade
-
-            });
-
-        }
-
-
-        if(!candidates.length){
-            break;
-        }
-
-
-        candidates.sort(
-            (a,b) =>
-                a.totalTime -
-                b.totalTime
-        );
-
-
-        const best =
-            candidates[0];
-
-
-        if(
-            best.waitTime > 0 &&
-            Number.isFinite(
-                best.waitTime
-            )
-        ){
-
-            cookies +=
-                best.waitTime *
-                cps;
-
-        }
-
-
-        cookies -=
-            best.price;
-
-
-        cps +=
-            best.gain;
-
-
-        if(
-            best.type ===
-            "Bâtiment"
-        ){
-
-            best.object.amount++;
-
-        }
-        else{
-
-            const index =
-                upgrades.indexOf(
-                    best.object
-                );
-
-
-            if(index !== -1){
-
-                upgrades.splice(
-                    index,
-                    1
-                );
-
-            }
-
-        }
-
-
-        plan.push({
-
-            step:
-                step + 1,
-
-            type:
-                best.type,
-
-            name:
-                best.name,
-
-            price:
-                best.price,
-
-            gain:
-                best.gain,
-
-            waitTime:
-                best.waitTime,
-
-            payback:
-                best.payback,
-
-            totalTime:
-                best.totalTime,
-
-            remaining:
-                cookies,
-
-            cps
-
-        });
-
-    }
-
-
-    return plan;
+return plan;
 
 }
 
@@ -1900,66 +1192,39 @@ function calculatePurchasePlan(
 
 function analyzeSave(){
 
-    const error =
-        document.getElementById(
-            "error"
-        );
+const error=
+document.getElementById("error");
+
+const results=
+document.getElementById("results");
+
+error.style.display="none";
+results.style.display="none";
 
 
-    const results =
-        document.getElementById(
-            "results"
-        );
+try{
 
+const input=
+document.getElementById("saveInput").value;
 
-    error.style.display =
-        "none";
+const decoded=
+decodeSave(input);
 
+const save=
+parseSave(decoded);
 
-    results.style.display =
-        "none";
+renderResults(save);
 
+results.style.display="block";
 
-    try{
+}catch(e){
 
-        const input =
-            document.getElementById(
-                "saveInput"
-            ).value;
+error.textContent=
+e.message||"Erreur inconnue.";
 
+error.style.display="block";
 
-        const decoded =
-            decodeSave(
-                input
-            );
-
-
-        const save =
-            parseSave(
-                decoded
-            );
-
-
-        renderResults(
-            save
-        );
-
-
-        results.style.display =
-            "block";
-
-    }
-    catch(e){
-
-        error.textContent =
-            e.message ||
-            "Erreur inconnue.";
-
-
-        error.style.display =
-            "block";
-
-    }
+}
 
 }
 
@@ -1970,83 +1235,43 @@ function analyzeSave(){
 
 function renderResults(save){
 
-    const reserve =
-        Math.min(
-            getReserve(),
-            save.cookies
-        );
+const reserve=
+Math.min(
+getReserve(),
+save.cookies
+);
+
+const available=
+Math.max(
+0,
+save.cookies-reserve
+);
 
 
-    const available =
-        Math.max(
-            0,
-            save.cookies - reserve
-        );
+document.getElementById("cookiesStat").textContent=
+formatNumber(save.cookies);
+
+document.getElementById("cpsStat").textContent=
+formatNumber(save.rawCps);
+
+document.getElementById("availableCookiesStat").textContent=
+formatNumber(available);
+
+document.getElementById("buildingStat").textContent=
+save.buildings.reduce(
+(sum,b)=>sum+b.amount,
+0
+);
+
+document.getElementById("upgradeStat").textContent=
+save.upgradeCount;
 
 
-    document.getElementById(
-        "cookiesStat"
-    ).textContent =
-        formatNumber(
-            save.cookies
-        );
-
-
-    document.getElementById(
-        "cpsStat"
-    ).textContent =
-        formatNumber(
-            save.rawCps
-        );
-
-
-    document.getElementById(
-        "availableCookiesStat"
-    ).textContent =
-        formatNumber(
-            available
-        );
-
-
-    document.getElementById(
-        "buildingStat"
-    ).textContent =
-        save.buildings.reduce(
-            (sum,b) =>
-                sum + b.amount,
-            0
-        );
-
-
-    document.getElementById(
-        "upgradeStat"
-    ).textContent =
-        save.upgradeCount;
-
-
-    renderBuildings(
-        save
-    );
-
-
-    renderUpgrades(
-        save
-    );
-
-
-    renderBest(
-        save
-    );
-
-
-    renderPlan(
-        save
-    );
-
-
-    renderTips(
-        save
-    );
+renderBuildings(save);
+renderUpgrades(save);
+renderBest(save);
+renderPlan(save);
+renderTips(save);
 
 }
 
@@ -2057,284 +1282,214 @@ function renderResults(save){
 
 function renderBuildings(save){
 
-    const tbody =
-        document.getElementById(
-            "buildingTable"
-        );
+const tbody=
+document.getElementById("buildingTable");
+
+tbody.innerHTML="";
 
 
-    tbody.innerHTML = "";
+const availableCookies=
+getAvailableCookies(save.cookies);
 
 
-    const availableCookies =
-        getAvailableCookies(
-            save.cookies
-        );
+const buildings=
+save.buildings
+.map(building=>{
+
+const price=
+nextPrice(building);
+
+const gain=
+building.baseCpS*
+(1+building.level*0.01)*
+save.multiplier;
 
 
-    const buildings =
-        save.buildings
-            .map(
-                building => {
-
-                    const price =
-                        nextPrice(
-                            building
-                        );
+const investment=
+calculateInvestment(
+price,
+gain,
+availableCookies,
+save.rawCps
+);
 
 
-                    const gain =
-                        building.baseCpS;
+return{
+
+building,
+price,
+gain,
+...investment
+
+};
+
+})
+.sort(
+(a,b)=>a.totalTime-b.totalTime
+);
 
 
-                    const investment =
-                        calculateInvestment(
-                            price,
-                            gain,
-                            availableCookies,
-                            save.rawCps
-                        );
+const best=
+buildings.length
+?buildings[0].totalTime
+:Infinity;
 
 
-                    return {
+for(const item of buildings){
 
-                        building,
-
-                        price,
-
-                        gain,
-
-                        ...investment
-
-                    };
-
-                }
-            )
-            .sort(
-                (a,b) =>
-                    a.totalTime -
-                    b.totalTime
-            );
+const tr=
+document.createElement("tr");
 
 
-    const best =
-        buildings.length
-            ? buildings[0].totalTime
-            : Infinity;
+if(item.totalTime===best){
+
+tr.className="best";
+
+}
 
 
-    for(
-        const item of buildings
-    ){
+tr.innerHTML=`
 
-        const tr =
-            document.createElement(
-                "tr"
-            );
+<td>
+<strong>
+${escapeHtml(item.building.name)}
+</strong>
+</td>
 
+<td>
+${item.building.amount}
+</td>
 
-        if(
-            item.totalTime ===
-            best
-        ){
+<td>
+${formatNumber(item.price)}
+</td>
 
-            tr.className =
-                "best";
+<td class="good">
++${formatNumber(item.gain)} CpS
+</td>
 
-        }
+<td class="wait">
+${formatTime(item.waitTime)}
+</td>
 
+<td>
+${formatTime(item.totalTime)}
+</td>
 
-        tr.innerHTML = `
-
-            <td>
-                <strong>
-                    ${escapeHtml(
-                        item.building.name
-                    )}
-                </strong>
-            </td>
-
-            <td>
-                ${item.building.amount}
-            </td>
-
-            <td>
-                ${formatNumber(
-                    item.price
-                )}
-            </td>
-
-            <td class="good">
-                +${formatNumber(
-                    item.gain
-                )} CpS
-            </td>
-
-            <td class="wait">
-                ${formatTime(
-                    item.waitTime
-                )}
-            </td>
-
-            <td>
-                ${formatTime(
-                    item.totalTime
-                )}
-            </td>
-
-        `;
+`;
 
 
-        tbody.appendChild(
-            tr
-        );
+tbody.appendChild(tr);
 
-    }
+}
 
 }
 
 
 /* =========================================================
-   TABLE UPGRADES
+   UPGRADES
 ========================================================= */
 
 function renderUpgrades(save){
 
-    const tbody =
-        document.getElementById(
-            "upgradeTable"
-        );
+const tbody=
+document.getElementById("upgradeTable");
+
+tbody.innerHTML="";
 
 
-    tbody.innerHTML = "";
+const availableCookies=
+getAvailableCookies(save.cookies);
 
 
-    const availableCookies =
-        getAvailableCookies(
-            save.cookies
-        );
+const upgrades=
+getAvailableUpgrades(save)
+.filter(
+upgrade=>upgrade.gain>0
+)
+.map(upgrade=>{
+
+const investment=
+calculateInvestment(
+upgrade.price,
+upgrade.gain,
+availableCookies,
+save.rawCps
+);
 
 
-    const upgrades =
-        getAvailableUpgrades(
-            save
-        )
-        .filter(
-            upgrade =>
-                upgrade.gain > 0
-        )
-        .map(
-            upgrade => {
+return{
 
-                const investment =
-                    calculateInvestment(
-                        upgrade.price,
-                        upgrade.gain,
-                        availableCookies,
-                        save.rawCps
-                    );
+...upgrade,
+...investment
+
+};
+
+})
+.sort(
+(a,b)=>a.totalTime-b.totalTime
+);
 
 
-                return {
+if(!upgrades.length){
 
-                    ...upgrade,
+tbody.innerHTML=`
 
-                    ...investment
+<tr>
+<td colspan="5">
+Aucune amélioration détectable avec un gain direct de CpS.
+</td>
+</tr>
 
-                };
+`;
 
-            }
-        )
-        .sort(
-            (a,b) =>
-                a.totalTime -
-                b.totalTime
-        );
+return;
 
-
-    if(!upgrades.length){
-
-        tbody.innerHTML = `
-
-            <tr>
-
-                <td colspan="5">
-
-                    Aucune amélioration
-                    détectable avec un gain
-                    direct de CpS.
-
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
-
-    }
+}
 
 
-    for(
-        const upgrade of upgrades
-    ){
+for(const upgrade of upgrades){
 
-        const tr =
-            document.createElement(
-                "tr"
-            );
+const tr=
+document.createElement("tr");
 
 
-        tr.innerHTML = `
+tr.innerHTML=`
 
-            <td>
+<td>
 
-                <strong>
-                    ${escapeHtml(
-                        upgrade.name
-                    )}
-                </strong>
+<strong>
+${escapeHtml(upgrade.name)}
+</strong>
 
-                <div class="small">
-                    ${escapeHtml(
-                        upgrade.type
-                    )}
-                </div>
+<div class="small">
+${escapeHtml(upgrade.type)}
+</div>
 
-            </td>
+</td>
 
-            <td>
-                ${formatNumber(
-                    upgrade.price
-                )}
-            </td>
+<td>
+${formatNumber(upgrade.price)}
+</td>
 
-            <td class="good">
-                +${formatNumber(
-                    upgrade.gain
-                )} CpS
-            </td>
+<td class="good">
++${formatNumber(upgrade.gain)} CpS
+</td>
 
-            <td class="wait">
-                ${formatTime(
-                    upgrade.waitTime
-                )}
-            </td>
+<td class="wait">
+${formatTime(upgrade.waitTime)}
+</td>
 
-            <td>
-                ${formatTime(
-                    upgrade.totalTime
-                )}
-            </td>
+<td>
+${formatTime(upgrade.totalTime)}
+</td>
 
-        `;
+`;
 
 
-        tbody.appendChild(
-            tr
-        );
+tbody.appendChild(tr);
 
-    }
+}
 
 }
 
@@ -2345,174 +1500,139 @@ function renderUpgrades(save){
 
 function renderBest(save){
 
-    const container =
-        document.getElementById(
-            "bestPurchase"
-        );
+const container=
+document.getElementById("bestPurchase");
+
+const candidates=
+calculateBestPurchases(save);
 
 
-    const candidates =
-        calculateBestPurchases(
-            save
-        );
+if(!candidates.length){
+
+container.innerHTML=`
+
+<div class="warning">
+Aucun achat disponible selon ce mode d'analyse.
+</div>
+
+`;
+
+return;
+
+}
 
 
-    if(!candidates.length){
+const best=candidates[0];
 
-        container.innerHTML = `
+const waiting=
+best.waitTime>0;
 
-            <div class="warning">
-
-                Aucun achat disponible
-                selon ce mode d'analyse.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
+const mode=
+document.getElementById("analysisMode")?.value||"wait";
 
 
-    const best =
-        candidates[0];
+container.innerHTML=`
 
+<div class="recommendation">
 
-    const waiting =
-        best.waitTime > 0;
+<h3>
 
+${
+mode==="now"
+?"🛒 Meilleur achat maintenant"
+:
+(
+waiting
+?"⏳ Achat à attendre"
+:"✅ Achat disponible"
+)
+}
 
-    const mode =
-        document.getElementById(
-            "analysisMode"
-        )?.value || "wait";
+</h3>
 
+<div class="big">
+${escapeHtml(best.name)}
+</div>
 
-    container.innerHTML = `
+<p>
 
-        <div class="recommendation">
+<span class="tag">
+${escapeHtml(best.type)}
+</span>
 
-            <h3>
+</p>
 
-                ${
-                    mode === "now"
-                    ? "🛒 Meilleur achat maintenant"
-                    : (
-                        waiting
-                        ? "⏳ Achat à attendre"
-                        : "✅ Achat disponible"
-                    )
-                }
+<div class="grid">
 
-            </h3>
+<div class="stat">
 
+<div class="label">
+Prix
+</div>
 
-            <div class="big">
+<div class="value">
+${formatNumber(best.price)}
+</div>
 
-                ${escapeHtml(
-                    best.name
-                )}
+</div>
 
-            </div>
+<div class="stat">
 
+<div class="label">
+Gain
+</div>
 
-            <p>
+<div class="value good">
++${formatNumber(best.gain)} CpS
+</div>
 
-                <span class="tag">
-                    ${escapeHtml(
-                        best.type
-                    )}
-                </span>
+</div>
 
-            </p>
+<div class="stat">
 
+<div class="label">
+Temps d'attente
+</div>
 
-            <div class="grid">
+<div class="value wait">
+${formatTime(best.waitTime)}
+</div>
 
-                <div class="stat">
+</div>
 
-                    <div class="label">
-                        Prix
-                    </div>
+<div class="stat">
 
-                    <div class="value">
-                        ${formatNumber(
-                            best.price
-                        )}
-                    </div>
+<div class="label">
+Temps total
+</div>
 
-                </div>
+<div class="value">
+${formatTime(best.totalTime)}
+</div>
 
+</div>
 
-                <div class="stat">
+</div>
 
-                    <div class="label">
-                        Gain
-                    </div>
+<hr>
 
-                    <div class="value good">
-                        +${formatNumber(
-                            best.gain
-                        )} CpS
-                    </div>
+<strong>Analyse</strong>
 
-                </div>
+<p>
 
+${
+mode==="now"
+?
+"Seuls les achats que tu peux payer immédiatement avec les cookies disponibles sont comparés."
+:
+"Le calcul prend en compte les cookies disponibles, les cookies réservés et le temps nécessaire pour produire les cookies manquants."
+}
 
-                <div class="stat">
+</p>
 
-                    <div class="label">
-                        Temps d'attente
-                    </div>
+</div>
 
-                    <div class="value wait">
-                        ${formatTime(
-                            best.waitTime
-                        )}
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="label">
-                        Temps total
-                    </div>
-
-                    <div class="value">
-                        ${formatTime(
-                            best.totalTime
-                        )}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <hr>
-
-
-            <strong>
-                Analyse
-            </strong>
-
-
-            <p>
-
-                ${
-                    mode === "now"
-                    ? "Seuls les achats que tu peux payer immédiatement avec les cookies disponibles sont comparés."
-                    : "Le calcul prend en compte les cookies disponibles, les cookies réservés et le temps nécessaire pour produire les cookies manquants."
-                }
-
-            </p>
-
-        </div>
-
-    `;
+`;
 
 }
 
@@ -2523,130 +1643,91 @@ function renderBest(save){
 
 function renderPlan(save){
 
-    const container =
-        document.getElementById(
-            "purchasePlan"
-        );
+const container=
+document.getElementById("purchasePlan");
+
+const plan=
+calculatePurchasePlan(save,15);
 
 
-    const plan =
-        calculatePurchasePlan(
-            save,
-            15
-        );
+if(!plan.length){
+
+container.innerHTML=`
+
+<div class="warning">
+Aucun achat rentable détecté.
+</div>
+
+`;
+
+return;
+
+}
 
 
-    if(!plan.length){
-
-        container.innerHTML = `
-
-            <div class="warning">
-
-                Aucun achat rentable
-                détecté.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
+container.innerHTML="";
 
 
-    container.innerHTML = "";
+for(const item of plan){
 
+const div=
+document.createElement("div");
 
-    for(
-        const item of plan
-    ){
+div.className="plan-item";
 
-        const div =
-            document.createElement(
-                "div"
-            );
+div.innerHTML=`
 
+<span class="plan-number">
+${item.step}
+</span>
 
-        div.className =
-            "plan-item";
+<strong>
+${escapeHtml(item.name)}
+</strong>
 
+<span class="tag">
+${escapeHtml(item.type)}
+</span>
 
-        div.innerHTML = `
+<br>
 
-            <span class="plan-number">
-                ${item.step}
-            </span>
+<span class="small">
 
+Attente :
+${formatTime(item.waitTime)}
 
-            <strong>
-                ${escapeHtml(
-                    item.name
-                )}
-            </strong>
+—
 
+Prix :
+${formatNumber(item.price)}
 
-            <span class="tag">
-                ${escapeHtml(
-                    item.type
-                )}
-            </span>
+—
 
+Gain :
++${formatNumber(item.gain)} CpS
 
-            <br>
+—
 
+Récupération :
+${formatTime(item.payback)}
 
-            <span class="small">
+—
 
-                Attente :
-                ${formatTime(
-                    item.waitTime
-                )}
+Temps total :
+${formatTime(item.totalTime)}
 
-                —
+—
 
-                Prix :
-                ${formatNumber(
-                    item.price
-                )}
+Cookies restants :
+${formatNumber(item.remaining)}
 
-                —
+</span>
 
-                Gain :
-                +${formatNumber(
-                    item.gain
-                )} CpS
+`;
 
-                —
+container.appendChild(div);
 
-                Récupération :
-                ${formatTime(
-                    item.payback
-                )}
-
-                —
-
-                Temps total :
-                ${formatTime(
-                    item.totalTime
-                )}
-
-                —
-
-                Cookies restants :
-                ${formatNumber(
-                    item.remaining
-                )}
-
-            </span>
-
-        `;
-
-
-        container.appendChild(
-            div
-        );
-
-    }
+}
 
 }
 
@@ -2657,135 +1738,102 @@ function renderPlan(save){
 
 function renderTips(save){
 
-    const container =
-        document.getElementById(
-            "tips"
-        );
+const container=
+document.getElementById("tips");
+
+const candidates=
+calculateBestPurchases(save);
 
 
-    const candidates =
-        calculateBestPurchases(
-            save
-        );
+if(!candidates.length){
+
+container.innerHTML=`
+
+<p>
+Aucun achat disponible dans le mode sélectionné.
+</p>
+
+`;
+
+return;
+
+}
 
 
-    if(!candidates.length){
+const best=candidates[0];
 
-        container.innerHTML = `
-
-            <p>
-                Aucun achat disponible
-                dans le mode sélectionné.
-            </p>
-
-        `;
-
-        return;
-
-    }
+const mode=
+document.getElementById("analysisMode")?.value||"wait";
 
 
-    const best =
-        candidates[0];
+container.innerHTML=`
 
+<p>
 
-    const mode =
-        document.getElementById(
-            "analysisMode"
-        )?.value || "wait";
+${
+mode==="now"
+?
+"L'analyse regarde uniquement les achats que tu peux payer immédiatement."
+:
+"L'analyse prend en compte les achats accessibles maintenant et ceux qui nécessitent d'attendre."
+}
 
+</p>
 
-    container.innerHTML = `
+<p>
 
-        <p>
+<strong>
+${escapeHtml(best.name)}
+</strong>
 
-            ${
-                mode === "now"
-                ? "L'analyse regarde uniquement les achats que tu peux payer immédiatement."
-                : "L'analyse prend en compte les achats accessibles maintenant et ceux qui nécessitent d'attendre."
-            }
+est actuellement le premier résultat selon le calcul de rentabilité.
 
-        </p>
+</p>
 
+<p class="small">
 
-        <p>
+Les cookies mis de côté sont exclus des cookies disponibles.
 
-            <strong>
-                ${escapeHtml(
-                    best.name
-                )}
-            </strong>
+Pour modifier ce montant,
+change-le puis appuie simplement sur « Analyser ».
 
-            est actuellement le premier résultat
-            selon le calcul de rentabilité.
+</p>
 
-        </p>
-
-
-        <p class="small">
-
-            Les cookies mis de côté sont exclus
-            des cookies disponibles.
-
-            Pour modifier ce montant,
-            change-le puis appuie simplement
-            sur « Analyser ».
-
-        </p>
-
-    `;
+`;
 
 }
 
 
 /* =========================================================
-   RECALCUL AUTOMATIQUE APRÈS MODIFICATION
+   RECALCUL AUTOMATIQUE
 ========================================================= */
 
 document
-    .getElementById(
-        "reserveCookies"
-    )
-    .addEventListener(
-        "change",
-        function(){
+.getElementById("reserveCookies")
+.addEventListener(
+"change",
+function(){
 
-            const input =
-                document.getElementById(
-                    "saveInput"
-                ).value.trim();
+const input=
+document.getElementById("saveInput").value.trim();
 
-            if(input){
+if(input)analyzeSave();
 
-                analyzeSave();
-
-            }
-
-        }
-    );
+});
 
 
 document
-    .getElementById(
-        "analysisMode"
-    )
-    .addEventListener(
-        "change",
-        function(){
+.getElementById("analysisMode")
+.addEventListener(
+"change",
+function(){
 
-            const input =
-                document.getElementById(
-                    "saveInput"
-                ).value.trim();
+const input=
+document.getElementById("saveInput").value.trim();
 
-            if(input){
+if(input)analyzeSave();
 
-                analyzeSave();
-
-            }
-
-        }
-    );
+});
 
 </script>
 
